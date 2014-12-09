@@ -1,0 +1,59 @@
+<div>
+    <header>
+        <h2>
+            <span class="btn primary">
+                Aggiungi nuova classifica
+            </span>
+        </h2>
+
+        <select id="charts-list" ng-model="selectedChart" ng-options="c.chart_title for c in allCharts">
+            <option value="">
+                Seleziona una classifica
+            </option>
+        </select>
+        
+        <select id="chart-position" ng-model="chartPosition">
+            <option value="">
+                Numero di brani (default 50)
+            </option>
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="20">20</option>
+            <option value="50">50</option>
+        </select>
+    </header>
+
+    <article ng-repeat="c in charts">
+        <figure>
+            <a href="#/chart/{{c.chart_slug}}/{{c.chart_archive_slug}}">
+                <img ng-src="{{c.songs[0].song_images.thumbnail}}" width="100" height="100"/>
+            </a>
+        </figure>
+        <div>
+            <h2>
+                <a href="#/chart/{{c.chart_slug}}/{{c.chart_archive_slug}}">
+                    {{c.chart_title}} - {{c.chart_locale_date}}
+                </a>
+            </h2>
+            <a href="#/chart/{{c.chart_slug}}/{{c.chart_archive_slug}}" class="btn primary">
+                Modifica
+            </a>
+            <a ng-click="duplicate(c.chart_archive_slug)" class="btn success">
+                Duplica
+            </a>
+            <a ng-click="destroy(c.chart_archive_slug, $index)" class="btn warning">
+                Cancella
+            </a>
+        </div>
+    </article>
+</div>
+
+<div id="paginator" ng-controller="PaginationCtrl">
+    <ul>
+        <li ng-repeat="page in pages">
+            <a href="{{page.link}}" title="Vai a pagina {{page.page_number}}">
+                {{page.page_number}}
+            </a>
+        </li>
+    </ul>
+</div>

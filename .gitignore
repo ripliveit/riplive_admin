@@ -1,0 +1,6 @@
+.DS_Store
+*.njsproj
+.tmp
+nbproject
+wp-config.php
+wp-content/uploads

@@ -1,0 +1,236 @@
+/* 
+    Document   : admin-charts
+    Created on : 29-dic-2013, 12.40.44
+    Author     : Gabriele D'Arrigo - @acirdesign'
+*/
+
+#admin-charts {
+    overflow: hidden;
+    margin: 20px 20px 0 0;
+}
+
+#admin-charts .text-left {
+    text-align: left;
+}
+
+#admin-charts .text-center {
+    text-align: center;
+}
+
+#admin-charts .text-right {
+    text-align: right;
+}
+
+#admin-charts h1 {
+    text-align: center;
+}
+
+#admin-charts a {
+    color: #3399ff;
+    text-decoration: none;
+}
+
+#admin-charts a:hover {
+    text-decoration: underline;
+}
+
+#charts {
+
+}
+
+#charts article {
+    overflow: hidden;
+    margin: 10px 0;
+    padding: 5px;
+    border-bottom: 1px solid #DDD;
+}
+
+#charts article:nth-of-type(2n +1) {
+    background-color: #f0f0f0;
+}
+
+#charts article > figure {
+    float: left;
+    width: 100px;
+    margin: 0;
+}
+
+#charts article > div {
+    float: left;
+    width: 85%;
+    padding: 0 5px 5px;
+}
+
+#single-chart {
+    overflow: hidden;
+}
+
+#single-chart #positions {
+    width: 46%;
+    float: left;
+}
+
+#single-chart #songs {
+    width: 52%;
+    height: 3800px;
+    float: right;
+    overflow-y: scroll;
+    position: relative;
+}
+
+#single-chart #songs article {
+    margin: 5px;
+    background-color: #FFF;
+}
+
+#single-chart article {
+    margin: 0;
+}
+
+#single-chart article > .position {
+    width: 50px;
+    text-align: center;
+    line-height: 50px;
+    font-size: 22px;
+}
+
+#single-chart article > figure {
+    width: 60px;
+}
+
+#single-chart article > figure img {
+    width: 60px;
+    height: 60px;
+}
+
+#single-chart article > .song-content {
+    width: 65%;
+    position: relative;
+    padding: 0 5px 5px 10px;
+}
+
+#single-chart article > .song-content h3 {
+    margin: 0 0 5px;
+}
+
+#single-chart article > .song-content h4 {
+    margin: 5px 0;
+}
+
+#single-chart article .song-vote {
+    position: absolute;
+    top: 0;
+    right: 10px;
+}
+
+#single-chart article > .song-control {
+    width: 15%;
+    float: left;
+}
+
+#single-chart #searched-text {
+    width: 90%;
+    margin: 10px 0;
+    padding: 5px;
+}
+
+#single-chart #searched-genre {
+    position: absolute;
+    left: 160px;
+    top: 15px;
+}
+
+#paginator ul {
+    overflow: hidden;        
+    margin: 10px 0;
+}
+
+#paginator ul li {
+    text-decoration: none;
+    float: left;
+    margin: 2px;
+}
+
+#paginator ul li a {
+    display: block;
+    width: 20px;
+    height: 20px;
+    padding: 10px;
+    text-align: center;
+    border: 1px solid #DDD;
+}
+
+#admin-charts .btn {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 2px;
+    color: #FFF;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+#admin-charts .btn.mini {
+    padding: 2px;
+    width: 50px;
+    margin: 0 4px 0 0;
+}
+
+#admin-charts .btn.large {
+    padding: 10px;
+}
+
+#admin-charts a.btn:hover {
+    color: #FFF;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+#admin-charts .btn.primary {
+    background-color: #3399ff;
+}
+
+#admin-charts .btn.success {
+    background-color: #468847;
+}
+
+#admin-charts .btn.warning {
+    background-color: #e63f2a;
+}
+
+#admin-charts .btn.neutral {
+    background-color: #EDEDED;
+    color: #333;
+}
+
+
+#admin-charts #footer {
+    margin: 20px 0;
+}
+
+
+@media only screen and (min-width:768px) and (max-width:1024px) {
+    #admin-charts {
+        margin: 20px 10px 0 0;
+        overflow: hidden;
+    }
+
+    #single-chart article > .position {
+        font-size: 18px;
+        line-height: 50px;
+        text-align: center;
+        width: 35px;
+    }
+
+    #single-chart article > figure {
+        width: 50px;
+    }
+
+    #single-chart article > figure img {
+        width: 50px;
+        height: 50px;
+    }
+
+    #admin-charts .btn {
+        padding: 2px 5px;
+    }
+}

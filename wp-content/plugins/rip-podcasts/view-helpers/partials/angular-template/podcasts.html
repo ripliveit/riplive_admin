@@ -1,0 +1,103 @@
+<header class="text-right">
+    <a href="#/" class="btn success">
+        Torna all'elenco programmi
+    </a>
+</header>
+
+<div id="podcasts-list">
+    <header>
+        <h2>
+            Elenco Podcasts  {{' - ' + podcasts[0].program_title}}
+        </h2>
+
+        <h3 class="message" ng-show="empty">
+            Non vi sono ancora podcast per questo programma!
+        </h3>
+
+
+        <a href="#/upload/{{slug}}" class="btn btn-large primary" ng-show="empty">
+            Carica Podcast
+        </a>
+
+        <div class="text-right">
+            <span class="btn btn-large primary">
+                Filtra per anno
+            </span> 
+
+            <input ng-model="year" type="number" min="2009" max="2099"/>
+        </div>
+    </header>
+
+    <article ng-repeat="podcast in podcasts | filter:{year : year}">
+        <figure>
+            <img ng-src="{{podcast.podcast_images.thumbnail}}" width="100" height="100"/>
+        </figure>
+
+        <div class="podcast-info">
+            <h2>
+                {{podcast.title}}
+            </h2>
+            <div class="info">
+                <span class="btn primary">
+                    Nome file
+                </span> 
+
+                {{podcast.file_name}} 
+            </div>
+            <div class="info">
+                <span class="btn primary">
+                    Data di caricamento
+                </span> 
+
+                {{podcast.upload_date}}
+            </div>
+            <div class="info">
+                <span class="btn primary">
+                    Anno
+                </span> 
+                <strong>
+                    {{podcast.year}}
+                </strong>
+            </div>
+            <div class="info">
+                <span class="btn primary">
+                    Autori
+                </span> 
+                <span ng-repeat="a in podcast.authors">
+                    {{a.nickname}}{{$last ? '' : ', '}}
+                </span>
+            </div>
+            <div class="info">
+                <span class="btn primary">
+                    Link
+                </span> 
+                <a href="{{podcast.url}}" target="_blank">
+                    {{podcast.url}}
+                </a>
+            </div>
+        </div>
+        
+        <div class="podcast-control">          
+            <a href="#/update/{{podcast.program_slug}}/{{podcast.id}}" class="btn primary">
+                Modifica podcast
+            </a>
+
+            <br/>
+            <br/>
+
+            <a ng-click="remove(podcast, $index)" class="btn warning">
+                Rimuovi Podcast
+            </a>
+        </div>
+    </article>
+</div>
+
+<div id="paginator" ng-controller="PaginationCtrl">
+    <ul>
+        <li ng-repeat="page in pages">
+            <a href="{{page.link}}" title="Vai a pagina {{page.page_number}}">
+                {{page.page_number}}
+            </a>
+        </li>
+    </ul>
+</div>

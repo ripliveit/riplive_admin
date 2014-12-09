@@ -1,0 +1,362 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: bestwebsoft\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-11-05 16:30+0300\n"
+"PO-Revision-Date: 2014-11-05 16:31+0300\n"
+"Last-Translator: bestwebsoft.com <plugins@bestwebsoft.com>\n"
+"Language-Team: bestwebsoft.com <http://support.bestwebsoft.com>\n"
+"Language: ru_RU\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Generator: Poedit 1.5.4\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: bws_menu.php:351
+msgid "Not set"
+msgstr "Не задан"
+
+#: bws_menu.php:353
+#: bws_menu.php:354
+msgid "On"
+msgstr "Вкл"
+
+#: bws_menu.php:353
+#: bws_menu.php:354
+msgid "Off"
+msgstr "Выкл"
+
+#: bws_menu.php:355
+#: bws_menu.php:356
+#: bws_menu.php:357
+#: bws_menu.php:358
+#: bws_menu.php:359
+#: bws_menu.php:371
+msgid "N/A"
+msgstr "Неизвестно"
+
+#: bws_menu.php:359
+msgid " Mb"
+msgstr "Mb"
+
+#: bws_menu.php:360
+#: bws_menu.php:361
+#: bws_menu.php:362
+#: bws_menu.php:367
+msgid "Yes"
+msgstr "Да"
+
+#: bws_menu.php:360
+#: bws_menu.php:361
+#: bws_menu.php:362
+#: bws_menu.php:369
+msgid "No"
+msgstr "Нет"
+
+#: bws_menu.php:379
+msgid "Operating System"
+msgstr "Операционная система"
+
+#: bws_menu.php:380
+msgid "Server"
+msgstr "Тип сервера"
+
+#: bws_menu.php:381
+msgid "Memory usage"
+msgstr "Памяти использовано"
+
+#: bws_menu.php:382
+msgid "MYSQL Version"
+msgstr "Версия MYSQL"
+
+#: bws_menu.php:383
+msgid "SQL Mode"
+msgstr "Режим SQL"
+
+#: bws_menu.php:384
+msgid "PHP Version"
+msgstr "Версия PHP"
+
+#: bws_menu.php:385
+msgid "PHP Safe Mode"
+msgstr "PHP Safe Mode"
+
+#: bws_menu.php:386
+msgid "PHP Allow URL fopen"
+msgstr "PHP Allow URL fopen"
+
+#: bws_menu.php:387
+msgid "PHP Memory Limit"
+msgstr "Лимит памяти"
+
+#: bws_menu.php:388
+msgid "PHP Max Upload Size"
+msgstr "Макс. размер загружаемого файла"
+
+#: bws_menu.php:389
+msgid "PHP Max Post Size"
+msgstr "Макс. размер записи"
+
+#: bws_menu.php:390
+msgid "PHP Max Script Execute Time"
+msgstr "Макс. время выполнения сценария"
+
+#: bws_menu.php:391
+msgid "PHP Exif support"
+msgstr "Поддержка PHP Exif"
+
+#: bws_menu.php:392
+msgid "PHP IPTC support"
+msgstr "Поддержка PHP IPTC"
+
+#: bws_menu.php:393
+msgid "PHP XML support"
+msgstr "Поддержка PHP XML"
+
+#: bws_menu.php:394
+msgid "Site URL"
+msgstr "Адрес сайта"
+
+#: bws_menu.php:395
+msgid "Home URL"
+msgstr "Основной адрес сайта"
+
+#: bws_menu.php:398
+msgid "WordPress Version"
+msgstr "Версия WordPress"
+
+#: bws_menu.php:399
+msgid "WordPress DB Version"
+msgstr "Версия базы данных WordPress"
+
+#: bws_menu.php:400
+msgid "Multisite"
+msgstr "Мультиблог"
+
+#: bws_menu.php:401
+msgid "Active Theme"
+msgstr "Текущая тема"
+
+#: bws_menu.php:416
+msgid "Please enter a valid email address."
+msgstr "Пожалуйста, введите валидный емайл."
+
+#: bws_menu.php:420
+msgid "Email with system info is sent to "
+msgstr "E-mail с системной информацией отправлен на"
+
+#: bws_menu.php:424
+msgid "Thank you for contacting us."
+msgstr "Спасибо что связались с нами."
+
+#: bws_menu.php:457
+msgid "Sorry, email message could not be delivered."
+msgstr "Извините, ваш email не может быть отправлен."
+
+#: bws_menu.php:465
+msgid "Need help?"
+msgstr "Нужна помощь?"
+
+#: bws_menu.php:466
+msgid "Client area"
+msgstr "Client area"
+
+#: bws_menu.php:467
+#: bws_menu.php:778
+msgid "System status"
+msgstr "Системная информация"
+
+#: bws_menu.php:472
+msgid "Plugins"
+msgstr "Плагины"
+
+#: bws_menu.php:474
+msgid "Themes"
+msgstr "Темы"
+
+#: bws_menu.php:479
+msgid "All"
+msgstr "Все"
+
+#: bws_menu.php:480
+msgid "Installed"
+msgstr "Установленные"
+
+#: bws_menu.php:481
+msgid "Recommended"
+msgstr "Рекомендованные"
+
+#: bws_menu.php:485
+msgid "Installed plugins"
+msgstr "Установленные плагины"
+
+#: bws_menu.php:514
+#: bws_menu.php:536
+#: bws_menu.php:563
+#: bws_menu.php:593
+#: bws_menu.php:639
+msgid "Learn more"
+msgstr "Подробнее"
+
+#: bws_menu.php:517
+#: bws_menu.php:566
+msgid "Settings"
+msgstr "Настройки"
+
+#: bws_menu.php:538
+#: bws_menu.php:595
+msgid "Activate this plugin"
+msgstr "Активировать плагин"
+
+#: bws_menu.php:538
+#: bws_menu.php:595
+msgid "Activate"
+msgstr "Активировать"
+
+#: bws_menu.php:553
+#: bws_menu.php:583
+#: bws_menu.php:629
+msgid "Go"
+msgstr "Перейти на"
+
+#: bws_menu.php:557
+#: bws_menu.php:587
+#: bws_menu.php:633
+msgid "DONATE"
+msgstr "Пожертвовать"
+
+#: bws_menu.php:603
+msgid "Recommended plugins"
+msgstr "Рекомендованные к установке плагины"
+
+#: bws_menu.php:641
+msgid "Install now"
+msgstr "Установить"
+
+#: bws_menu.php:662
+msgid "Try again"
+msgstr "Попробовать снова"
+
+#: bws_menu.php:680
+#, php-format
+msgid "Preview &#8220;%s&#8221;"
+msgstr "Просмотр &#8220;%s&#8221;"
+
+#: bws_menu.php:711
+#, php-format
+msgid "Install %s"
+msgstr "Установлено %s"
+
+#: bws_menu.php:711
+msgid "Install Now"
+msgstr "Установить"
+
+#: bws_menu.php:714
+#, php-format
+msgid "Update to version %s"
+msgstr "Обновить до версии %s"
+
+#: bws_menu.php:714
+msgid "Update"
+msgstr "Обновить"
+
+#: bws_menu.php:721
+#, php-format
+msgid "Preview %s"
+msgstr "Просмотр %s"
+
+#: bws_menu.php:721
+msgid "Preview"
+msgstr "Просмотр"
+
+#: bws_menu.php:727
+#: bws_menu.php:759
+#, php-format
+msgid "By %s"
+msgstr "%s"
+
+#: bws_menu.php:733
+msgid "Details"
+msgstr "Детали"
+
+#: bws_menu.php:765
+msgid "Already Installed"
+msgstr "Уже установлена"
+
+#: bws_menu.php:781
+msgid "Environment"
+msgstr "Системная среда"
+
+#: bws_menu.php:792
+msgid "Active Plugins"
+msgstr "Активированные плагины"
+
+#: bws_menu.php:805
+msgid "Inactive Plugins"
+msgstr "Неактивированные плагины"
+
+#: bws_menu.php:821
+msgid "Send to support"
+msgstr "Отправить в тех. поддержку"
+
+#: bws_menu.php:828
+msgid "Send to custom email &#187;"
+msgstr "Отправить на емейл &#187;"
+
+#~ msgid "Switch to new interface"
+#~ msgstr "Переключится на новый интерфейс"
+
+#~ msgid "Pro plugins"
+#~ msgstr "Pro плагины"
+
+#~ msgid "Activated plugins"
+#~ msgstr "Активированные плагины"
+
+#~ msgid "Read more"
+#~ msgstr "Подробнее..."
+
+#~ msgid "Purchase"
+#~ msgstr "Купить"
+
+#~ msgid "Free plugins"
+#~ msgstr "Бесплатные плагины"
+
+#~ msgid "Download"
+#~ msgstr "Скачать"
+
+#~ msgid "Install now from wordpress.org"
+#~ msgstr "Установить с wordpress.org"
+
+#~ msgid "Free themes"
+#~ msgstr "Бесплатные темы"
+
+#~ msgid "Activated theme"
+#~ msgstr "Активная тема"
+
+#~ msgid "Customize &#8220;%s&#8221;"
+#~ msgstr "Кастомизировать &#8220;%s&#8221;"
+
+#~ msgid "Customize"
+#~ msgstr "Кастомизировать"
+
+#~ msgid "Installed themes"
+#~ msgstr "Установленные темы"
+
+#~ msgid "Recommended themes"
+#~ msgstr "Рекомендованные темы"
+
+#~ msgid "If you have any questions, please contact us via"
+#~ msgstr "Если у вас есть какие-то вопросы, обращайтесь на"
+
+#~ msgid "Switch to old interface"
+#~ msgstr "Переключится на старый интерфейс"
+
+#~ msgid "Donate"
+#~ msgstr "Пожертвовать"
+
+#~ msgid "installed"
+#~ msgstr "установлен"

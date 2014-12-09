@@ -1,0 +1,684 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: captcha\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-10-15 11:28+0300\n"
+"PO-Revision-Date: 2014-10-15 11:29+0300\n"
+"Last-Translator: bestwebsoft.com <plugins@bestwebsoft.com>\n"
+"Language-Team: bestwebsoft.com <plugin@bestwebsoft.com>\n"
+"Language: ru_RU\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Generator: Poedit 1.5.4\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: captcha.php:67
+#: captcha.php:389
+msgid "Captcha Settings"
+msgstr "Настройки Captcha"
+
+#: captcha.php:67
+msgid "Captcha"
+msgstr "Captcha"
+
+#: captcha.php:151
+msgid "requires"
+msgstr "требует"
+
+#: captcha.php:151
+msgid "or higher, that is why it has been deactivated! Please upgrade WordPress and try again."
+msgstr "или выше, поэтому плагин был деактивирован! Обновите WordPress и повторите попытку."
+
+#: captcha.php:151
+msgid "Back to the WordPress"
+msgstr "Вернуться назад на WordPress"
+
+#: captcha.php:151
+msgid "Plugins page"
+msgstr "Страницу плагинов"
+
+#: captcha.php:220
+msgid "Login form"
+msgstr "Форма логина"
+
+#: captcha.php:221
+#: captcha.php:440
+msgid "Registration form"
+msgstr "Форма регистрации"
+
+#: captcha.php:221
+msgid "Register form"
+msgstr "Форма регистрации"
+
+#: captcha.php:222
+msgid "Reset Password form"
+msgstr "Форма восстановления пароля"
+
+#: captcha.php:222
+msgid "Lost password form"
+msgstr "Форма восстановления пароля"
+
+#: captcha.php:223
+#: captcha.php:441
+msgid "Comments form"
+msgstr "Форма комментариев"
+
+#: captcha.php:224
+msgid "Hide CAPTCHA in Comments form for registered users"
+msgstr "Не отображать CAPTCHA в форме комментариев для зарегистрированных пользователей"
+
+#: captcha.php:229
+msgid "Plus (&#43;)"
+msgstr "Плюс (&#43;)"
+
+#: captcha.php:229
+msgid "Plus"
+msgstr "Плюс (&#43;)"
+
+#: captcha.php:230
+msgid "Minus (&minus;)"
+msgstr "Минус (&minus;)"
+
+#: captcha.php:230
+msgid "Minus"
+msgstr "Минус (&minus;)"
+
+#: captcha.php:231
+msgid "Multiplication (&times;)"
+msgstr "Умножение (&times;)"
+
+#: captcha.php:231
+msgid "Multiply"
+msgstr "Умножить"
+
+#: captcha.php:236
+msgid "Numbers"
+msgstr "Цифры"
+
+#: captcha.php:237
+msgid "Words"
+msgstr "Слова"
+
+#: captcha.php:274
+msgid "Please select one item in the block Arithmetic and Complexity for CAPTCHA"
+msgstr "Пожалуйста, выберите 1 пункт из блока Арифметические дейтсвия и Сложность для CAPTCHA"
+
+#: captcha.php:278
+msgid "Settings saved."
+msgstr "Опции сохранены."
+
+#: captcha.php:291
+#: captcha.php:324
+msgid "Wrong license key"
+msgstr "Неправильный лицензионный ключ"
+
+#: captcha.php:317
+msgid "Something went wrong. Try again later. If the error will appear again, please, contact us <a href=http://support.bestwebsoft.com>BestWebSoft</a>. We are sorry for inconvenience."
+msgstr "Что-то пошло не так. Повторите попытку позже. Если ошибка появится снова, пожалуйста, свяжитесь с нами <a href=http://support.bestwebsoft.com>BestWebSoft</a>. Приносим извинения за неудобства."
+
+#: captcha.php:326
+msgid "This license key is bind to another site"
+msgstr "Этот лицензионный ключ привязан к другому сайту"
+
+#: captcha.php:328
+#: captcha.php:560
+msgid "Unfortunately, you have exceeded the number of available tries per day. Please, upload the plugin manually."
+msgstr "К сожалению, вы превысили количество доступных попыток в день. Пожалуйста, загрузите плагин вручную."
+
+#: captcha.php:345
+msgid "Failed to open the zip archive. Please, upload the plugin manually"
+msgstr "Не удалось открыть архив ZIP. Пожалуйста, загрузите плагин вручную"
+
+#: captcha.php:351
+msgid "Your server does not support either ZipArchive or Phar. Please, upload the plugin manually"
+msgstr "Ваш сервер не поддерживает ни библиотеку ZipArchive, ни библиотеку Phar. Пожалуйста, загрузите плагин вручную"
+
+#: captcha.php:355
+#: captcha.php:364
+msgid "Failed to download the zip archive. Please, upload the plugin manually"
+msgstr "Не удалось загрузить архив плагина. Пожалуйста, загрузите плагин вручную"
+
+#: captcha.php:368
+msgid "Something went wrong. Try again later or upload the plugin manually. We are sorry for inconvenience."
+msgstr "Что-то пошло не так. Повторите попытку позже или загрузите плагин вручную. Приносим извинения за неудобства."
+
+#: captcha.php:383
+msgid "Please, enter Your license key"
+msgstr "Пожплуйста, введите Ваш лицензионный ключ"
+
+#: captcha.php:391
+#: captcha.php:1406
+#: captcha.php:1418
+msgid "Settings"
+msgstr "Настройки"
+
+#: captcha.php:392
+#: captcha.php:1419
+msgid "FAQ"
+msgstr "FAQ"
+
+#: captcha.php:393
+msgid "Go PRO"
+msgstr "Перейти на PRO версию"
+
+#: captcha.php:395
+msgid "Notice:"
+msgstr "Обратите внимание:"
+
+#: captcha.php:395
+msgid "The plugin's settings have been changed. In order to save them please don't forget to click the 'Save Changes' button."
+msgstr "Настройки плагина были изменены. Для того, чтобы сохранить их, пожалуйста, не забудьте нажать кнопку 'Сохранить изменения'."
+
+#: captcha.php:402
+#: captcha.php:428
+#: captcha.php:437
+msgid "Enable CAPTCHA for:"
+msgstr "Отображать CAPTCHA для:"
+
+#: captcha.php:410
+#: captcha.php:412
+#: captcha.php:415
+msgid "Contact form"
+msgstr "Contact form"
+
+#: captcha.php:410
+#: captcha.php:412
+#: captcha.php:415
+#: captcha.php:431
+msgid "powered by"
+msgstr "разработано компанией"
+
+#: captcha.php:412
+msgid "Activate contact form"
+msgstr "Активировать Contact form"
+
+#: captcha.php:415
+msgid "Download contact form"
+msgstr "Скачать Contact form"
+
+#: captcha.php:418
+msgid "If you would like to add Captcha to a custom form, please see"
+msgstr "Если вы хотите добавить Captcha в кастомную форму, смотрите"
+
+#: captcha.php:431
+msgid "Subscriber"
+msgstr "Subscriber"
+
+#: captcha.php:442
+msgid "\"Create a Group\" form"
+msgstr "Форма \"Создать группу\""
+
+#: captcha.php:448
+msgid "Enable CAPTCHA:"
+msgstr "Отображать CAPTCHA:"
+
+#: captcha.php:456
+msgid "If you upgrade to Pro version all your settings will be saved."
+msgstr "При установке Pro версии плагина, все ваши настройки сохраняются."
+
+#: captcha.php:463
+msgid "Unlock premium options by upgrading to a PRO version."
+msgstr "Активируйте премиум опции обновившись до PRO версии."
+
+#: captcha.php:464
+#: captcha.php:1484
+msgid "Learn More"
+msgstr "Подробнее"
+
+#: captcha.php:467
+msgid "Go"
+msgstr "Перейти на"
+
+#: captcha.php:474
+msgid "Title for CAPTCHA in the form"
+msgstr "Заголовок для CAPTCHA в форме"
+
+#: captcha.php:478
+msgid "Required symbol"
+msgstr "Символ, отображающий обязательное поле"
+
+#: captcha.php:484
+msgid "Arithmetic actions for CAPTCHA"
+msgstr "Арифметические действия для CAPTCHA"
+
+#: captcha.php:498
+msgid "CAPTCHA complexity level"
+msgstr "Уровень сложности CAPTCHA"
+
+#: captcha.php:514
+msgid "Save Changes"
+msgstr "Сохранить изменения"
+
+#: captcha.php:520
+msgid "If you enjoy our plugin, please give it 5 stars on WordPress"
+msgstr "Если вам понравился плагин, пожалуйста, поставте нам 5 звезд на WordPress"
+
+#: captcha.php:521
+msgid "Rate the plugin"
+msgstr "Оценить плагин"
+
+#: captcha.php:524
+msgid "If there is something wrong about it, please contact us"
+msgstr "Если у вас есть какие-то вопросы, обращайтесь"
+
+#: captcha.php:535
+msgid "Congratulations! The PRO version of the plugin is successfully download and activated."
+msgstr "Поздравляем! PRO версия плагина была успешно загружена и активирована."
+
+#: captcha.php:537
+msgid "Please, go to"
+msgstr "Пожалуйста, перейдите на"
+
+#: captcha.php:537
+msgid "the setting page"
+msgstr "страницу настроек"
+
+#: captcha.php:538
+msgid "You will be redirected automatically in 5 seconds."
+msgstr "Вы будете перенаправлены автоматически через 5 секунд."
+
+#: captcha.php:543
+msgid "You can download and activate"
+msgstr "Вы можете скачать и активировать"
+
+#: captcha.php:545
+msgid "version of this plugin by entering Your license key."
+msgstr "версию этого плагина, введя ваш лицензионный ключ."
+
+#: captcha.php:547
+msgid "You can find your license key on your personal page Client area, by clicking on the link"
+msgstr "Вы можете найти ваш лицензионный ключ на вашей личной странице Client area, нажав на ссылку"
+
+#: captcha.php:549
+msgid "(your username is the email you specify when purchasing the product)."
+msgstr "(ваше имя пользователя - это электронный адрес, указанный при покупке продукта)."
+
+#: captcha.php:557
+#: captcha.php:567
+msgid "Go!"
+msgstr "Перейти!"
+
+#: captcha.php:634
+msgid "<strong>ERROR</strong>: Please fill the form."
+msgstr "<strong>ОШИБКА</strong>: Пожалуйста, заполните форму."
+
+#: captcha.php:648
+msgid "<strong>ERROR</strong>: Please enter a valid CAPTCHA value."
+msgstr "<strong>ОШИБКА</strong>: Пожалуйста, введите правильное значение CAPTCHA."
+
+#: captcha.php:759
+#: captcha.php:798
+#: captcha.php:821
+#: captcha.php:850
+msgid "Please fill the form."
+msgstr "Пожалуйста, заполните КАПЧУ."
+
+#: captcha.php:765
+#: captcha.php:858
+msgid "Error: You have entered an incorrect CAPTCHA value. Click the BACK button on your browser, and try again."
+msgstr "Ошибка: Вы ввели CAPTCHA неправильно. Нажмите НАЗАД в браузере и попробуйте еще раз"
+
+#: captcha.php:798
+#: captcha.php:806
+#: captcha.php:821
+#: captcha.php:829
+msgid "ERROR"
+msgstr "Ошибка"
+
+#: captcha.php:806
+#: captcha.php:829
+msgid "Please enter a valid CAPTCHA value."
+msgstr "Пожалуйста, заполните CAPTCHA."
+
+#: captcha.php:877
+#: captcha.php:1176
+msgid "zero"
+msgstr "ноль"
+
+#: captcha.php:878
+#: captcha.php:1177
+#: captcha.php:1383
+msgid "one"
+msgstr "один"
+
+#: captcha.php:879
+#: captcha.php:1178
+msgid "two"
+msgstr "два"
+
+#: captcha.php:880
+#: captcha.php:1179
+msgid "three"
+msgstr "три"
+
+#: captcha.php:881
+#: captcha.php:1180
+msgid "four"
+msgstr "четыре"
+
+#: captcha.php:882
+#: captcha.php:1181
+msgid "five"
+msgstr "пять"
+
+#: captcha.php:883
+#: captcha.php:1182
+#: captcha.php:1383
+msgid "six"
+msgstr "шесть"
+
+#: captcha.php:884
+#: captcha.php:1183
+#: captcha.php:1371
+#: captcha.php:1377
+msgid "seven"
+msgstr "семь"
+
+#: captcha.php:885
+#: captcha.php:1184
+#: captcha.php:1374
+msgid "eight"
+msgstr "восемь"
+
+#: captcha.php:886
+#: captcha.php:1185
+msgid "nine"
+msgstr "девять"
+
+#: captcha.php:889
+#: captcha.php:1188
+msgid "eleven"
+msgstr "одиннадцать"
+
+#: captcha.php:890
+#: captcha.php:1189
+msgid "twelve"
+msgstr "двенадать"
+
+#: captcha.php:891
+#: captcha.php:1190
+msgid "thirteen"
+msgstr "тринадцать"
+
+#: captcha.php:892
+#: captcha.php:1191
+msgid "fourteen"
+msgstr "четырнадать"
+
+#: captcha.php:893
+#: captcha.php:1192
+msgid "fifteen"
+msgstr "пятнадцать"
+
+#: captcha.php:894
+#: captcha.php:1193
+msgid "sixteen"
+msgstr "шестнадцать"
+
+#: captcha.php:895
+#: captcha.php:1194
+msgid "seventeen"
+msgstr "семнадцать"
+
+#: captcha.php:896
+#: captcha.php:1195
+msgid "eighteen"
+msgstr "восемнадцать"
+
+#: captcha.php:897
+#: captcha.php:1196
+msgid "nineteen"
+msgstr "девятнадцать"
+
+#: captcha.php:900
+#: captcha.php:1199
+msgid "ten"
+msgstr "десять"
+
+#: captcha.php:901
+#: captcha.php:1200
+msgid "twenty"
+msgstr "двадцать"
+
+#: captcha.php:902
+#: captcha.php:1201
+msgid "thirty"
+msgstr "тридцать"
+
+#: captcha.php:903
+#: captcha.php:1202
+msgid "forty"
+msgstr "сорок"
+
+#: captcha.php:904
+#: captcha.php:1203
+msgid "fifty"
+msgstr "пятьдесят"
+
+#: captcha.php:905
+#: captcha.php:1204
+msgid "sixty"
+msgstr "шестьдесят"
+
+#: captcha.php:906
+#: captcha.php:1205
+msgid "seventy"
+msgstr "семьдесят"
+
+#: captcha.php:907
+#: captcha.php:1206
+msgid "eighty"
+msgstr "восемьдесят"
+
+#: captcha.php:908
+#: captcha.php:1207
+msgid "ninety"
+msgstr "девяносто"
+
+#: captcha.php:995
+#: captcha.php:1294
+msgid "and"
+msgstr "и"
+
+#: captcha.php:1070
+msgid "Encryption password is not set"
+msgstr "Пароль для шифрования не установлен"
+
+#: captcha.php:1090
+msgid "Decryption password is not set"
+msgstr "Пароль для дешифровки не установлен"
+
+#: captcha.php:1420
+msgid "Support"
+msgstr "Поддержка"
+
+#: captcha.php:1487
+msgid "It's time to upgrade your <strong>Captcha plugin</strong> to <strong>PRO</strong> version"
+msgstr "Настало время обновить ваш <strong>плагин Captcha</strong> до <strong>PRO</strong> версии"
+
+#: captcha.php:1488
+msgid "Extend standard plugin functionality with new great options"
+msgstr "Расширение стандартного функционала плагина новыми прекрасными опциями"
+
+#~ msgid ""
+#~ "This functionality is available in the Pro version of the plugin. For "
+#~ "more details, please follow the link"
+#~ msgstr ""
+#~ "Данный функционал доступен в Pro версии плагина. Для более детальной "
+#~ "информации смотрите"
+
+#~ msgid "It's time to upgrade your"
+#~ msgstr "Настало время обновить ваш"
+
+#~ msgid "to"
+#~ msgstr "до"
+
+#~ msgid "version"
+#~ msgstr "версии"
+
+#~ msgid "Not set"
+#~ msgstr "Не задан"
+
+#~ msgid "On"
+#~ msgstr "Вкл"
+
+#~ msgid "Off"
+#~ msgstr "Выкл"
+
+#~ msgid "N/A"
+#~ msgstr "Неизвестно"
+
+#~ msgid " Mb"
+#~ msgstr "Mb"
+
+#~ msgid "Yes"
+#~ msgstr "Да"
+
+#~ msgid "No"
+#~ msgstr "Нет"
+
+#~ msgid "Operating System"
+#~ msgstr "Операционная система"
+
+#~ msgid "Server"
+#~ msgstr "Тип сервера"
+
+#~ msgid "Memory usage"
+#~ msgstr "Памяти использовано"
+
+#~ msgid "MYSQL Version"
+#~ msgstr "Версия MYSQL"
+
+#~ msgid "SQL Mode"
+#~ msgstr "Режим SQL"
+
+#~ msgid "PHP Safe Mode"
+#~ msgstr "PHP Safe Mode"
+
+#~ msgid "PHP Allow URL fopen"
+#~ msgstr "PHP Allow URL fopen"
+
+#~ msgid "PHP Memory Limit"
+#~ msgstr "Лимит памяти"
+
+#~ msgid "PHP Max Upload Size"
+#~ msgstr "Макс. размер загружаемого файла"
+
+#~ msgid "PHP Max Post Size"
+#~ msgstr "Макс. размер записи"
+
+#~ msgid "PHP Max Script Execute Time"
+#~ msgstr "Макс. время выполнения сценария"
+
+#~ msgid "PHP Exif support"
+#~ msgstr "Поддержка PHP Exif"
+
+#~ msgid "PHP IPTC support"
+#~ msgstr "Поддержка PHP IPTC"
+
+#~ msgid "PHP XML support"
+#~ msgstr "Поддержка PHP XML"
+
+#~ msgid "Site URL"
+#~ msgstr "Адрес сайта"
+
+#~ msgid "Home URL"
+#~ msgstr "Основной адрес сайта"
+
+#~ msgid "WordPress Version"
+#~ msgstr "Версия WordPress"
+
+#~ msgid "WordPress DB Version"
+#~ msgstr "Версия базы данных WordPress"
+
+#~ msgid "Multisite"
+#~ msgstr "Мультиблог"
+
+#~ msgid "Active Theme"
+#~ msgstr "Текущая тема"
+
+#~ msgid "Please enter a valid email address."
+#~ msgstr "Пожалуйста, введите валидный емайл."
+
+#~ msgid "Email with system info is sent to "
+#~ msgstr "E-mail с системной информацией отправлен на"
+
+#~ msgid "Thank you for contacting us."
+#~ msgstr "Спасибо что связались с нами."
+
+#~ msgid "Sorry, email message could not be delivered."
+#~ msgstr "Извините, ваш email не может быть отправлен."
+
+#~ msgid "Activated plugins"
+#~ msgstr "Активированные плагины"
+
+#~ msgid "Read more"
+#~ msgstr "Подробнее..."
+
+#~ msgid "Installed plugins"
+#~ msgstr "Установленные плагины"
+
+#~ msgid "Recommended plugins"
+#~ msgstr "Рекомендованные к установке плагины"
+
+#~ msgid "Purchase"
+#~ msgstr "Купить"
+
+#~ msgid "Download"
+#~ msgstr "Скачать"
+
+#~ msgid "Install %s"
+#~ msgstr "Установлено %s"
+
+#~ msgid "Install now from wordpress.org"
+#~ msgstr "Установить с wordpress.org"
+
+#~ msgid "System status"
+#~ msgstr "Системная информация"
+
+#~ msgid "Environment"
+#~ msgstr "Системная среда"
+
+#~ msgid "Active Plugins"
+#~ msgstr "Активированные плагины"
+
+#~ msgid "Inactive Plugins"
+#~ msgstr "Неактивированные плагины"
+
+#~ msgid "Send to support"
+#~ msgstr "Отправить в тех. поддержку"
+
+#~ msgid "Send to custom email &#187;"
+#~ msgstr "Отправить на емейл &#187;"
+
+#~ msgid "(powered by bestwebsoft.com)"
+#~ msgstr "(разработано компанией bestwebsoft.com)"
+
+#~ msgid ""
+#~ "If you have any questions, please contact us via plugin@bestwebsoft.com "
+#~ "or fill in the contact form on our website"
+#~ msgstr ""
+#~ "Если у вас есть какие-то впросы, обращайтесь на plugin@bestwebsoft.com "
+#~ "или заполните контактную форму на нашем сайте"
+
+#~ msgid "The password of encryption is not set"
+#~ msgstr "Пароль для шифрования не установлен"
+
+#~ msgid "Increase"
+#~ msgstr "Умножить"
+
+#~ msgid "Difficulty for CAPTCHA"
+#~ msgstr "Уровень сложности КАПЧИ"
+
+#~ msgid "That CAPTCHA was incorrect."
+#~ msgstr "КАПЧА введена некорректно"
+
+#~ msgid "null"
+#~ msgstr "ноль"
+
+#~ msgid "Install Now"
+#~ msgstr "Установить сейчас"

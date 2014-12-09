@@ -1,0 +1,94 @@
+<header class="text-right">
+    <a href="#/" class="btn success">
+        Torna all'elenco programmi
+    </a>
+</header>
+
+<div id="upload">
+    <header>
+        <h2>
+            Upload podcast
+        </h2>
+    </header>
+
+    <div id="rules" ng-hide="uploading">
+        <h2>
+            Ricorda di caricare un file mp3 con i tag già popolati.
+        </h2>
+        <h2>
+            Il nome del file da caricare deve avere il seguente formato: <br/>
+
+            <strong>
+                slug-programma_s01_e01_12-11-2014
+            </strong>
+        </h2>
+    </div>
+
+    <div id="upload">
+        <ul>
+            <li>
+                <label>
+                    Seleziona i file da caricare (solo file <strong>mp3</strong>)
+                </label>
+
+                <br/><br/>
+
+                <input type="file" multiple="true" ng-file-select="onFileSelect($files)"/>
+            </li>
+        </ul>
+    </div>
+
+    <div id="file-list">
+        <article ng-repeat="file in files">
+            <a ng-click="remove($index)" ng-show="file.complete" class="btn warning uploade-remove">
+                Chiudi
+            </a>
+
+            <div>
+                <h3>
+                    Nome file : {{file.name}}
+                </h3>
+                <h3>
+                    Peso file : {{file.size | sizeFilter}}
+                </h3>
+
+                <label ng-hide="file.uploading">
+                    Scegli l'anno di appartenza
+                </label> 
+
+                <input ng-model="file.year" ng-hide="file.uploading" type="number" min="2009" max="2099" require="true"/>
+
+                <h2 ng-show="file.computing">
+                    Attendere, elaborazione del file in corso
+
+                    <img src="/wp-content/plugins/rip-podcasts/assets/loading.gif" 
+                         title="Elaborazione in corso" alt="Elaborazione in corso" width="30px"/>
+                </h2>
+
+                <h2 class="message error" ng-show="file.error">
+                    Errore nell' elaborazione del file, contattare il webmaster
+                </h2>
+
+                <h2 class="message success" ng-show="file.complete">
+                    Elaborazione avvenuta con successo!
+                </h2>
+
+                <div class="progress">
+                    <div class="bar" ng-style="{ width: file.progress + '%' }">
+                        <h2>
+                            {{file.progress}}%
+                        </h2>                        
+                    </div>
+                </div>
+
+                <a ng-click="upload(file, $index, $event)" ng-hide="file.uploading" class="btn primary" >
+                    Upload
+                </a>
+
+                <a ng-click="remove($index)" ng-hide="file.uploading" class="btn warning">
+                    Rimuovi
+                </a>
+            </div>
+        </article>
+    </div>
+</div>

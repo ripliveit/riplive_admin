@@ -1,0 +1,59 @@
+<div id="programs">
+    <header>
+        <h2>
+            Elenco Programmi
+        </h2>
+    </header>
+
+    <article ng-repeat="p in programs">
+        <figure>
+            <a href="#/podcasts/{{p.slug}}/page/1">
+                <img ng-src="{{p.program_images.thumbnail}}" width="100" height="100"/>
+            </a>
+        </figure>
+        <div>
+            <h2>
+                <a href="#/podcasts/{{p.slug}}/page/1">
+                    {{p.program_title}}
+                </a>
+            </h2>
+            
+            <a href="#/podcasts/{{p.slug}}/page/1" class="btn informative">
+                Visualizza Podcast
+            </a>
+            
+            <a href="#/upload/{{p.slug}}" class="btn primary">
+                Carica Podcast
+            </a>
+            
+            <a ng-click="generateXML(p, $index)" class="btn success">
+                Genera Feed XML
+            </a>
+
+            <p ng-show="p.message">
+                <strong>
+                    {{p.message}} 
+                </strong>
+                
+                <br/>
+
+                <a ng-show="p.remoteFeed" href="{{p.remoteFeed}}" title="Feed XML">
+                    {{p.remoteFeed}}
+                </a>
+            </p>
+        </div>
+
+        <div class="podcast-control text-center">
+            <strong>
+                Totale Podcast caricati:
+            </strong>
+
+            <br/>
+            <br/>
+            
+            <a href="#/podcasts/{{p.slug}}/page/1" class="btn warning">
+                {{p.total_podcasts}}
+            </a>
+        </div>
+    </article>
+</div>

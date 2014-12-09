@@ -1,0 +1,273 @@
+/* 
+    Document   : admin-podcasts
+    Created on : 29-dic-2013, 12.40.44
+    Author     : Gabriele D'Arrigo - @acirdesign'
+*/
+
+/* GENERAL RULES */
+#admin-podcasts {
+    overflow: hidden;
+    margin: 20px 20px 0 0;
+    font-family: Arial, sans-serif;
+}
+
+#admin-podcasts .text-left {
+    text-align: left;
+}
+
+#admin-podcasts .text-center {
+    text-align: center;
+}
+
+#admin-podcasts .text-right {
+    text-align: right;
+}
+
+#admin-podcasts h1 {
+    text-align: center;
+}
+
+#admin-podcasts a {
+    color: #3399ff;
+    text-decoration: none;
+}
+
+#admin-podcasts a:hover {
+    text-decoration: underline;
+}
+
+#admin-podcasts strong {
+    font-weight: bold;
+}
+
+#admin-podcasts .btn {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 2px;
+    color: #FFF;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+#admin-podcasts .btn.large {
+    padding: 10px;
+}
+
+#admin-podcasts a.btn:hover {
+    color: #FFF;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+#admin-podcasts .btn.primary {
+    background-color: #3399ff;
+}
+
+#admin-podcasts .btn.success {
+    background-color: #468847;
+}
+
+#admin-podcasts .btn.informative {
+    background-color: #ff9c00;
+}
+
+#admin-podcasts .btn.warning {
+    background-color: #e63f2a;
+}
+
+#admin-podcasts #footer {
+    margin: 20px 0;
+}
+
+/* PODCAST GENERAL RULES */
+#podcasts article {
+    overflow: hidden;
+    margin: 10px 0;
+    padding: 5px;
+    position: relative;
+    border-bottom: 1px solid #DDD;
+}
+
+#podcasts article:nth-of-type(2n +1) {
+    background-color: #f0f0f0;
+}
+
+#podcasts article > figure {
+    float: left;
+    width: 100px;
+    margin: 0;
+    border: 1px solid #CCC;
+}
+
+#podcasts article > figure img {
+    display: block;
+}
+
+#podcasts article > div {
+    float: left;
+    width: 65%;
+    padding: 5px;
+}
+
+/* PROGRAM PAGE */
+#programs .podcast-control {
+    width: 200px;
+    position: absolute;
+    left: 500px;
+    top: 18px;
+}
+
+/* PODCAST LIST PAGE */
+#podcasts-list h2 {
+    margin: 0 0 10px;
+}
+
+#podcasts-list .podcast-info {
+    width: 800px;
+    overflow: hidden;
+}
+
+#podcasts-list .podcast-info .btn {
+    width: 115px;
+    padding: 2px 10px;
+    margin: 2px 15px 0 0;
+}
+
+#podcasts-list .podcast-info .info {
+    margin: 2px 0;
+}
+
+#podcasts-list .podcast-control {
+    float: left;
+    width: 15%;
+    padding: 5px;
+}
+
+#podcasts-list .podcast-image-upload {
+    margin: 20px 0;
+}
+
+#podcasts-list .podcast-image-upload input {
+    background-color: #FFF;
+}
+
+#podcasts-list .podcast-image-upload .btn {
+    width: auto;
+    margin: auto;
+    padding: 5px 10px;
+}
+
+/* UPDATE PANEL */
+#update {
+    width: 800px;
+}
+
+#update input[type="text"] {
+    width: 350px;
+    height: 30px;
+}
+
+#update .podcast-image-wrapper {
+    overflow: hidden;
+}
+
+#update figure {
+    margin: 0;
+    width: 100px;
+    float: left;
+}
+
+#update .podcast-image-upload {
+    float: left;
+    margin-left: 20px;
+}
+
+#update textarea {
+    width: 650px;
+    height: 350px;
+    padding: 5px;
+}
+
+/* UPLOAD PANEL */
+#upload #rules  {
+    background-color:#1abc9c;
+    width: 40%;
+    padding: 10px;
+    color: #FFF;
+}
+
+#upload #rules h2 {
+    font-weight: normal;
+    text-transform: uppercase;
+    font-size: 14px;
+    line-height: 22px;
+    margin: 10px 0;
+}
+
+#upload li {
+    padding: 10px;
+    background-color: #f0f0f0;
+    width: 40%;
+    margin: 20px 0;
+}
+
+#upload li label {
+    text-transform: uppercase; 
+    font-weight: bold;
+}
+
+#upload .message {
+    width: 650px;
+    padding: 5px;
+    color: white;
+}
+
+#upload .message.success {
+    background-color: #2ecc71;
+}
+
+#upload .message.error {
+    background-color: #e74c3c;
+}
+
+#upload .progress {
+    width: 85%;
+    height: 50px;
+    margin: 10px 0;
+    background-color: #CCC;
+}
+
+#upload .bar {
+    height: 50px;
+    margin: 10px 0;
+    background-color: #ffb400;
+}
+
+#upload .bar h2{
+    margin: 0 0 0 20px;
+    line-height: 50px;
+    color: #FFF;
+    font-weight: bold;
+    font-size: 35px;
+}
+
+/* PAGINATION */
+#paginator ul {
+    overflow: hidden;        
+    margin: 10px 0;
+}
+
+#paginator ul li {
+    text-decoration: none;
+    float: left;
+    margin: 2px;
+}
+
+#paginator ul li a {
+    display: block;
+    width: 20px;
+    height: 20px;
+    padding: 10px;
+    text-align: center;
+    border: 1px solid #DDD;
+}

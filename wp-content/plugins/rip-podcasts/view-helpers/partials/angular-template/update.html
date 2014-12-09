@@ -1,0 +1,72 @@
+<header class="text-right">
+    <a href="#/podcasts/{{podcast.program_slug}}/page/1" class="btn success">
+        Torna all'elenco dei podcast
+    </a>
+</header>
+
+<div id="upload">
+    <header>
+        <h2>
+            Modifica podcast
+        </h2>
+    </header>
+
+    <div id="update">
+        <form>
+            <fieldset>
+                <h2>
+                    Title
+                </h2>
+                <input type="text" ng-model="podcast.title" ng-required="true"/>
+            </fieldset>
+
+            <fieldset>
+                <h2>
+                    Summary
+                </h2>
+
+                <textarea ng-model="podcast.summary" ng-required="true" rows="20" cols="10"></textarea>
+            </fieldset>
+
+            <fieldset>
+                <h2>
+                    Image
+                </h2>
+                
+                <div class="podcast-image-wrapper">
+                    <figure>
+                        <img ng-src="{{podcast.podcast_images.thumbnail}}" width="100" height="100"/>
+                    </figure>
+
+                    <div class="podcast-image-upload">
+                        <h2 ng-show="podcast.computing">
+                            Attendere, elaborazione del file in corso
+
+                            <img src="/wp-content/plugins/rip-podcasts/assets/loading.gif" 
+                                 title="Elaborazione in corso" alt="Elaborazione in corso" width="30px"/>
+                        </h2>
+
+                        <h3>
+                            Upload immagine podcast
+                        </h3>
+
+                        <input type="file" ng-file-select="onFileSelect($files)">
+
+                        <a ng-click="uploadImage(podcast, $index, $event)" ng-hide="file.uploading" class="btn informative">
+                            Upload
+                        </a>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+
+        <br/>
+        <br/>
+
+        <div>
+            <a ng-click="save()" class="btn primary">
+                Save
+            </a>
+        </div>
+    </div>
+</div>

@@ -1,6 +1,6 @@
 <?php
 
-abstract class rip_abstract_view_helper {
+abstract class Rip_Abstract_View_Helper {
 
     /**
      * Path of the metabox html partial.

@@ -1,18 +1,19 @@
 <?php
+namespace Rip_General\Controllers;
 
 /**
  * Implements method that return data in Json format
  * stored in:
  * wp_general_comuni, wp_general_province, wp_general_regioni, wp_general_nazioni
  */
-class rip_general_ajax_front_controller {
+class Rip_General_Front_Controller {
 
     /**
      * Return all data from wp_general_comuni
      */
-    public static function get_comuni() {
-        $dao = new rip_general_dao();
-        $json_helper = rip_general_json_helper::get_instance();
+    public function get_comuni() {
+        $dao = new \Rip_General\Daos\Rip_General_Dao();
+        $json_helper = \Rip_General\Classes\Rip_General_Json_Helper::get_instance();
 
         $results = $dao->get_comuni();
 
@@ -28,9 +29,9 @@ class rip_general_ajax_front_controller {
     /**
      * Return all data from wp_general_province
      */
-    public static function get_province() {
-        $dao = new rip_general_dao();
-        $json_helper = rip_general_json_helper::get_instance();
+    public function get_province() {
+        $dao = new \Rip_General\Daos\Rip_General_Dao();
+        $json_helper = \Rip_General\Classes\Rip_General_Json_Helper::get_instance();
 
         $results = $dao->get_province();
 
@@ -46,9 +47,9 @@ class rip_general_ajax_front_controller {
     /**
      * Return all data from wp_general_regioni
      */
-    public static function get_regioni() {
-        $dao = new rip_general_dao();
-        $json_helper = rip_general_json_helper::get_instance();
+    public function get_regioni() {
+        $dao = new \Rip_General\Daos\Rip_General_Dao();
+        $json_helper = \Rip_General\Classes\Rip_General_Json_Helper::get_instance();
 
         $results = $dao->get_regioni();
 
@@ -64,9 +65,9 @@ class rip_general_ajax_front_controller {
     /**
      * Return all data from wp_general_nazioni
      */
-    public static function get_nazioni() {
-        $dao = new rip_general_dao();
-        $json_helper = rip_general_json_helper::get_instance();
+    public function get_nazioni() {
+        $dao = new \Rip_General\Daos\Rip_General_Dao();
+        $json_helper = \Rip_General\Classes\Rip_General_Json_Helper::get_instance();
 
         $results = $dao->get_nazioni();
 

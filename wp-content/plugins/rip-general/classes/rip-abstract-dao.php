@@ -1,10 +1,11 @@
 <?php
+namespace Rip_General\Classes;
 
 /**
  * Abstract Data Access Object.
  * Implements method that all DAO inherits.
  */
-class rip_abstract_dao {
+class Rip_Abstract_Dao {
 
     /**
      * Holds a reference to the database.

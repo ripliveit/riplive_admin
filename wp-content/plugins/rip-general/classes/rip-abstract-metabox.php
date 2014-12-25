@@ -1,4 +1,5 @@
 <?php
+namespace Rip_General\Classes;
 
 /**
  * Abstract class that all concrete metabox 
@@ -6,7 +7,7 @@
  * 
  * @author Gabriele D'Arrigo - @acirdesign
  */
-abstract class rip_abstract_metabox {
+abstract class Rip_Abstract_Metabox {
 
     /**
      * Path of the metabox html partial.

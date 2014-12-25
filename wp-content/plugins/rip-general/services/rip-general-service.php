@@ -1,9 +1,10 @@
 <?php
+namespace Rip_General\Services;
 
 /**
  * A service that helps all plugin's DAO to handle business logic.
  */
-class rip_general_service {
+class Rip_General_Service {
 
     /**
      * Divide all songs in alphabetical order,

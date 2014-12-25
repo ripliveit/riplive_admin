@@ -1,10 +1,11 @@
 <?php
+namespace Rip_General\Classes;
 
 /**
  * A class used to retrieve information
  * from S_POST or $_GET global array.
  */
-class rip_general_http_parameters {
+class Rip_General_Http_Parameters {
 
     /**
      * Holds a reference to $_POST

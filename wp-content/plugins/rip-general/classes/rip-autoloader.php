@@ -1,13 +1,15 @@
 <?php
 
+namespace Rip_General\Classes;
+
 /**
  * Plugin autoloader.
- * Autoload all required plugin's classes, scanning plugin's directory and 
- * subdirectory to inclued target class.
+ * Autoload all required plugin's classes, 
+ * inlcuding required class thourgh namespace contrusction.
  * 
  * @author Gabriele D'Arrigo - @acirdesign.
  */
-class rip_autoloader {
+class Rip_Autoloader {
 
     /**
      * Plugin path.
@@ -17,47 +19,13 @@ class rip_autoloader {
     protected $_plugin_dir_path;
 
     /**
-     * An array that store all plugin's folder and subfolder
-     * 
-     * @var type 
-     */
-    protected $_folders = array(
-        '.',
-        'classes',
-        'services',
-        'view-helpers',
-        'metaboxes',
-        'templates',
-        'widgets'
-    );
-
-    /**
-     * An array that is used to construct  plugin's directory tree.
-     * 
-     * @var type 
-     */
-    protected $_directory = array();
-
-    /**
      * On class construction set current plugin directory tree.
      * 
      * @param type $plugin_dir_path
      */
     public function __construct($plugin_dir_path) {
-        $this->_set_directories($plugin_dir_path);
-
+        $this->_plugin_dir_path = $plugin_dir_path;
         spl_autoload_register(array($this, '_load_classes'));
-    }
-
-    /**
-     * Construct plugin directory tree.
-     * 
-     * @param type $plugin_dir_path
-     */
-    protected function _set_directories($plugin_dir_path) {
-        foreach ($this->_folders as $folder_name) {
-            $this->_directory[] = $plugin_dir_path . $folder_name;
-        }
     }
 
     /**
@@ -66,14 +34,25 @@ class rip_autoloader {
      * @param type $class_name
      */
     protected function _load_classes($class_name) {
-        foreach ($this->_directory as $key => $directory_name) {
-            $filename = str_replace('_', '-', $class_name) . '.php';
+        $exploded = explode('\\', $class_name);
+//        echo '<pre>';
+//        print_r(explode('\\', $class_name));
+//        echo '</pre>';
+        
+        $namespace = $exploded[0] . '\\';
 
-            $path = $directory_name . '/' . $filename;
+        $filename = str_replace($namespace, '', $class_name);
+        $filename = str_replace('\\', '/', $filename);
+        $filename = str_replace('_', '-', $filename) . '.php';
 
-            if (file_exists($path)) {
-                include($path);
-            }
+        $path = $this->_plugin_dir_path . strtolower($filename);
+
+        if (file_exists($path)) {
+//            echo '<pre>';
+//            print_r($path);
+//            echo '</pre>';
+            include($path);
         }
     }
+
 }

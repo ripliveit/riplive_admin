@@ -1,4 +1,5 @@
 <?php
+namespace Rip_General\Classes;
 
 /**
  * Abstract plugin class.
@@ -9,7 +10,7 @@
  * 
  * @author Gabriele D'Arrigo - @acirdesign
  */
-abstract class rip_abstract_plugin {
+abstract class Rip_Abstract_Plugin {
 
     /**
      * Define a list of pages that plugin

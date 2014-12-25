@@ -1,4 +1,5 @@
 <?php
+namespace Rip_General;
 
 /*
   Plugin Name: AAA - General - AAA
@@ -8,7 +9,7 @@
  */
 
 include_once 'classes/rip-autoloader.php';
-$autoloader = new rip_autoloader(plugin_dir_path(__FILE__));
+$autoloader = new \Rip_General\Classes\Rip_Autoloader(plugin_dir_path(__FILE__));
 
 /**
  * General plugin.
@@ -16,7 +17,7 @@ $autoloader = new rip_autoloader(plugin_dir_path(__FILE__));
  * @author Gabriele D'Arrigo - @acirdesign
  * @see rip_programmi_abstract_plugin
  */
-class rip_general extends rip_abstract_plugin {
+class Rip_General extends \Rip_General\Classes\Rip_Abstract_Plugin {
 
     public function _init() {
 
@@ -58,22 +59,22 @@ class rip_general extends rip_abstract_plugin {
                           ) ENGINE=InnoDB DEFAULT CHARSET=utf8;'
             ),
         );
-
+        
         $this->_ajax = array(
             'rip_general_get_comuni' => array(
-                'class' => 'rip_general_ajax_front_controller',
+                'class' => '\Rip_General\Controllers\Rip_General_Front_Controller',
                 'method_name' => 'get_comuni',
             ),
             'rip_general_get_province' => array(
-                'class' => 'rip_general_ajax_front_controller',
+                'class' => '\Rip_General\Controllers\Rip_General_Front_Controller',
                 'method_name' => 'get_province',
             ),
             'rip_general_get_regioni' => array(
-                'class' => 'rip_general_ajax_front_controller',
+                'class' => '\Rip_General\Controllers\Rip_General_Front_Controller',
                 'method_name' => 'get_regioni',
             ),
             'rip_general_get_nazioni' => array(
-                'class' => 'rip_general_ajax_front_controller',
+                'class' => '\Rip_General\Controllers\Rip_General_Front_Controller',
                 'method_name' => 'get_nazioni',
             ),
         );
@@ -133,4 +134,4 @@ class rip_general extends rip_abstract_plugin {
 
 }
 
-$general = new rip_general();
+$general = new \Rip_General\Rip_General();

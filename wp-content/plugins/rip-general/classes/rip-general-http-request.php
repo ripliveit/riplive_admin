@@ -1,9 +1,10 @@
 <?php
+namespace Rip_General\Classes;
 
 /**
  * A simple class to handler the HTTP request.
  */
-class rip_general_http_request {
+class Rip_General_Http_Request {
 
     /**
      * Request object. Holds $_POST parameters.

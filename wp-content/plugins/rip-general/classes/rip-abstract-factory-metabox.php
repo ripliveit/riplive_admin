@@ -1,9 +1,11 @@
 <?php
+namespace Rip_General\Classes;
+
 /**
  * Define the contract that concrete factory metabox must respect.
  * @author Gabriele D'Arrigo - @acirdesign
  */
-abstract class rip_abstract_factory_metabox {
+abstract class Rip_Abstract_Factory_Metabox {
     
     /**
      * Factory method.

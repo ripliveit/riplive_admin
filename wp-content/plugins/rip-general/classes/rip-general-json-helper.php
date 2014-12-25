@@ -1,10 +1,12 @@
 <?php
 
+namespace Rip_General\Classes;
+
 /**
  * A json utility helper.
  * This is a singleton class.
  */
-class rip_general_json_helper {
+class Rip_General_Json_Helper {
 
     /**
      * Accepted content type.

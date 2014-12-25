@@ -1,9 +1,10 @@
 <?php
+namespace Rip_General\Classes;
 
 /**
  * Modify the rss feed output
  */
-class rip_general_rss_filters {
+class Rip_General_Rss_Filters {
 
     /**
      * Create the rss url

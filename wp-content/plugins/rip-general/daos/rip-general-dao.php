@@ -1,9 +1,10 @@
 <?php
+namespace Rip_General\Daos;
 
 /**
  * Generic plugin DAO.
  */
-class rip_general_dao extends rip_abstract_dao {
+class Rip_General_Dao extends \Rip_General\Classes\Rip_Abstract_Dao {
 
     /**
      * Set an array with only the value returned from the below query.

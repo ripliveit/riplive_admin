@@ -4,7 +4,7 @@ Plugin Name: Captcha
 Plugin URI: http://bestwebsoft.com/products/
 Description: Plugin Captcha intended to prove that the visitor is a human being and not a spam robot. Plugin asks the visitor to answer a math question.
 Author: BestWebSoft
-Version: 4.0.7
+Version: 4.0.8
 Author URI: http://bestwebsoft.com/
 License: GPLv2 or later
 */

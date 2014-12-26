@@ -17,7 +17,7 @@ $autoloader = new \Rip_General\Classes\Rip_Autoloader(plugin_dir_path(__FILE__))
  * @author Gabriele D'Arrigo - @acirdesign
  * @see rip_programmi_abstract_plugin
  */
-class Rip_General extends \Rip_General\Classes\Rip_Abstract_Plugin {
+class Rip_General_Plugin extends \Rip_General\Classes\Rip_Abstract_Plugin {
 
     public function _init() {
 
@@ -62,67 +62,67 @@ class Rip_General extends \Rip_General\Classes\Rip_Abstract_Plugin {
         
         $this->_ajax = array(
             'rip_general_get_comuni' => array(
-                'class' => '\Rip_General\Controllers\Rip_General_Front_Controller',
+                'class' => '\Rip_General\Controllers\Rip_Front_Controller',
                 'method_name' => 'get_comuni',
             ),
             'rip_general_get_province' => array(
-                'class' => '\Rip_General\Controllers\Rip_General_Front_Controller',
+                'class' => '\Rip_General\Controllers\Rip_Front_Controller',
                 'method_name' => 'get_province',
             ),
             'rip_general_get_regioni' => array(
-                'class' => '\Rip_General\Controllers\Rip_General_Front_Controller',
+                'class' => '\Rip_General\Controllers\Rip_Front_Controller',
                 'method_name' => 'get_regioni',
             ),
             'rip_general_get_nazioni' => array(
-                'class' => '\Rip_General\Controllers\Rip_General_Front_Controller',
+                'class' => '\Rip_General\Controllers\Rip_Front_Controller',
                 'method_name' => 'get_nazioni',
             ),
         );
-
+                   
         $this->_filters_to_add = array(
             array(
                 'tag' => 'the_title',
-                'class' => 'rip_general_output_filter',
+                'class' => '\Rip_General\Filters\Rip_Output_Filter',
                 'function' => 'decode_wp_output',
             ),
             array(
                 'tag' => 'the_content',
-                'class' => 'rip_general_output_filter',
+                'class' => '\Rip_General\Filters\Rip_Output_Filter',
                 'function' => 'decode_wp_output'
             ),
             array(
                 'tag' => 'excerpt_more',
-                'class' => 'rip_general_output_filter',
+                'class' => '\Rip_General\Filters\Rip_Output_Filter',
                 'function' => 'remove_ellipsis'
             ),
             array(
                 'tag' => 'the_excerpt',
-                'class' => 'rip_general_output_filter',
+                'class' => '\Rip_General\Filters\Rip_Output_Filter',
                 'function' => 'decode_wp_output'
             ),
             array(
                 'tag' => 'the_permalink_rss',
-                'class' => 'rip_general_rss_filters',
+                'class' => '\Rip_General\Filters\Rip_Rss_Filter',
                 'function' => 'change_rss_link'
             ),
             array(
                 'tag' => 'get_the_guid',
-                'class' => 'rip_general_rss_filters',
+                'class' => '\Rip_General\Filters\Rip_Rss_Filter',
                 'function' => 'change_rss_guid_link'
             ),
             array(
                 'tag' => 'comments_link_feed',
-                'class' => 'rip_general_rss_filters',
+                'class' => '\Rip_General\Filters\Rip_Rss_Filter',
                 'function' => 'change_rss_comment_link'
             ),
             array(
                 'tag' => 'the_excerpt_rss',
-                'class' => 'rip_general_rss_filters',
+                'class' => '\Rip_General\Filters\Rip_Rss_Filter',
                 'function' => 'add_featured_image'
             ),
             array(
                 'tag' => 'the_content_feed',
-                'class' => 'rip_general_rss_filters',
+                'class' => '\Rip_General\Filters\Rip_Rss_Filter',
                 'function' => 'add_featured_image'
             ),
         );
@@ -134,4 +134,4 @@ class Rip_General extends \Rip_General\Classes\Rip_Abstract_Plugin {
 
 }
 
-$general = new \Rip_General\Rip_General();
+$general = new \Rip_General\Rip_General_Plugin();

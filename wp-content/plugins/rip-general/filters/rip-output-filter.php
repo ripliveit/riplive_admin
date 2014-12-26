@@ -1,11 +1,11 @@
 <?php
 
-namespace Rip_General\Classes;
+namespace Rip_General\Filters;
 
 /**
  * Helper used to encode or decode Wordpress output.
  */
-class Rip_General_Output_Filter {
+class Rip_Output_Filter {
 
     /**
      * Encode all html entities.

@@ -1,19 +1,19 @@
 <?php
+
 namespace Rip_General\Controllers;
 
 /**
- * Implements method that return data in Json format
- * stored in:
- * wp_general_comuni, wp_general_province, wp_general_regioni, wp_general_nazioni
+ * Implements method that return data in Json format.
+ * 
  */
-class Rip_General_Front_Controller {
+class Rip_Front_Controller {
 
     /**
-     * Return all data from wp_general_comuni
+     * Return all data from wp_general_comuni.
      */
-    public function get_comuni() {
+    public static function get_comuni() {
         $dao = new \Rip_General\Daos\Rip_General_Dao();
-        $json_helper = \Rip_General\Classes\Rip_General_Json_Helper::get_instance();
+        $json_helper = \Rip_General\Helpers\Rip_Json_Helper::get_instance();
 
         $results = $dao->get_comuni();
 
@@ -27,11 +27,11 @@ class Rip_General_Front_Controller {
     }
 
     /**
-     * Return all data from wp_general_province
+     * Return all data from wp_general_province.
      */
-    public function get_province() {
+    public static function get_province() {
         $dao = new \Rip_General\Daos\Rip_General_Dao();
-        $json_helper = \Rip_General\Classes\Rip_General_Json_Helper::get_instance();
+        $json_helper = \Rip_General\Helpers\Rip_Json_Helper::get_instance();
 
         $results = $dao->get_province();
 
@@ -45,11 +45,11 @@ class Rip_General_Front_Controller {
     }
 
     /**
-     * Return all data from wp_general_regioni
+     * Return all data from wp_general_regioni.
      */
-    public function get_regioni() {
+    public static function get_regioni() {
         $dao = new \Rip_General\Daos\Rip_General_Dao();
-        $json_helper = \Rip_General\Classes\Rip_General_Json_Helper::get_instance();
+        $json_helper = \Rip_General\Helpers\Rip_Json_Helper::get_instance();
 
         $results = $dao->get_regioni();
 
@@ -63,11 +63,11 @@ class Rip_General_Front_Controller {
     }
 
     /**
-     * Return all data from wp_general_nazioni
+     * Return all data from wp_general_nazioni.
      */
-    public function get_nazioni() {
+    public static function get_nazioni() {
         $dao = new \Rip_General\Daos\Rip_General_Dao();
-        $json_helper = \Rip_General\Classes\Rip_General_Json_Helper::get_instance();
+        $json_helper = \Rip_General\Helpers\Rip_Json_Helper::get_instance();
 
         $results = $dao->get_nazioni();
 

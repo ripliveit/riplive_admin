@@ -1,10 +1,11 @@
 <?php
-namespace Rip_General\Classes;
+
+namespace Rip_General\Filters;
 
 /**
  * Modify the rss feed output
  */
-class Rip_General_Rss_Filters {
+class Rip_Rss_Filter {
 
     /**
      * Create the rss url
@@ -95,7 +96,7 @@ class Rip_General_Rss_Filters {
         if (has_post_thumbnail($post->ID)) {
             $content = '<div class="featured_image_post_rss">' . get_the_post_thumbnail($post->ID, 'thumbnail') . '</div>' . $content;
         }
-        
+
         return $content;
     }
 

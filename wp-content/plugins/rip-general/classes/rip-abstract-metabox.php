@@ -1,4 +1,5 @@
 <?php
+
 namespace Rip_General\Classes;
 
 /**
@@ -45,7 +46,7 @@ abstract class Rip_Abstract_Metabox {
         if (!empty($this->_meta)) {
             extract($this->_meta);
         }
-        
+
         ob_start();
         include($this->_partial_path);
         $out = ob_get_contents();

@@ -1,10 +1,11 @@
 <?php
+
 namespace Rip_General\Classes;
 
 /**
  * A simple class to handler the HTTP request.
  */
-class Rip_General_Http_Request {
+class Rip_Http_Request {
 
     /**
      * Request object. Holds $_POST parameters.
@@ -32,9 +33,9 @@ class Rip_General_Http_Request {
      * Set the request and query object.
      */
     private function __construct() {
-        $this->request = new rip_general_http_parameters($_POST);
+        $this->request = new \Rip_General\Classes\Rip_Http_Parameters($_POST);
 
-        $this->query = new rip_general_http_parameters($_GET);
+        $this->query = new \Rip_General\Classes\Rip_Http_Parameters($_GET);
     }
 
     /**

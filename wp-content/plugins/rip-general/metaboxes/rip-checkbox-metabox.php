@@ -1,13 +1,15 @@
 <?php
 
+namespace Rip_General\Metaboxes;
+
 /**
  * Concrete metabox.
- * Dispay an input type text with, if presents, all saved value from database.
+ * Dispay a checkox input type.
  * 
  * @author Gabriele D'Arrigo - @acirdesign
  * @see rip_abstract_metabox
  */
-class rip_checkbox_metabox extends rip_abstract_metabox {
+class Rip_Checkbox_metabox extends \Rip_General\Classes\Rip_Abstract_Metabox {
 
     /**
      * On construction set the partial path.
@@ -16,11 +18,12 @@ class rip_checkbox_metabox extends rip_abstract_metabox {
         $this->_field = array(
             'field' => $field
         );
-        
+
         $this->_meta = array(
             'meta' => $meta
         );
-        
+
         $this->_partial_path = plugin_dir_path(__FILE__) . 'partials/rip-checkbox-partial.php';
     }
+
 }

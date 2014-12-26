@@ -5,7 +5,7 @@ namespace Rip_General\Classes;
 /**
  * Plugin autoloader.
  * Autoload all required plugin's classes, 
- * inlcuding required class thourgh namespace contrusction.
+ * including required class through namespace construction.
  * 
  * @author Gabriele D'Arrigo - @acirdesign.
  */
@@ -38,7 +38,7 @@ class Rip_Autoloader {
 //        echo '<pre>';
 //        print_r(explode('\\', $class_name));
 //        echo '</pre>';
-        
+
         $namespace = $exploded[0] . '\\';
 
         $filename = str_replace($namespace, '', $class_name);

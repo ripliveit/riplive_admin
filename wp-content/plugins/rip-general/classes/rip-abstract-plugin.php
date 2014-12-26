@@ -1,4 +1,5 @@
 <?php
+
 namespace Rip_General\Classes;
 
 /**

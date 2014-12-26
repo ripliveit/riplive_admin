@@ -1,4 +1,5 @@
 <?php
+
 namespace Rip_General\Classes;
 
 /**
@@ -193,7 +194,7 @@ class Rip_Abstract_Dao {
 
         return $args;
     }
-    
+
     /**
      * Apply the_content filter to add the html format 
      * to get_the_content() output.

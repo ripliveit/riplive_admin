@@ -1,14 +1,16 @@
 <?php
 
+namespace Rip_General\Metaboxes;
+
 /**
  * Factory class.
  * Dinamically create metabox, depending of the configuration's array passed in
- * on object contruction.
+ * on class contruction.
  * 
  * @author Gabriele D'Arrigo - @acirdesign
  * @see rip_abstract_factory_metabox
  */
-class rip_factory_metabox extends rip_abstract_factory_metabox {
+class Rip_Factory_Metabox extends \Rip_General\Classes\Rip_Abstract_Metabox {
 
     /**
      * Factory method
@@ -25,7 +27,6 @@ class rip_factory_metabox extends rip_abstract_factory_metabox {
         }
 
         if (class_exists($class_name)) {
-                  
             $metabox = new $class_name($field, $meta);
 
             return $metabox;

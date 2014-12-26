@@ -2,5 +2,9 @@
 *.njsproj
 .tmp
 nbproject
+
 wp-config.php
 wp-content/uploads
+
+.htaccess
+.htpasswd

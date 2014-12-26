@@ -22,33 +22,11 @@ class Rip_Http_Request {
     public $query;
 
     /**
-     * Singleton instace.
-     * 
-     * @var Object 
+     * On construction
+     * set the request and query object.
      */
-    protected static $_instance = null;
-
-    /**
-     * Private constructor.
-     * Set the request and query object.
-     */
-    private function __construct() {
+    public function __construct() {
         $this->request = new \Rip_General\Classes\Rip_Http_Parameters($_POST);
-
         $this->query = new \Rip_General\Classes\Rip_Http_Parameters($_GET);
     }
-
-    /**
-     * Return the instance class.
-     * 
-     * @return Class
-     */
-    public static function get_instance() {
-        if (self::$_instance === null) {
-            self::$_instance = new self();
-        }
-
-        return self::$_instance;
-    }
-
 }

@@ -1,12 +1,11 @@
 <?php
 
-namespace Rip_General\Helpers;
+namespace Rip_General\Classes;
 
 /**
- * A json utility helper.
- * This is a singleton class.
+ * A simple class to handler the HTTP request.
  */
-class Rip_Json_Helper {
+class Rip_Http_Response implements \Rip_General\Interfaces\Rip_Json_Interface {
 
     /**
      * Accepted content type.
@@ -19,36 +18,11 @@ class Rip_Json_Helper {
     );
 
     /**
-     * Hold static singleton instance.
-     * 
-     * @var object 
-     */
-    protected static $_instance = null;
-
-    /**
-     * Private constructor.
-     */
-    private function __construct() {}
-
-    /**
-     * Return the singleton instance.
-     * 
-     * @return object
-     */
-    public static function get_instance() {
-        if (self::$_instance === null) {
-            self::$_instance = new self();
-        }
-
-        return self::$_instance;
-    }
-
-    /**
      * Set the response header.
      * 
      * @param string $type
      */
-    protected function _set_header($type) {
+    public function _set_header($type) {
         if (in_array($type, $this->_type)) {
             header('Content-Type:' . $type . '; charset=utf-8');
         } else {
@@ -81,4 +55,5 @@ class Rip_Json_Helper {
             exit(0);
         }
     }
+
 }

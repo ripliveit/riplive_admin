@@ -20,7 +20,6 @@ $autoloader = new \Rip_General\Classes\Rip_Autoloader(plugin_dir_path(__FILE__))
 class Rip_General_Plugin extends \Rip_General\Classes\Rip_Abstract_Plugin {
 
     public function _init() {
-
         $this->_tables = array(
             array(
                 'name' => 'general_comuni',
@@ -62,19 +61,19 @@ class Rip_General_Plugin extends \Rip_General\Classes\Rip_Abstract_Plugin {
         
         $this->_ajax = array(
             'rip_general_get_comuni' => array(
-                'class' => '\Rip_General\Controllers\Rip_Front_Controller',
+                'class_name' => '\Rip_General\Controllers\Rip_General_Controller',
                 'method_name' => 'get_comuni',
             ),
             'rip_general_get_province' => array(
-                'class' => '\Rip_General\Controllers\Rip_Front_Controller',
+                'class_name' => '\Rip_General\Controllers\Rip_General_Controller',
                 'method_name' => 'get_province',
             ),
             'rip_general_get_regioni' => array(
-                'class' => '\Rip_General\Controllers\Rip_Front_Controller',
+                'class_name' => '\Rip_General\Controllers\Rip_General_Controller',
                 'method_name' => 'get_regioni',
             ),
             'rip_general_get_nazioni' => array(
-                'class' => '\Rip_General\Controllers\Rip_Front_Controller',
+                'class_name' => '\Rip_General\Controllers\Rip_General_Controller',
                 'method_name' => 'get_nazioni',
             ),
         );

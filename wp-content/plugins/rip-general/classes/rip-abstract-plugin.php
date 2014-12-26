@@ -210,8 +210,18 @@ abstract class Rip_Abstract_Plugin {
     protected function _set_ajax() {
         if (!empty($this->_ajax)) {
             foreach ($this->_ajax as $hook => $config) {
-                add_action('wp_ajax_' . $hook, array($config['class'], $config['method_name']));
-                add_action('wp_ajax_nopriv_' . $hook, array($config['class'], $config['method_name']));
+
+                // Construct the controller
+                if (class_exists($config['class_name'])) {
+                    $controller = new $config['class_name'](
+                            new \Rip_General\Classes\Rip_Http_Request(), 
+                            new \Rip_General\Classes\Rip_Http_Response()
+                    );
+                    $action = $config['method_name'];
+                }
+
+                add_action('wp_ajax_' . $hook, array($controller, $action));
+                add_action('wp_ajax_nopriv_' . $hook, array($controller, $action));
             }
         }
     }

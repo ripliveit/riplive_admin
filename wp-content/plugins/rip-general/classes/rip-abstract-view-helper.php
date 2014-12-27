@@ -3,11 +3,11 @@
 namespace Rip_General\Classes;
 
 /**
- * Abstrac view helper.
+ * Abstract view helper.
  * Define methods used by concrete view helpers 
  * to render and drawn piece of Html.
  */
-abstract class Rip_Abstract_View_Helper {
+abstract class Rip_Abstract_View_Helper implements \Rip_General\Interfaces\Rip_View_Renderer {
 
     /**
      * Path of the html partial to render.
@@ -24,8 +24,19 @@ abstract class Rip_Abstract_View_Helper {
     protected $_view_args = null;
 
     /**
-     * Abstract method implemented by all 
-     * concrete vie helpers.
+     * Render the template.
      */
-    abstract public function render();
+    public function render() {
+        if (!empty($this->_view_args)) {
+            extract($this->_view_args);
+        }
+
+        ob_start();
+        include($this->_partial_path);
+        $out = ob_get_contents();
+        ob_end_clean();
+
+        echo $out;
+    }
+
 }

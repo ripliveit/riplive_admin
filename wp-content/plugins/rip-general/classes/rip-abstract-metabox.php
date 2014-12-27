@@ -8,7 +8,7 @@ namespace Rip_General\Classes;
  * 
  * @author Gabriele D'Arrigo - @acirdesign
  */
-abstract class Rip_Abstract_Metabox {
+abstract class Rip_Abstract_Metabox implements \Rip_General\Interfaces\Rip_View_Renderer {
 
     /**
      * Path of the metabox html partial.

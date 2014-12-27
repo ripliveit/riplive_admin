@@ -1,9 +1,11 @@
 <?php
 
+namespace Rip_Social_Users\Daos;
+
 /**
  * Social Users Data Access Object
  */
-class rip_social_users_dao extends rip_abstract_dao {
+class Rip_Social_Users_Dao extends \Rip_General\Classes\Rip_Abstract_Dao {
 
     /**
      * Retrieve and return a single user 
@@ -26,8 +28,6 @@ class rip_social_users_dao extends rip_abstract_dao {
         $results = $wpdb->get_row($prepared, ARRAY_A);
 
         return $results;
-
-        //return empty($podcasts_data) ? false : current($podcasts_data);
     }
 
     /**
@@ -118,8 +118,6 @@ class rip_social_users_dao extends rip_abstract_dao {
                 'message' => 'Error in inserting into wp_social_users. Probably the user is already presents.'
             );
         }
-
-        //$results = $wpdb->query($prepared);
 
         $wpdb->query('COMMIT');
 

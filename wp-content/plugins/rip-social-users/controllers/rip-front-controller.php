@@ -1,9 +1,11 @@
 <?php
 
+namespace Rip_Social_Users\Controllers;
+
 /**
  * Social Users Front Controller.
  */
-class rip_social_users_ajax_front_controller {
+class Rip_Front_Controller {
 
     /**
      * Return a user, given its unique email.

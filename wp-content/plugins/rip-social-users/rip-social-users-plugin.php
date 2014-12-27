@@ -1,14 +1,16 @@
 <?php
 
+namespace Rip_Social_Users;
+
 /*
-  Plugin Name: Riplive User
-  Description: Plugin per la gestione dei brani
+  Plugin Name: Riplive Social Users
+  Description: Plugin per la registrazioe degli utenti tramite social networks.
   Author: Gabriele D'Arrigo - @acirdesign
   Version: 1.0
  */
 
 require_once ABSPATH . 'wp-content/plugins/rip-general/rip-general.php';
-$autoloader = new rip_autoloader(plugin_dir_path(__FILE__));
+$autoloader = new \Rip_General\Classes\Rip_Autoloader(plugin_dir_path(__FILE__));
 
 /**
  * Social Users plugin.
@@ -16,7 +18,7 @@ $autoloader = new rip_autoloader(plugin_dir_path(__FILE__));
  * @author Gabriele D'Arrigo - @acirdesign
  * @see rip_abstract_plugin
  */
-class rip_social_users extends rip_abstract_plugin {
+class Rip_Social_Users_Plugin extends \Rip_General\Classes\Rip_Abstract_Plugin {
 
     /**
      * Set all plugin configuration.
@@ -44,4 +46,4 @@ class rip_social_users extends rip_abstract_plugin {
 
 }
 
-$social_users = new rip_social_users();
+$social_users = new \Rip_Social_Users\Rip_Social_Users_Plugin();

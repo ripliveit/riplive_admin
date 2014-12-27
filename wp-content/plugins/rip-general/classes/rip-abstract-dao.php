@@ -156,7 +156,7 @@ class Rip_Abstract_Dao {
             array_push($args['post_status'], 'pending');
         }
 
-        $query = new WP_Query($args);
+        $query = new \WP_Query($args);
         $total_items = $query->post_count;
 
         if ($this->_items_per_page === null) {

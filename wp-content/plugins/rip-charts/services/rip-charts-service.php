@@ -1,10 +1,12 @@
 <?php
 
+namespace Rip_Charts\Services;
+
 /**
- * A service used by other Chart plugin's class
- * to implement and run char'ts business logic.
+ * A service used by other Chart plugin's classes
+ * to implement and run chart's business logic.
  */
-class rip_charts_service {
+class Rip_Charts_Service {
 
     /**
      * Holds a reference to Chart DAO.
@@ -23,9 +25,12 @@ class rip_charts_service {
     /**
      * Class constructor.
      */
-    public function __construct() {
-        $this->_charts_dao = new rip_charts_dao;
-        $this->_social_users_dao = new rip_social_users_dao();
+    public function __construct(
+        \Rip_General\Classes\Rip_Abstract_Dao $charts_dao,
+        \Rip_General\Classes\Rip_Abstract_Dao $social_users_dao
+    ) {
+        $this->_charts_dao = $charts_dao;
+        $this->_social_users_dao = $social_users_dao;
     }
 
     /**
@@ -42,7 +47,7 @@ class rip_charts_service {
      * @param string $username
      * @return boolean
      */
-    public function check_if_user_can_vote($chart_archive_slug = null, $id_song = null, $uuid_user = null, $username = null) {
+    public function check_if_user_can_vote($chart_archive_slug = null, $id_song = null) {
         // Check 
         // all params.
         if (empty($chart_archive_slug)) {
@@ -58,20 +63,6 @@ class rip_charts_service {
                 'message' => 'Please specify an id song'
             );
         }
-
-//        if (empty($username)) {
-//            return array(
-//                'status' => 'error',
-//                'message' => 'Please specify a username'
-//            );
-//        }
-//
-//        if (empty($uuid_user)) {
-//            return array(
-//                'status' => 'error',
-//                'message' => 'Please specify a user uuid'
-//            );
-//        }
 
         // Check in a chart with the
         // passed chart_archive_exists.
@@ -98,24 +89,6 @@ class rip_charts_service {
                 'message' => 'Invalid id song'
             );
         }
-
-        // Check if
-        // a user with the passed uuid exists.
-//        $user = $this->_social_users_dao->get_social_user_by_uuid($uuid_user);
-//
-//        if (empty($user)) {
-//            return array(
-//                'status' => 'error',
-//                'message' => 'Invalid user uuid'
-//            );
-//        }
-//   
-//        if ($user['username'] !== $username) {
-//            return array(
-//                'status' => 'error',
-//                'message' => 'Invalid username'
-//            );
-//        }
 
         return true;
     }

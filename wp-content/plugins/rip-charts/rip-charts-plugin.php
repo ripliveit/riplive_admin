@@ -1,5 +1,7 @@
 <?php
 
+namespace Rip_Charts;
+
 /*
   Plugin Name: Classifiche
   Description: Plugin per la gestione delle classifiche
@@ -7,8 +9,8 @@
   Version: 1.0
  */
 
-require_once ABSPATH . 'wp-content/plugins/rip-general/rip-general.php';
-$autoloader = new rip_autoloader(plugin_dir_path(__FILE__));
+require_once ABSPATH . 'wp-content/plugins/rip-general/rip-general-plugin.php';
+$autoloader = new \Rip_General\Classes\Rip_Autoloader(plugin_dir_path(__FILE__));
 
 /**
  * Charts plugin.
@@ -16,15 +18,14 @@ $autoloader = new rip_autoloader(plugin_dir_path(__FILE__));
  * @author Gabriele D'Arrigo - @acirdesign
  * @see rip_general_abstract_plugin
  */
-class rip_charts extends rip_abstract_plugin {
+class Rip_Charts_Plugin extends \Rip_General\Classes\Rip_Abstract_Plugin {
 
     /**
      * Set all plugin configuration.
      */
     protected function _init() {
         $this->_metabox_prefix = 'rip_';
-
-        $this->_admin_charts_view_helper = new rip_admin_charts_view_helper();
+        $this->_admin_charts_view_helper = new \Rip_Charts\View_Helpers\Rip_Admin_Charts_View_helper();
 
         $this->_tables = array(
             array(
@@ -155,58 +156,60 @@ class rip_charts extends rip_abstract_plugin {
 
         $this->_ajax = array(
             'rip_charts_get_all_charts' => array(
-                'class' => 'rip_charts_ajax_front_controller',
+                'class_name' => '\Rip_Charts\Controllers\Rip_Charts_Controller',
                 'method_name' => 'get_all_charts',
             ),
             'rip_charts_get_chart_by_slug' => array(
-                'class' => 'rip_charts_ajax_front_controller',
+                'class_name' => '\Rip_Charts\Controllers\Rip_Charts_Controller',
                 'method_name' => 'get_chart_by_slug',
             ),
             'rip_charts_get_complete_charts_number_of_pages' => array(
-                'class' => 'rip_charts_ajax_front_controller',
+                'class_name' => '\Rip_Charts\Controllers\Rip_Charts_Controller',
                 'method_name' => 'get_complete_charts_number_of_pages',
             ),
             'rip_charts_get_all_complete_charts' => array(
-                'class' => 'rip_charts_ajax_front_controller',
+                'class_name' => '\Rip_Charts\Controllers\Rip_Charts_Controller',
                 'method_name' => 'get_all_complete_charts',
             ),
-            'rip_charts_get_all_complete_charts_by_chart_slug' => array(
-                'class' => 'rip_charts_ajax_front_controller',
-                'method_name' => 'get_all_complete_charts_by_chart_slug',
+            'rip_charts_get_last_complete_charts_per_genre' => array(
+                'class_name' => '\Rip_Charts\Controllers\Rip_Charts_Controller',
+                'method_name' => 'get_last_complete_charts_per_genre',
+            ),
+            'rip_charts_get_all_complete_charts_by_chart_genre' => array(
+                'class_name' => '\Rip_Charts\Controllers\Rip_Charts_Controller',
+                'method_name' => 'get_all_complete_charts_by_chart_genre',
             ),
             'rip_charts_get_complete_chart_by_chart_archive_slug' => array(
-                'class' => 'rip_charts_ajax_front_controller',
+                'class_name' => '\Rip_Charts\Controllers\Rip_Charts_Controller',
                 'method_name' => 'get_complete_chart_by_chart_archive_slug',
             ),
             'rip_charts_insert_complete_chart' => array(
-                'class' => 'rip_charts_ajax_front_controller',
+                'class_name' => '\Rip_Charts\Controllers\Rip_Charts_Controller',
                 'method_name' => 'insert_complete_chart',
             ),
             'rip_charts_update_complete_chart' => array(
-                'class' => 'rip_charts_ajax_front_controller',
+                'class_name' => '\Rip_Charts\Controllers\Rip_Charts_Controller',
                 'method_name' => 'update_complete_chart',
             ),
             'rip_charts_delete_complete_chart' => array(
-                'class' => 'rip_charts_ajax_front_controller',
+                'class_name' => '\Rip_Charts\Controllers\Rip_Charts_Controller',
                 'method_name' => 'delete_complete_chart',
             ),
             'rip_charts_duplicate_complete_chart' => array(
-                'class' => 'rip_charts_ajax_front_controller',
+                'class_name' => '\Rip_Charts\Controllers\Rip_Charts_Controller',
                 'method_name' => 'duplicate_complete_chart',
             ),
             'rip_charts_insert_complete_chart_vote' => array(
-                'class' => 'rip_charts_ajax_front_controller',
+                'class_name' => '\Rip_Charts\Controllers\Rip_Charts_Controller',
                 'method_name' => 'insert_complete_chart_vote',
             ),
         );
 
         register_activation_hook(__FILE__, array($this, 'activate'));
-
         register_deactivation_hook(__FILE__, array($this, 'deactivate'));
-
-        register_activation_hook(__FILE__, array($this, 'load_tables'));
+        //register_activation_hook(__FILE__, array($this, 'load_tables'));
     }
 
 }
 
-$charts = new rip_charts();
+$charts = new \Rip_Charts\Rip_Charts_Plugin();

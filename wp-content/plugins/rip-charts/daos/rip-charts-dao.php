@@ -1,9 +1,11 @@
 <?php
 
+namespace Rip_Charts\Daos;
+
 /**
  * Data Access object for Charts Custom Post Type.
  */
-class rip_charts_dao extends rip_abstract_dao {
+class Rip_Charts_Dao extends \Rip_General\Classes\Rip_Abstract_Dao {
 
     /**
      * Number of items per page.
@@ -17,7 +19,7 @@ class rip_charts_dao extends rip_abstract_dao {
      * @param WP_Query $query
      * @return array
      */
-    protected function _set_charts_data(WP_Query $query) {
+    protected function _set_charts_data(\WP_Query $query) {
         $out = array();
 
         while ($query->have_posts()) {
@@ -61,6 +63,7 @@ class rip_charts_dao extends rip_abstract_dao {
         }
 
         $out = array();
+
         // First populate the chart's data.
         foreach ($chart_data as $value) {
             $archive_slug = $value['chart_archive_slug'];
@@ -135,7 +138,7 @@ class rip_charts_dao extends rip_abstract_dao {
             'order' => 'DESC'
         );
 
-        $query = new WP_Query($args);
+        $query = new \WP_Query($args);
 
         $results = $this->_set_charts_data($query);
 
@@ -154,7 +157,7 @@ class rip_charts_dao extends rip_abstract_dao {
             'name' => $slug,
         );
 
-        $query = new WP_Query($args);
+        $query = new \WP_Query($args);
 
         $results = $this->_set_charts_data($query);
 
@@ -164,7 +167,7 @@ class rip_charts_dao extends rip_abstract_dao {
     /**
      * Return the total number of pages,
      * extracting all complete charts from wp_charts_songs. 
-     * A complete chart is a chart where all songs has the same chart_archive_slug)
+     * A complete chart is a chart where all songs has the same chart_archive_slug
      *  
      * @param string $slug
      * @return array
@@ -176,7 +179,7 @@ class rip_charts_dao extends rip_abstract_dao {
                 FROM wp_charts_archive";
 
         if ($slug !== null) {
-            $sql .= ' WHERE chart_slug = %s';
+            $sql .= ' WHERE chart_genre = %s';
 
             $prepared = $wpdb->prepare($sql, array($slug));
         } else {
@@ -199,7 +202,7 @@ class rip_charts_dao extends rip_abstract_dao {
 
     /**
      * Retrieve a list of all complete charts.
-     * Returned a paginated array.
+     * Return a paginated array.
      * 
      * @param int $page
      * @return array
@@ -236,6 +239,49 @@ class rip_charts_dao extends rip_abstract_dao {
     }
 
     /**
+     * Retrieve a list of all complete charts.
+     * Return a paginated array.
+     * 
+     * @param int $page
+     * @return array
+     */
+    public function get_last_complete_charts_per_genre($page = null) {
+        $wpdb = $this->get_db();
+
+        $sql = "SELECT 
+                        a.id AS id_chart_archive, a.chart_archive_slug, a.chart_genre, a.chart_date, a.chart_creation_date, a.songs_number AS chart_songs_number,
+                        c.id, c.id_chart, c.id_song, c.user_vote,
+                        p1.post_name AS chart_slug, p1.post_title AS chart_title, 
+                        p1.post_content AS chart_content, p1.post_excerpt AS chart_excerpt,
+                        p2.post_name AS song_slug, p2.post_title AS song_title, 
+                        p2.post_content AS song_content, p2.post_excerpt AS song_excerpt
+                FROM wp_charts_archive AS a, wp_charts_songs AS c, wp_posts AS p1, wp_posts AS p2
+                WHERE a.chart_archive_slug = c.chart_archive_slug
+                AND   c.id_chart   = p1.ID
+                AND   c.id_song    = p2.ID
+                AND   a.chart_date = (
+                        SELECT MAX(ca.chart_date) AS chart_date
+                                FROM wp_charts_archive AS ca
+                                WHERE ca.chart_genre = a.chart_genre
+                )
+                GROUP BY a.chart_genre
+                ORDER BY a.chart_date DESC";
+
+        if ($page) {
+            $offset = ($page * $this->_items_per_page) - $this->_items_per_page;
+            $sql .= ' LIMIT ' . $offset . ', ' . $this->_items_per_page;
+        } else {
+            $sql .= ' LIMIT ' . (int) $this->_items_per_page;
+        }
+
+        $chart_data = $wpdb->get_results($sql, ARRAY_A);
+
+        $results = $this->_set_complete_chart_data($chart_data);
+
+        return $results;
+    }
+
+    /**
      * Return and retrieve all complete chart of a specific chart, 
      * specifing the slug of the chart 
      * Include the song in first position.
@@ -243,7 +289,7 @@ class rip_charts_dao extends rip_abstract_dao {
      * @param string $slug
      * @return array
      */
-    public function get_all_complete_charts_by_chart_slug($slug, $page = null) {
+    public function get_all_complete_charts_by_chart_genre($genre, $page = null) {
         $wpdb = $this->get_db();
 
         $sql = "SELECT 
@@ -257,7 +303,7 @@ class rip_charts_dao extends rip_abstract_dao {
                 WHERE a.chart_archive_slug = c.chart_archive_slug
                 AND   c.id_chart = p1.ID
                 AND   c.id_song  = p2.ID 
-                AND   a.chart_slug = %s
+                AND   a.chart_genre = %s
                 GROUP BY c.chart_archive_slug
                 ORDER BY a.id DESC, c.user_vote DESC";
 
@@ -269,7 +315,7 @@ class rip_charts_dao extends rip_abstract_dao {
         }
 
         $prepared = $wpdb->prepare($sql, array(
-            $slug
+            $genre
         ));
 
         $chart_data = $wpdb->get_results($prepared, ARRAY_A);
@@ -476,7 +522,7 @@ class rip_charts_dao extends rip_abstract_dao {
 
         try {
             $results = $wpdb->query($prepared);
-        } catch (Exception $exc) {
+        } catch (Exception $exc) {           
             $wpdb->query('ROLLBACK');
 
             return array(
@@ -486,6 +532,9 @@ class rip_charts_dao extends rip_abstract_dao {
         }
 
         $wpdb->query('COMMIT');
+        
+        
+
 
         return $results;
     }

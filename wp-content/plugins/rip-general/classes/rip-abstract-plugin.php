@@ -214,8 +214,7 @@ abstract class Rip_Abstract_Plugin {
                 // Construct the controller
                 if (class_exists($config['class_name'])) {
                     $controller = new $config['class_name'](
-                            new \Rip_General\Classes\Rip_Http_Request(), 
-                            new \Rip_General\Classes\Rip_Http_Response()
+                            new \Rip_General\Classes\Rip_Http_Request(), new \Rip_General\Classes\Rip_Http_Response()
                     );
                     $action = $config['method_name'];
                 }
@@ -332,9 +331,9 @@ abstract class Rip_Abstract_Plugin {
      */
     public function format_metabox() {
         global $post;
+        $factory = new \Rip_General\Metaboxes\Rip_Factory_Metabox();
 
         foreach ($this->_metaboxes as $key => $value) {
-
             foreach ($value['fields'] as $field) {
                 // get current post meta data
                 $meta = array(
@@ -342,29 +341,23 @@ abstract class Rip_Abstract_Plugin {
                     'value' => get_post_meta($post->ID, $field['id'], true)
                 );
 
-                $class_name = $this->_metabox_prefix . $field['type'] . '_metabox';
-
-                $factory = new rip_factory_metabox();
+                $class_name = $this->_metabox_prefix . ucfirst($field['type']) . '_Metabox';
 
                 $metabox = $factory->create_metabox($field, $meta, $class_name);
-
                 $metabox->render();
             }
         }
     }
 
     /**
+     * Save the metabox data.
      * 
-     * @global type $meta_box
-     * @global type $post
-     * @param type $post_id
-     * @return type
+     * @param int $post_id
      */
     public function save_metaboxes_data($post_id) {
 
-        // Check if nonce issett.
+        // Check if nonce is set.
         foreach ($this->_post_types as $key => $post_type) {
-
             $name = $post_type['name'] . '-hidden';
             $nonce = $name . '-nonce';
 
@@ -482,7 +475,6 @@ abstract class Rip_Abstract_Plugin {
      * @param array $params
      */
     protected function _load_page(array $params) {
-
         $page = get_page_by_title($params['title']);
 
         $new_page_params = array(

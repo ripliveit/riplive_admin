@@ -1,14 +1,16 @@
 <?php
 
+namespace Rip_Songs;
+
 /*
   Plugin Name: Brani
-  Description: Plugin per la gestione dei brani
+  Description: Plugin per la gestione dei brani musicali di Rip.
   Author: Gabriele D'Arrigo - @acirdesign
   Version: 1.0
  */
 
-require_once ABSPATH . 'wp-content/plugins/rip-general/rip-general.php';
-$autoloader = new rip_autoloader(plugin_dir_path(__FILE__));
+require_once ABSPATH . 'wp-content/plugins/rip-general/rip-general-plugin.php';
+$autoloader = new \Rip_General\Classes\Rip_Autoloader(plugin_dir_path(__FILE__));
 
 /**
  * Songs plugin.
@@ -16,13 +18,13 @@ $autoloader = new rip_autoloader(plugin_dir_path(__FILE__));
  * @author Gabriele D'Arrigo - @acirdesign
  * @see rip_abstract_plugin
  */
-class rip_songs extends rip_abstract_plugin {
+class Rip_Songs_Plugin extends \Rip_General\Classes\Rip_Abstract_Plugin {
 
     /**
      * Set all plugin configuration.
      */
     protected function _init() {
-        $this->_metabox_prefix = 'rip_';
+        $this->_metabox_prefix = 'Rip_';
 
         $this->_post_types = array(
             array(
@@ -178,32 +180,31 @@ class rip_songs extends rip_abstract_plugin {
 
         $this->_ajax = array(
             'rip_songs_get_all_songs' => array(
-                'class' => 'rip_songs_ajax_front_controller',
+                'class_name' => '\Rip_Songs\Controllers\Rip_Songs_Controller',
                 'method_name' => 'get_all_songs',
             ),
             'rip_songs_get_all_songs_by_genre_slug' => array(
-                'class' => 'rip_songs_ajax_front_controller',
+                'class_name' => '\Rip_Songs\Controllers\Rip_Songs_Controller',
                 'method_name' => 'get_all_songs_by_genre_slug',
             ),
             'rip_songs_get_all_songs_by_tag_slug' => array(
-                'class' => 'rip_songs_ajax_front_controller',
+                'class_name' => '\Rip_Songs\Controllers\Rip_Songs_Controller',
                 'method_name' => 'get_all_songs_by_tag_slug',
             ),
             'rip_songs_get_song_by_slug' => array(
-                'class' => 'rip_songs_ajax_front_controller',
+                'class_name' => '\Rip_Songs\Controllers\Rip_Songs_Controller',
                 'method_name' => 'get_song_by_slug',
             ),
             'rip_songs_get_songs_genres' => array(
-                'class' => 'rip_songs_ajax_front_controller',
+                'class_name' => '\Rip_Songs\Controllers\Rip_Songs_Controller',
                 'method_name' => 'get_songs_genres',
             ),
         );
 
         register_activation_hook(__FILE__, array($this, 'activate'));
-
         register_deactivation_hook(__FILE__, array($this, 'deactivate'));
     }
 
 }
 
-$songs = new rip_songs();
+$songs_plugin = new \Rip_Songs\Rip_Songs_Plugin();

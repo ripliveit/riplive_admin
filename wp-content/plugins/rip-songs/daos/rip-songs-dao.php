@@ -1,9 +1,11 @@
 <?php
 
+namespace Rip_Songs\Daos;
+
 /**
  * Data Access object for Songs Custom Post Type.
  */
-class rip_songs_dao extends rip_abstract_dao {
+class Rip_Songs_Dao extends \Rip_General\Classes\Rip_Abstract_Dao {
 
     /**
      * A private method that set the Song data.
@@ -11,7 +13,7 @@ class rip_songs_dao extends rip_abstract_dao {
      * @param WP_Query $query
      * @return array
      */
-    protected function _set_songs_data(WP_Query $query) {
+    protected function _set_songs_data(\WP_Query $query) {
         $out = array();
 
         while ($query->have_posts()) {
@@ -44,7 +46,7 @@ class rip_songs_dao extends rip_abstract_dao {
 
         wp_reset_query();
         wp_reset_postdata();
-        
+
         return $out;
     }
 
@@ -66,7 +68,7 @@ class rip_songs_dao extends rip_abstract_dao {
                 $args, $this->_items_per_page, $page
         );
 
-        $query = new WP_Query($args);
+        $query = new \WP_Query($args);
         $results = $this->_set_songs_data($query);
 
         return $results;
@@ -92,7 +94,7 @@ class rip_songs_dao extends rip_abstract_dao {
                 $args, $this->_items_per_page, $page
         );
 
-        $query = new WP_Query($args);
+        $query = new \WP_Query($args);
         $results = $this->_set_songs_data($query);
 
         return $results;
@@ -118,7 +120,7 @@ class rip_songs_dao extends rip_abstract_dao {
                 $args, $this->_items_per_page, $page
         );
 
-        $query = new WP_Query($args);
+        $query = new \WP_Query($args);
         $results = $this->_set_songs_data($query);
 
         return $results;
@@ -136,7 +138,7 @@ class rip_songs_dao extends rip_abstract_dao {
             'name' => $slug,
         );
 
-        $query = new WP_Query($args);
+        $query = new \WP_Query($args);
         $results = $this->_set_songs_data($query);
 
         return current($results);

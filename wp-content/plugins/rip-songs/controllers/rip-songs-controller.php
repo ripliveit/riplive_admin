@@ -1,32 +1,32 @@
 <?php
 
+namespace Rip_Songs\Controllers;
+
 /**
  * Songs ajax front controller.
  * Implements method invoked byt ajax method to retrieve songs's data.
  */
-class rip_songs_ajax_front_controller {
+class Rip_Songs_Controller extends \Rip_General\Classes\Rip_Abstract_Controller {
 
     /**
      * Retrieve all songs.
      */
-    public static function get_all_songs() {
-        $dao = new rip_songs_dao();
-        $json_helper = rip_general_json_helper::get_instance();
-        $request = rip_general_http_request::get_instance();
+    public function get_all_songs() {
+        $dao = new \Rip_Songs\Daos\Rip_Songs_Dao();
 
-        $count = $request->query->get('count');
-        $page = $request->query->get('page');
-        $divide = $request->query->get('divide');
+        $count = $this->_request->query->get('count');
+        $page = $this->_request->query->get('page');
+        $divide = $this->_request->query->get('divide');
 
         $results = $dao->set_items_per_page($count)->get_all_songs($page);
         $pages = $dao->get_post_type_number_of_pages('songs');
 
         if ($divide) {
-            $service = new rip_general_service();
+            $service = new \Rip_General\Services\Rip_General_Service();
             $results = $service->divide_data_by_letter('song_title', $results);
         }
 
-        $json_helper->to_json(array(
+        $this->_response->to_json(array(
             'status' => 'ok',
             'count' => count($results),
             'count_total' => (int) $pages['count_total'],
@@ -38,34 +38,31 @@ class rip_songs_ajax_front_controller {
     /**
      * Retrieve all songs with a specific genre.
      */
-    public static function get_all_songs_by_genre_slug() {
-        $json_helper = rip_general_json_helper::get_instance();
-        $request = rip_general_http_request::get_instance();
-
-        $slug = $request->query->get('slug');
-        $count = $request->query->get('count');
-        $page = $request->query->get('page');
-        $divide = $request->query->get('divide');
+    public function get_all_songs_by_genre_slug() {
+        $slug = $this->_request->query->get('slug');
+        $count = $this->_request->query->get('count');
+        $page = $this->_request->query->get('page');
+        $divide = $this->_request->query->get('divide');
 
         if (empty($slug)) {
-            return $json_helper->to_json(array(
+            return $this->_response->set_code(400)->to_json(array(
                         'status' => 'error',
                         'message' => 'Please specify a genre slug'
             ));
         }
 
-        $dao = new rip_songs_dao();
+        $dao = new \Rip_Songs\Daos\Rip_Songs_Dao();
         $results = $dao->set_items_per_page($count)->get_all_songs_by_genre_slug($slug, $page);
         $pages = $dao->get_post_type_number_of_pages('songs', array(
             'song-genre' => $slug
         ));
 
         if ($divide) {
-            $service = new rip_general_service();
+            $service = new \Rip_General\Services\Rip_General_Service();
             $results = $service->divide_data_by_letter('song_title', $results);
         }
 
-        $json_helper->to_json(array(
+        $this->_response->to_json(array(
             'status' => 'ok',
             'count' => count($results),
             'count_total' => (int) $pages['count_total'],
@@ -78,34 +75,31 @@ class rip_songs_ajax_front_controller {
     /**
      * Retrieve all songs with a specific tag.
      */
-    public static function get_all_songs_by_tag_slug() {
-        $json_helper = rip_general_json_helper::get_instance();
-        $request = rip_general_http_request::get_instance();
-
-        $slug = $request->query->get('slug');
-        $count = $request->query->get('count');
-        $page = $request->query->get('page');
-        $divide = $request->query->get('divide');
+    public function get_all_songs_by_tag_slug() {
+        $slug = $this->_request->query->get('slug');
+        $count = $this->_request->query->get('count');
+        $page = $this->_request->query->get('page');
+        $divide = $this->_request->query->get('divide');
 
         if (empty($slug)) {
-            return $json_helper->to_json(array(
+            return $this->_response->set_code(400)->to_json(array(
                         'status' => 'error',
                         'message' => 'Please specify a tag slug'
             ));
         }
 
-        $dao = new rip_songs_dao();
+        $dao = new \Rip_Songs\Daos\Rip_Songs_Dao();
         $results = $dao->set_items_per_page($count)->get_all_songs_by_tag_slug($slug, $page);
         $pages = $dao->get_post_type_number_of_pages('songs', array(
             'song-tag' => $slug
         ));
 
         if ($divide) {
-            $service = new rip_general_service();
+            $service = new \Rip_General\Services\Rip_General_Service();
             $results = $service->divide_data_by_letter('song_title', $results);
         }
 
-        $json_helper->to_json(array(
+        $this->_response->to_json(array(
             'status' => 'ok',
             'count' => count($results),
             'count_total' => (int) $pages['count_total'],
@@ -118,45 +112,41 @@ class rip_songs_ajax_front_controller {
     /**
      * Retrieve a song by it's unique identifier.
      */
-    public static function get_song_by_slug() {
-        $json_helper = rip_general_json_helper::get_instance();
-        $request = rip_general_http_request::get_instance();
-
-        $slug = $request->query->get('slug');
+    public function get_song_by_slug() {
+        $slug = $this->_request->query->get('slug');
 
         if (empty($slug)) {
-            return $json_helper->to_json(array(
+            return $this->_response->set_code(400)->to_json(array(
                         'status' => 'error',
                         'message' => 'Please specify a song slug'
             ));
         }
 
-        $dao = new rip_songs_dao();
+        $dao = new \Rip_Songs\Daos\Rip_Songs_Dao();
         $results = $dao->get_song_by_slug($slug);
 
         if (empty($results)) {
-            return $json_helper->to_json(array(
+            return $this->_response->to_json(array(
                         'status' => 'error',
                         'message' => 'Not found'
             ));
         }
 
-        $json_helper->to_json(array(
+        $this->_response->to_json(array(
             'status' => 'ok',
             'song' => $results
         ));
     }
 
     /**
-     * A list of all taxonomy of custom post type 'Songs'.
+     * Return a list of all 
+     * taxonomy of custom post type 'Songs'.
      */
-    public static function get_songs_genres() {
-        $dao = new rip_songs_dao();
-        $json_helper = rip_general_json_helper::get_instance();
-
+    public function get_songs_genres() {
+        $dao = new \Rip_Songs\Daos\Rip_Songs_Dao();
         $results = $dao->get_songs_genres();
 
-        $json_helper->to_json(array(
+        $this->_response->to_json(array(
             'status' => 'ok',
             'count' => count($results),
             'count_total' => count($results),

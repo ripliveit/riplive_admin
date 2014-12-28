@@ -186,14 +186,14 @@ class Rip_Charts_Controller extends \Rip_General\Classes\Rip_Abstract_Controller
         $complete_chart = stripslashes_deep($this->_request->request->get('complete_chart'));
 
         if (empty($complete_chart)) {
-            return $this->_response->to_json(array(
+            return $this->_response->set_code(400)->to_json(array(
                         'status' => 'error',
                         'message' => 'Please specify chart data to persists'
             ));
         }
 
         if (empty($complete_chart['songs'])) {
-            return $this->_response->to_json(array(
+            return $this->_response->set_code(400)->to_json(array(
                         'status' => 'error',
                         'message' => 'Please specify at least five songs'
             ));

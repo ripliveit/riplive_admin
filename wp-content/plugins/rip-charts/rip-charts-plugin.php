@@ -24,7 +24,7 @@ class Rip_Charts_Plugin extends \Rip_General\Classes\Rip_Abstract_Plugin {
      * Set all plugin configuration.
      */
     protected function _init() {
-        $this->_metabox_prefix = 'rip_';
+        $this->_metabox_prefix = 'Rip_';
         $this->_admin_charts_view_helper = new \Rip_Charts\View_Helpers\Rip_Admin_Charts_View_helper();
 
         $this->_tables = array(

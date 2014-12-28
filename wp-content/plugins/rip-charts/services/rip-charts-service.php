@@ -16,35 +16,23 @@ class Rip_Charts_Service {
     protected $_charts_dao;
 
     /**
-     * Holds a reference to Social User DAO.
-     * 
-     * @var Object 
-     */
-    protected $_social_users_dao;
-
-    /**
      * Class constructor.
      */
     public function __construct(
-        \Rip_General\Classes\Rip_Abstract_Dao $charts_dao,
-        \Rip_General\Classes\Rip_Abstract_Dao $social_users_dao
+        \Rip_General\Classes\Rip_Abstract_Dao $charts_dao
     ) {
         $this->_charts_dao = $charts_dao;
-        $this->_social_users_dao = $social_users_dao;
     }
 
     /**
-     * Check if the vote's data
-     * are valid. 
-     * Check the existence of the chart, of the associated song, and of
-     * the user. Return error if one of these value are not valid
+     * Check if the vote's data are valid. 
+     * Check the existence of the chart, and of the associated song.
+     * Return error if one of these value are not valid
      * or empty.
      * Return true otherwise.
      * 
      * @param string $chart_archive_slug
      * @param int $id_song
-     * @param string $uuid_user
-     * @param string $username
      * @return boolean
      */
     public function check_if_user_can_vote($chart_archive_slug = null, $id_song = null) {

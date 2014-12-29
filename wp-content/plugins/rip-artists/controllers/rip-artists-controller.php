@@ -1,32 +1,32 @@
 <?php
 
+namespace Rip_Artists\Controllers;
+
 /**
- * Artist ajax front controller.
- * Implements method invoked byt ajax method to retrieve artists's data.
+ * Artists Controller
+ * Implements methods invoked by ajax request
+ * to retrieve artists's data.
  */
-class rip_artists_ajax_front_controller {
+class Rip_Artists_Controller extends \Rip_General\Classes\Rip_Abstract_Controller {
 
     /**
      * Retrieve all artists.
      */
-    public static function get_all_artists() {
-        $dao = new rip_artists_dao();
-        $json_helper = rip_general_json_helper::get_instance();
-        $request = rip_general_http_request::get_instance();
-
-        $count = $request->query->get('count');
-        $page = $request->query->get('page');
-        $divide = $request->query->get('divide');
+    public function get_all_artists() {
+        $dao = new \Rip_Artists\Daos\Rip_Artists_Dao();
+        $count = $this->_request->query->get('count');
+        $page = $this->_request->query->get('page');
+        $divide = $this->_request->query->get('divide');
 
         $results = $dao->set_items_per_page($count)->get_all_artists($page);
         $pages = $dao->get_post_type_number_of_pages('artists');
 
         if ($divide) {
-            $service = new rip_general_service();
+            $service = new \Rip_General\Services\Rip_General_Service();
             $results = $service->divide_data_by_letter('artist_title', $results);
         }
 
-        $json_helper->to_json(array(
+        $this->_response->to_json(array(
             'status' => 'ok',
             'count' => count($results),
             'count_total' => (int) $pages['count_total'],
@@ -36,25 +36,22 @@ class rip_artists_ajax_front_controller {
     }
 
     /**
-     * Retrieve all artists with a specific genre.
+     * Retrieve all artists within a specific genre.
      */
-    public static function get_all_artists_by_genre_slug() {
-        $json_helper = rip_general_json_helper::get_instance();
-        $request = rip_general_http_request::get_instance();
-
-        $slug = $request->query->get('slug');
-        $count = $request->query->get('count');
-        $page = $request->query->get('page');
-        $divide = $request->query->get('divide');
+    public function get_all_artists_by_genre_slug() {
+        $slug = $this->_request->query->get('slug');
+        $count = $this->_request->query->get('count');
+        $page = $this->_request->query->get('page');
+        $divide = $this->_request->query->get('divide');
 
         if (empty($slug)) {
-            return $json_helper->to_json(array(
+            return $this->_response->set_code(400)->to_json(array(
                         'status' => 'error',
                         'message' => 'Please specify a genre slug'
             ));
         }
 
-        $dao = new rip_artists_dao();
+        $dao = new \Rip_Artists\Daos\Rip_Artists_Dao();
         $results = $dao->set_items_per_page($count)->get_all_artists_by_genre_slug($slug, $page);
         $pages = $dao->get_post_type_number_of_pages('artists', array(
             'artist-genre' => $slug
@@ -65,7 +62,7 @@ class rip_artists_ajax_front_controller {
             $results = $service->divide_data_by_letter('artist_title', $results);
         }
 
-        $json_helper->to_json(array(
+        $this->_response->to_json(array(
             'status' => 'ok',
             'count' => count($results),
             'count_total' => (int) $pages['count_total'],
@@ -76,25 +73,22 @@ class rip_artists_ajax_front_controller {
     }
 
     /**
-     * Retrieve all artists with a specific tag.
+     * Retrieve all artists within a specific tag.
      */
-    public static function get_all_artists_by_tag_slug() {
-        $json_helper = rip_general_json_helper::get_instance();
-        $request = rip_general_http_request::get_instance();
-
-        $slug = $request->query->get('slug');
-        $count = $request->query->get('count');
-        $page = $request->query->get('page');
-        $divide = $request->query->get('divide');
+    public function get_all_artists_by_tag_slug() {
+        $slug = $this->_request->query->get('slug');
+        $count = $this->_request->query->get('count');
+        $page = $this->_request->query->get('page');
+        $divide = $this->_request->query->get('divide');
 
         if (empty($slug)) {
-            return $json_helper->to_json(array(
+            return $this->_response->set_code(400)->to_json(array(
                         'status' => 'error',
                         'message' => 'Please specify a tag slug'
             ));
         }
 
-        $dao = new rip_artists_dao();
+        $dao = new \Rip_Artists\Daos\Rip_Artists_Dao();
         $results = $dao->set_items_per_page($count)->get_all_artists_by_tag_slug($slug, $page);
         $pages = $dao->get_post_type_number_of_pages('artists', array(
             'artist-tag' => $slug
@@ -105,7 +99,7 @@ class rip_artists_ajax_front_controller {
             $results = $service->divide_data_by_letter('artist_title', $results);
         }
 
-        $json_helper->to_json(array(
+        $this->_response->to_json(array(
             'status' => 'ok',
             'count' => count($results),
             'count_total' => (int) $pages['count_total'],
@@ -116,32 +110,29 @@ class rip_artists_ajax_front_controller {
     }
 
     /**
-     * Retrieve a artist by it's unique identifier.
+     * Retrieve an artist by it's unique identifier.
      */
-    public static function get_artist_by_slug() {
-        $json_helper = rip_general_json_helper::get_instance();
-        $request = rip_general_http_request::get_instance();
-
-        $slug = $request->query->get('slug');
+    public function get_artist_by_slug() {
+        $slug = $this->_request->query->get('slug');
 
         if (empty($slug)) {
-            return $json_helper->to_json(array(
+            return $this->_response->set_code(400)->to_json(array(
                         'status' => 'error',
                         'message' => 'Please specify a artist slug'
             ));
         }
 
-        $dao = new rip_artists_dao();
+        $dao = new \Rip_Artists\Daos\Rip_Artists_Dao();
         $results = $dao->get_artist_by_slug($slug);
 
         if (empty($results)) {
-            return $json_helper->to_json(array(
+            return $this->_response->set_code(404)->to_json(array(
                         'status' => 'error',
                         'message' => 'Not found'
             ));
         }
 
-        $json_helper->to_json(array(
+        $this->_response->to_json(array(
             'status' => 'ok',
             'artist' => $results
         ));
@@ -150,13 +141,11 @@ class rip_artists_ajax_front_controller {
     /**
      * A list of all taxonomy of custom post type 'Songs'.
      */
-    public static function get_artists_genres() {
-        $dao = new rip_artists_dao();
-        $json_helper = rip_general_json_helper::get_instance();
-
+    public function get_artists_genres() {
+        $dao = new \Rip_Artists\Daos\Rip_Artists_Dao();
         $results = $dao->get_artists_genres();
 
-        $json_helper->to_json(array(
+        $this->_response->to_json(array(
             'status' => 'ok',
             'count' => count($results),
             'count_total' => count($results),

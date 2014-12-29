@@ -1,24 +1,19 @@
 <?php
 
+namespace Rip_Artists\Daos;
+
 /**
  * Data Access object for Artists Custom Post Type.
  */
-class rip_artists_dao extends rip_abstract_dao {
-
-    /**
-     * Class constructor.
-     */
-    public function __construct() {
-        $this->_general_service = new rip_general_service();
-    }
+class Rip_Artists_Dao extends \Rip_General\Classes\Rip_Abstract_Dao {
 
     /**
      * A private method that set the Song data.
      * 
-     * @param WP_Query $query
+     * @param \WP_Query $query
      * @return array
      */
-    protected function _set_artists_data(WP_Query $query) {
+    protected function _set_artists_data(\WP_Query $query) {
         $out = array();
 
         while ($query->have_posts()) {
@@ -67,7 +62,7 @@ class rip_artists_dao extends rip_abstract_dao {
     }
 
     /**
-     * Retrieve all posts from Artist Custom Post Type.
+     * Retrieve all artists.
      * 
      * @param int $page
      * @return array
@@ -79,19 +74,19 @@ class rip_artists_dao extends rip_abstract_dao {
             'orderby' => 'name',
             'order' => 'ASC'
         );
-        
+
         $args = $this->get_pagination_args(
                 $args, $this->_items_per_page, $page
         );
 
-        $query = new WP_Query($args);
+        $query = new \WP_Query($args);
         $results = $this->_set_artists_data($query);
 
         return $results;
     }
 
     /**
-     * Retrieve all posts from Artist Custom Post Type with a specific genre's slug.
+     * Retrieve all artists with a specific genre's slug.
      * 
      * @param string $slug
      * @param int $page
@@ -110,14 +105,14 @@ class rip_artists_dao extends rip_abstract_dao {
                 $args, $this->_items_per_page, $page
         );
 
-        $query = new WP_Query($args);
+        $query = new \WP_Query($args);
         $results = $this->_set_artists_data($query);
 
         return $results;
     }
 
     /**
-     * Retrieve all posts from Artist Custom Post Type with a specific tag's slug.
+     * Retrieve all artists with a specific tag's slug.
      * 
      * @param string $slug
      * @param int $page
@@ -136,16 +131,16 @@ class rip_artists_dao extends rip_abstract_dao {
                 $args, $this->_items_per_page, $page
         );
 
-        $query = new WP_Query($args);
+        $query = new \WP_Query($args);
         $results = $this->_set_artists_data($query);
 
         return $results;
     }
 
     /**
-     * Retrieve a single artist's post by it's slug.
+     * Retrieve a single artist's by it's slug.
      * 
-     * @param int $id
+     * @param string $slug
      * @return array
      */
     public function get_artist_by_slug($slug) {
@@ -154,7 +149,7 @@ class rip_artists_dao extends rip_abstract_dao {
             'name' => $slug,
         );
 
-        $query = new WP_Query($args);
+        $query = new \WP_Query($args);
         $results = $this->_set_artists_data($query);
 
         return current($results);

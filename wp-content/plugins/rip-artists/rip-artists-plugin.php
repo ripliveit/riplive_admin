@@ -1,29 +1,30 @@
 <?php
 
+namespace Rip_Artists;
+
 /*
   Plugin Name: Artisti
-  Description: Plugin per la gestione degli artisti
+  Description: Plugin per la gestione degli artisti.
   Author: Gabriele D'Arrigo - @acirdesign
   Version: 1.0
  */
 
-require_once ABSPATH . 'wp-content/plugins/rip-general/rip-general.php';
-$autoloader = new rip_autoloader(plugin_dir_path(__FILE__));
+require_once ABSPATH . 'wp-content/plugins/rip-general/rip-general-plugin.php';
+$autoloader = new \Rip_General\Classes\Rip_Autoloader(plugin_dir_path(__FILE__));
 
 /**
- * Artisti plugin.
+ * Rip Artist Plugin.
  * 
  * @author Gabriele D'Arrigo - @acirdesign
- * @see rip_programmi_abstract_plugin
+ * @see \Rip_General\Classes\Rip_Abstract_Plugin
  */
-class rip_artists extends rip_abstract_plugin {
+class Rip_Artists_Plugin extends \Rip_General\Classes\Rip_Abstract_Plugin {
 
     /**
      * Set all plugin configuration.
      */
     protected function _init() {
-
-        $this->_metabox_prefix = 'rip_';
+        $this->_metabox_prefix = 'Rip_';
 
         $this->_post_types = array(
             array(
@@ -284,35 +285,34 @@ class rip_artists extends rip_abstract_plugin {
                 ),
             ),
         );
-
+        
         $this->_ajax = array(
             'rip_artists_get_all_artists' => array(
-                'class' => 'rip_artists_ajax_front_controller',
+                'class_name' => '\Rip_Artists\Controllers\Rip_Artists_Controller',
                 'method_name' => 'get_all_artists',
             ),
             'rip_artists_get_all_artists_by_genre_slug' => array(
-                'class' => 'rip_artists_ajax_front_controller',
+                'class_name' => '\Rip_Artists\Controllers\Rip_Artists_Controller',
                 'method_name' => 'get_all_artists_by_genre_slug',
             ),
             'rip_artists_get_all_artists_by_tag_slug' => array(
-                'class' => 'rip_artists_ajax_front_controller',
+                'class_name' => '\Rip_Artists\Controllers\Rip_Artists_Controller',
                 'method_name' => 'get_all_artists_by_tag_slug',
             ),
             'rip_artists_get_artist_by_slug' => array(
-                'class' => 'rip_artists_ajax_front_controller',
+                'class_name' => '\Rip_Artists\Controllers\Rip_Artists_Controller',
                 'method_name' => 'get_artist_by_slug',
             ),
             'rip_artists_get_artists_genres' => array(
-                'class' => 'rip_artists_ajax_front_controller',
+                'class_name' => '\Rip_Artists\Controllers\Rip_Artists_Controller',
                 'method_name' => 'get_artists_genres',
             ),
         );
 
         register_activation_hook(__FILE__, array($this, 'activate'));
-
         register_deactivation_hook(__FILE__, array($this, 'deactivate'));
     }
 
 }
 
-$artists = new rip_artists();
+$artists_plugin = new \Rip_Artists\Rip_Artists_Plugin();

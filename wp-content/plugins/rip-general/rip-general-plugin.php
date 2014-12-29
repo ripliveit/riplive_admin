@@ -81,54 +81,53 @@ class Rip_General_Plugin extends \Rip_General\Classes\Rip_Abstract_Plugin {
         $this->_filters_to_add = array(
             array(
                 'tag' => 'the_title',
-                'class' => '\Rip_General\Filters\Rip_Output_Filter',
-                'function' => 'decode_wp_output',
+                'class_name' => '\Rip_General\Filters\Rip_Output_Filter',
+                'method_name' => 'decode_wp_output',
             ),
             array(
                 'tag' => 'the_content',
-                'class' => '\Rip_General\Filters\Rip_Output_Filter',
-                'function' => 'decode_wp_output'
+                'class_name' => '\Rip_General\Filters\Rip_Output_Filter',
+                'method_name' => 'decode_wp_output'
             ),
             array(
                 'tag' => 'excerpt_more',
-                'class' => '\Rip_General\Filters\Rip_Output_Filter',
-                'function' => 'remove_ellipsis'
+                'class_name' => '\Rip_General\Filters\Rip_Output_Filter',
+                'method_name' => 'remove_ellipsis'
             ),
             array(
                 'tag' => 'the_excerpt',
-                'class' => '\Rip_General\Filters\Rip_Output_Filter',
-                'function' => 'decode_wp_output'
+                'class_name' => '\Rip_General\Filters\Rip_Output_Filter',
+                'method_name' => 'decode_wp_output'
             ),
             array(
                 'tag' => 'the_permalink_rss',
-                'class' => '\Rip_General\Filters\Rip_Rss_Filter',
-                'function' => 'change_rss_link'
+                'class_name' => '\Rip_General\Filters\Rip_Rss_Filter',
+                'method_name' => 'change_rss_link'
             ),
             array(
                 'tag' => 'get_the_guid',
-                'class' => '\Rip_General\Filters\Rip_Rss_Filter',
-                'function' => 'change_rss_guid_link'
+                'class_name' => '\Rip_General\Filters\Rip_Rss_Filter',
+                'method_name' => 'change_rss_guid_link'
             ),
             array(
                 'tag' => 'comments_link_feed',
-                'class' => '\Rip_General\Filters\Rip_Rss_Filter',
-                'function' => 'change_rss_comment_link'
+                'class_name' => '\Rip_General\Filters\Rip_Rss_Filter',
+                'method_name' => 'change_rss_comment_link'
             ),
             array(
                 'tag' => 'the_excerpt_rss',
-                'class' => '\Rip_General\Filters\Rip_Rss_Filter',
-                'function' => 'add_featured_image'
+                'class_name' => '\Rip_General\Filters\Rip_Rss_Filter',
+                'method_name' => 'add_featured_image'
             ),
             array(
                 'tag' => 'the_content_feed',
-                'class' => '\Rip_General\Filters\Rip_Rss_Filter',
-                'function' => 'add_featured_image'
+                'class_name' => '\Rip_General\Filters\Rip_Rss_Filter',
+                'method_name' => 'add_featured_image'
             ),
         );
 
-        $this->_dump = plugin_dir_path(__FILE__) . '/sql/dump.sql';
-
-        register_activation_hook(__FILE__, array($this, 'load_tables'));
+        //$this->_dump = plugin_dir_path(__FILE__) . '/sql/dump.sql';
+        //register_activation_hook(__FILE__, array($this, 'load_tables'));
     }
 
 }

@@ -626,7 +626,7 @@ abstract class Rip_Abstract_Plugin {
     public function add_filters() {
         if (!empty($this->_filters_to_add)) {
             foreach ($this->_filters_to_add as $key => $filter) {
-                add_filter($filter['tag'], array($filter['class'], $filter['function']));
+                add_filter($filter['tag'], array($filter['class_name'], $filter['method_name']));
             }
         }
     }

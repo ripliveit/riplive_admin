@@ -250,7 +250,7 @@ class Rip_Charts_Controller extends \Rip_General\Classes\Rip_Abstract_Controller
         if ((int) $results === 0) {
             return $this->_response->set_code(412)->to_json(array(
                         'status' => 'error',
-                        'message' => 'Resource not exists'
+                        'message' => 'Resource does not exists'
             ));
         }
 

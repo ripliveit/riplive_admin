@@ -13,15 +13,15 @@ require_once ABSPATH . 'wp-content/plugins/rip-general/rip-general-plugin.php';
 $autoloader = new \Rip_General\Classes\Rip_Autoloader(plugin_dir_path(__FILE__));
 
 /**
- * Charts plugin.
+ * Rip Charts Plugin.
  * 
  * @author Gabriele D'Arrigo - @acirdesign
- * @see rip_general_abstract_plugin
+ * @see \Rip_General\Classes\Rip_Abstract_Plugin
  */
 class Rip_Charts_Plugin extends \Rip_General\Classes\Rip_Abstract_Plugin {
 
     /**
-     * Set all plugin configuration.
+     * Set plugin's configuration.
      */
     protected function _init() {
         $this->_metabox_prefix = 'Rip_';

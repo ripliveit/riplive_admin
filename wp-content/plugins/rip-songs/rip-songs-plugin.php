@@ -16,7 +16,7 @@ $autoloader = new \Rip_General\Classes\Rip_Autoloader(plugin_dir_path(__FILE__))
  * Songs plugin.
  * 
  * @author Gabriele D'Arrigo - @acirdesign
- * @see rip_abstract_plugin
+ * @see \Rip_General\Classes\Rip_Abstract_Plugin
  */
 class Rip_Songs_Plugin extends \Rip_General\Classes\Rip_Abstract_Plugin {
 

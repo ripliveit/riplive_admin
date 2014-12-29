@@ -1,9 +1,11 @@
 <?php
 
+namespace Rip_Authors\Daos;
+
 /**
  * Data Access Object for blog Authors.
  */
-class rip_authors_dao {
+class Rip_Authors_Dao extends \Rip_General\Classes\Rip_Abstract_Dao {
 
     /**
      * A method that set the Authors data.
@@ -67,7 +69,7 @@ class rip_authors_dao {
 
         $users = array_merge($authors, $editors);
         ksort($users);
-        
+
         $results = $this->_set_authors_data($users);
 
         return $results;

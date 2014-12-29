@@ -1,21 +1,22 @@
 <?php
 
+namespace Rip_Authors\Controllers;
+
 /**
- * Author ajax front controller.
- * Implements method invoked by ajax method to retrieve authors's data.
+ * Authors Controller.
+ * Implements methods invoked by ajax request
+ * to retrieve authors's data.
  */
-class rip_authors_ajax_front_controller {
+class Rip_Authors_Controller extends \Rip_General\Classes\Rip_Abstract_Controller {
 
     /**
      * Retrieve all blog authors.
      */
-    public static function get_all_authors() {
-        $dao = new rip_authors_dao();
-        $json_helper = rip_general_json_helper::get_instance();
-
+    public function get_all_authors() {
+        $dao = new \Rip_Authors\Daos\Rip_Authors_Dao();
         $results = $dao->get_all_authors();
 
-        $json_helper->to_json(array(
+        $this->_response->to_json(array(
             'status' => 'ok',
             'count' => count($results),
             'count_total' => count($results),
@@ -27,30 +28,27 @@ class rip_authors_ajax_front_controller {
     /**
      * Return a single author, retrieved by its relative slug.
      */
-    public static function get_author_by_slug() {
-        $json_helper = rip_general_json_helper::get_instance();
-        $request = rip_general_http_request::get_instance();
-
-        $slug = $request->query->get('slug');
+    public function get_author_by_slug() {
+        $slug = $this->_request->query->get('slug');
 
         if (empty($slug)) {
-            return $json_helper->to_json(array(
+            return $this->_response->set_code(400)->to_json(array(
                         'status' => 'error',
                         'message' => 'Please specify an author slug'
             ));
         }
 
-        $dao = new rip_authors_dao();
+        $dao = new \Rip_Authors\Daos\Rip_Authors_Dao();
         $result = $dao->get_author_by_slug($slug);
 
         if (empty($result)) {
-            return $json_helper->to_json(array(
+            return $this->_response->set_code(404)->to_json(array(
                         'status' => 'error',
                         'message' => 'Not found'
             ));
         }
 
-        $json_helper->to_json(array(
+        $this->_response->to_json(array(
             'status' => 'ok',
             'author' => $result
         ));

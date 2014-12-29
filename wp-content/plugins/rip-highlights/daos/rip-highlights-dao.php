@@ -1,16 +1,19 @@
 <?php
 
+namespace Rip_Highlights\Daos;
+
 /**
- * Data Access object for Highlights Custom Post Type.
+ * Data Access Object for Highlights Custom Post Type.
  */
-class rip_highlights_dao extends rip_abstract_dao {
-     /**
+class Rip_Highlights_Dao extends \Rip_General\Classes\Rip_Abstract_Dao {
+
+    /**
      * A private method that set the Song data.
      * 
      * @param WP_Query $query
      * @return array
      */
-    protected function _set_highlights_data(WP_Query $query) {
+    protected function _set_highlights_data(\WP_Query $query) {
         $out = array();
 
         while ($query->have_posts()) {
@@ -43,7 +46,7 @@ class rip_highlights_dao extends rip_abstract_dao {
     }
 
     /**
-     * Retrieve all posts from Brani Custom Post Type.
+     * Retrieve all highlights.
      * 
      * @param int $page
      * @return array
@@ -60,53 +63,10 @@ class rip_highlights_dao extends rip_abstract_dao {
                 $args, $this->_items_per_page, $page
         );
 
-        $query = new WP_Query($args);
+        $query = new \WP_Query($args);
         $results = $this->_set_highlights_data($query);
 
         return $results;
     }
 
-    /**
-     * Retrieve all posts from Brani Custom Post Type with a specific genre's slug.
-     * 
-     * @param string $slug
-     * @param int $page
-     * @return array
-     */
-    public function get_all_highlights_by_genre_slug($slug, $page = null) {
-        $args = array(
-            'post_type' => 'highlights',
-            'post_status' => 'publish',
-            'orderby' => 'name',
-            'highlight-genre' => $slug,
-            'order' => 'ASC'
-        );
-
-        $args = $this->get_pagination_args(
-                $args, $this->_items_per_page, $page
-        );
-
-        $query = new WP_Query($args);
-        $results = $this->_set_highlights_data($query);
-
-        return $results;
-    }
-
-    /**
-     * Retrieve a single highlights's post by it's slug.
-     * 
-     * @param int $id
-     * @return array
-     */
-    public function get_highlight_by_slug($slug) {
-        $args = array(
-            'post_type' => 'highlights',
-            'name' => $slug,
-        );
-
-        $query = new WP_Query($args);
-        $results = $this->_set_highlights_data($query);
-
-        return current($results);
-    }
 }

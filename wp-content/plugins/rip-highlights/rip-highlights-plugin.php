@@ -1,5 +1,7 @@
 <?php
 
+namespace Rip_Highlights;
+
 /*
   Plugin Name: Highlights
   Description: Plugin per la gestione dei brani
@@ -7,22 +9,22 @@
   Version: 1.0
  */
 
-require_once ABSPATH . 'wp-content/plugins/rip-general/rip-general.php';
-$autoloader = new rip_autoloader(plugin_dir_path(__FILE__));
+require_once ABSPATH . 'wp-content/plugins/rip-general/rip-general-plugin.php';
+$autoloader = new \Rip_General\Classes\Rip_Autoloader(plugin_dir_path(__FILE__));
 
 /**
- * Highlight plugin.
+ * Rip Highlight Plugin.
  * 
  * @author Gabriele D'Arrigo - @acirdesign
- * @see rip_abstract_plugin
+ * @see \Rip_General\Classes\Rip_Abstract_Plugin
  */
-class rip_highlights extends rip_abstract_plugin {
+class Rip_Highlights_Plugin extends \Rip_General\Classes\Rip_Abstract_Plugin {
 
     /**
-     * Set all plugin configuration.
+     * Set plugin's configuration.
      */
     protected function _init() {
-        $this->_metabox_prefix = 'rip_';
+        $this->_metabox_prefix = 'Rip_';
 
         $this->_post_types = array(
             array(
@@ -112,27 +114,18 @@ class rip_highlights extends rip_abstract_plugin {
                 ),
             ),
         );
-
+        
         $this->_ajax = array(
             'rip_highlights_get_all_highlights' => array(
-                'class' => 'rip_highlights_ajax_front_controller',
+                'class_name' => '\Rip_Highlights\Controllers\Rip_Highlights_Controller',
                 'method_name' => 'get_all_highlights',
-            ),
-            'rip_highlights_get_all_highlights_by_genre_slug' => array(
-                'class' => 'rip_highlights_ajax_front_controller',
-                'method_name' => 'get_all_highlights_by_genre_slug',
-            ),
-            'rip_highlights_get_highlight_by_slug' => array(
-                'class' => 'rip_highlights_ajax_front_controller',
-                'method_name' => 'get_highlight_by_slug',
             )
         );
 
         register_activation_hook(__FILE__, array($this, 'activate'));
-
         register_deactivation_hook(__FILE__, array($this, 'deactivate'));
     }
 
 }
 
-$highlights = new rip_highlights();
+$highlights_plugin = new \Rip_Highlights\Rip_Highlights_Plugin();

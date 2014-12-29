@@ -1,5 +1,7 @@
 <?php
 
+namespace Rip_Authors;
+
 /*
   Plugin Name: Autori di Rip
   Description: Plugin per la gestione degli autori di Radio Illusioni Parallele
@@ -7,16 +9,16 @@
   Version: 1.0
  */
 
-require_once ABSPATH . 'wp-content/plugins/rip-general/rip-general.php';
-$autoloader = new rip_autoloader(plugin_dir_path(__FILE__));
+require_once ABSPATH . 'wp-content/plugins/rip-general/rip-general-plugin.php';
+$autoloader = new \Rip_General\Classes\Rip_Autoloader(plugin_dir_path(__FILE__));
 
 /**
- * Rip Authors
+ * Rip Authors Plugin
  * 
  * @author Gabriele D'Arrigo - @acirdesign
- * @see rip_programmi_abstract_plugin
+ * @see \Rip_General\Classes\Rip_Abstract_Plugin
  */
-class rip_authors extends rip_abstract_plugin {
+class Rip_Authors_Plugin extends \Rip_General\Classes\Rip_Abstract_Plugin {
 
     /**
      * Set all plugin configuration.
@@ -24,20 +26,19 @@ class rip_authors extends rip_abstract_plugin {
     public function _init() {
         $this->_ajax = array(
             'rip_authors_get_all_authors' => array(
-                'class' => 'rip_authors_ajax_front_controller',
+                'class_name' => '\Rip_Authors\Controllers\Rip_Authors_Controller',
                 'method_name' => 'get_all_authors',
             ),
             'rip_authors_get_author_by_slug' => array(
-                'class' => 'rip_authors_ajax_front_controller',
+                'class_name' => '\Rip_Authors\Controllers\Rip_Authors_Controller',
                 'method_name' => 'get_author_by_slug',
             ),
         );
 
         register_activation_hook(__FILE__, array($this, 'activate'));
-
         register_deactivation_hook(__FILE__, array($this, 'deactivate'));
     }
 
 }
 
-$rip_authors = new rip_authors();
+$rip_authors_plugin = new \Rip_Authors\Rip_Authors_Plugin();

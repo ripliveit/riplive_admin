@@ -1,9 +1,11 @@
 <?php
 
+namespace Rip_Podcasts\Daos;
+
 /**
  * Data Access object for Podcasts
  */
-class rip_podcasts_dao extends rip_abstract_dao {
+class Rip_Podcasts_Dao extends \Rip_General\Classes\Rip_Abstract_Dao {
 
     /**
      * Number of items per page.
@@ -22,7 +24,7 @@ class rip_podcasts_dao extends rip_abstract_dao {
             return array();
         }
 
-        $authors_dao = new rip_authors_dao();
+        $authors_dao = new \Rip_Authors\Daos\Rip_Authors_Dao();
 
         $out = array();
 

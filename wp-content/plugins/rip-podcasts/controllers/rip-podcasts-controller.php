@@ -1,32 +1,32 @@
 <?php
 
+namespace Rip_Podcasts\Controllers;
+
 /**
- * Chars ajax front controller.
- * Implements method invoked by ajax method to retrieve chart's data.
+ * Podcast controller.
+ * Implements method invoked by ajax request to retrieve chart's data.
  */
-class rip_podcasts_ajax_front_controller {
+class Rip_Podcasts_Controller extends \Rip_General\Classes\Rip_Abstract_Controller {
 
     /**
      * Return total number of podcast saved in wp_podcasts table.
      * If program's slug is passed as parameters, then return the total number
      * of podcasts for that particular program.
      */
-    public static function get_podcasts_number_of_pages() {
-        $dao = new rip_podcasts_dao();
-        $json_helper = rip_general_json_helper::get_instance();
-        $request = rip_general_http_request::get_instance();
+    public function get_podcasts_number_of_pages() {
+        $slug = $this->_request->query->get('slug');
 
-        $slug = $request->query->get('slug');
+        $dao = new \Rip_Podcasts\Daos\Rip_Podcasts_Dao();
         $results = $dao->get_podcasts_number_of_pages($slug);
 
         if (empty($results)) {
-            return $json_helper->to_json(array(
+            return $this->_response->set_code(404)->to_json(array(
                         'status' => 'error',
                         'message' => 'Pages not found'
             ));
         }
 
-        $json_helper->to_json(array(
+        $this->_response->to_json(array(
             'number_of_pages' => $results
         ));
     }
@@ -34,18 +34,15 @@ class rip_podcasts_ajax_front_controller {
     /**
      * Retrieve all podcasts.
      */
-    public static function get_all_podcasts() {
-        $dao = new rip_podcasts_dao();
-        $json_helper = rip_general_json_helper::get_instance();
-        $request = rip_general_http_request::get_instance();
+    public function get_all_podcasts() {
+        $count = $this->_request->query->get('count');
+        $page = $this->_request->query->get('page');
 
-        $count = $request->query->get('count');
-        $page = $request->query->get('page');
-
+        $dao = new \Rip_Podcasts\Daos\Rip_Podcasts_Dao();
         $results = $dao->set_items_per_page($count)->get_all_podcasts($page);
         $pages = $dao->get_podcasts_number_of_pages();
 
-        $json_helper->to_json(array(
+        $this->_response->to_json(array(
             'status' => 'ok',
             'count' => count($results),
             'count_total' => (int) $pages['count_total'],
@@ -57,28 +54,25 @@ class rip_podcasts_ajax_front_controller {
     /**
      * Retrieve all podcasts with a specific program id.
      */
-    public static function get_all_podcasts_by_program_slug() {
-        $json_helper = rip_general_json_helper::get_instance();
-        $request = rip_general_http_request::get_instance();
-
-        $slug = $request->query->get('slug');
-        $count = $request->query->get('count');
-        $page = $request->query->get('page');
+    public function get_all_podcasts_by_program_slug() {
+        $slug = $this->_request->query->get('slug');
+        $count = $this->_request->query->get('count');
+        $page = $this->_request->query->get('page');
 
         if (empty($slug)) {
-            return $json_helper->to_json(array(
+            return $this->_response->set_code(400)->to_json(array(
                         'status' => 'error',
                         'message' => 'Please specify a program slug'
             ));
         }
 
-        $dao = new rip_podcasts_dao();
+        $dao = new \Rip_Podcasts\Daos\Rip_Podcasts_Dao();
         $results = $dao->set_items_per_page($count)->get_all_podcasts_by_program_slug($slug, $page);
 
         // Load page number passing current podcast's program slug.
         $pages = $dao->get_podcasts_number_of_pages($slug);
 
-        $json_helper->to_json(array(
+        $this->_response->to_json(array(
             'status' => 'ok',
             'count' => count($results),
             'count_total' => (int) $pages['count_total'],
@@ -90,30 +84,27 @@ class rip_podcasts_ajax_front_controller {
     /**
      * Retrieve a podcast by its unique identifier.
      */
-    public static function get_podcast_by_id() {
-        $json_helper = rip_general_json_helper::get_instance();
-        $request = rip_general_http_request::get_instance();
-
-        $id_podcast = $request->query->get('id_podcast');
+    public function get_podcast_by_id() {
+        $id_podcast = $this->_request->query->get('id_podcast');
 
         if (empty($id_podcast)) {
-            return $json_helper->to_json(array(
+            return $this->_response->set_code(400)->to_json(array(
                         'status' => 'error',
                         'message' => 'Please specify a podcast id'
             ));
         }
 
-        $dao = new rip_podcasts_dao();
+        $dao = new \Rip_Podcasts\Daos\Rip_Podcasts_Dao();
         $results = $dao->get_podcast_by_id((int) $id_podcast);
 
         if (empty($results)) {
-            return $json_helper->to_json(array(
+            return $this->_response->set_code(404)->to_json(array(
                         'status' => 'error',
                         'message' => 'Not found'
             ));
         }
 
-        return $json_helper->to_json(array(
+        return $this->_response->to_json(array(
                     'status' => 'ok',
                     'podcast' => $results
         ));
@@ -122,148 +113,159 @@ class rip_podcasts_ajax_front_controller {
     /**
      * Insert a podcast.
      */
-    public static function insert_podcast() {
-        $json_helper = rip_general_json_helper::get_instance();
-        $request = rip_general_http_request::get_instance();
-
-        $podcast = stripslashes_deep($request->request->get('podcast'));
+    public function insert_podcast() {
+        $podcast = stripslashes_deep($this->_request->request->get('podcast'));
 
         if (empty($podcast)) {
-            return $json_helper->to_json(array(
+            return $this->_response->set_code(400)->to_json(array(
                         'status' => 'error',
                         'message' => 'Please specify a podcast'
             ));
         }
 
-        $dao = new rip_podcasts_dao();
+        $dao = new \Rip_Podcasts\Daos\Rip_Podcasts_Dao();
         $results = $dao->insert_podcast($podcast);
 
-        $json_helper->to_json($results);
+        $this->_response->to_json($results);
     }
 
     /**
      * Update a podcast.
      */
-    public static function update_podcast() {
-        $json_helper = rip_general_json_helper::get_instance();
-        $request = rip_general_http_request::get_instance();
-
-        (int) $id_podcast = $request->query->get('id_podcast');
-        $podcast = stripslashes_deep($request->request->get('podcast'));
+    public function update_podcast() {
+        (int) $id_podcast = $this->_request->query->get('id_podcast');
+        $podcast = stripslashes_deep($this->_request->request->get('podcast'));
 
         if (empty($id_podcast)) {
-            return $json_helper->to_json(array(
+            return $this->_response->set_code(400)->to_json(array(
                         'status' => 'error',
                         'message' => 'Please specify a podcast id'
             ));
         }
 
         if (empty($podcast)) {
-            return $json_helper->to_json(array(
+            return $this->_response->set_code(400)->to_json(array(
                         'status' => 'error',
                         'message' => 'Please specify a podcast'
             ));
         }
 
-        $dao = new rip_podcasts_dao();
+        $dao = new \Rip_Podcasts\Daos\Rip_Podcasts_Dao();
         $results = $dao->update_podcast($id_podcast, $podcast);
+        
+        if ((int) $results === 0) {
+            return $this->_response->set_code(412)->to_json(array(
+                        'status' => 'error',
+                        'message' => 'Cannot update the podcast'
+            ));
+        }
 
-        $json_helper->to_json($results);
+        $this->_response->set_code(200)->to_json(array(
+            'status' => 'ok',
+            'message' => 'Podcast successfully updated'
+        ));
+
+        $this->_response->to_json($results);
+    }
+
+    /**
+     * Delete a single podcast.
+     */
+    public function delete_podcast($id_podcast) {
+        $id_podcast = $this->_request->query->get('id_podcast');
+
+        if (empty($id_podcast)) {
+            return $this->_response->set_code(400)->to_json(array(
+                        'status' => 'error',
+                        'message' => 'Please specify a podcast id'
+            ));
+        }
+
+        $dao = new \Rip_Podcasts\Daos\Rip_Podcasts_Dao();
+        $results = $dao->delete_podcast((int) $id_podcast);
+
+        if ((int) $results === 0) {
+            return $this->_response->set_code(412)->to_json(array(
+                        'status' => 'error',
+                        'message' => 'Podcast does not exists'
+            ));
+        }
+
+        $this->_response->set_code(200)->to_json(array(
+            'status' => 'ok',
+            'message' => 'Podcast successfully deleted'
+        ));
     }
 
     /**
      * Upload a podcast image.
      */
-    public static function upload_podcast_image() {
-        $json_helper = rip_general_json_helper::get_instance();
-        $request = rip_general_http_request::get_instance();
-
-        $id_podcast = $request->query->get('id_podcast');
+    public function upload_podcast_image() {
+        $id_podcast = $this->_request->query->get('id_podcast');
 
         if (empty($id_podcast)) {
-            return $json_helper->to_json(array(
+            return $this->_response->set_code(400)->to_json(array(
                         'status' => 'error',
                         'message' => 'Please specify a podcast id'
             ));
         }
 
         if (empty($_FILES['file']) || $_FILES['file']['size'] <= 0) {
-            return $json_helper->to_json(array(
+            return $this->_response->set_code(400)->to_json(array(
                         'status' => 'error',
                         'message' => 'Please specify a file to upload'
             ));
         }
 
-        $uploader = new rip_podcasts_image_uploader();
+        $uploader = new \Rip_Podcasts\Classes\Rip_Podcasts_Image_Uploader();
         $uploaded = $uploader->upload((int) $id_podcast, $_FILES['file']);
 
         if ($uploaded['status'] === 'error') {
-            return $json_helper->to_json($uploaded);
+            return $this->_response->set_code(500)->to_json($uploaded);
         }
 
-        $dao = new rip_podcasts_dao();
+        $dao = new \Rip_Podcasts\Daos\Rip_Podcasts_Dao();
 
         $results = $dao->insert_podcast_attachment(array(
             'id_podcast' => (int) $id_podcast,
             'id_attachment' => $uploaded['id_attachment'],
         ));
 
-        $json_helper->to_json($results);
-    }
-
-    /**
-     * Delete a single podcast.
-     */
-    public static function delete_podcast($id_podcast) {
-        $json_helper = rip_general_json_helper::get_instance();
-        $request = rip_general_http_request::get_instance();
-
-        $id_podcast = $request->query->get('id_podcast');
-
-        if (empty($id_podcast)) {
-            return $json_helper->to_json(array(
-                        'status' => 'error',
-                        'message' => 'Please specify a podcast id'
-            ));
-        }
-
-        $dao = new rip_podcasts_dao();
-        $results = $dao->delete_podcast((int) $id_podcast);
-
-        $json_helper->to_json($results);
+        $this->_response->to_json($results);
     }
 
     /**
      * Generate the XML for a specific program
      */
-    public static function generate_podcasts_xml() {
-        $json_helper = rip_general_json_helper::get_instance();
-        $request = rip_general_http_request::get_instance();
-
-        $slug = $request->query->get('slug');
+    public function generate_podcasts_xml() {
+        $slug = $this->_request->query->get('slug');
 
         if (empty($slug)) {
-            return $json_helper->to_json(array(
+            return $this->_response->set_code(400)->to_json(array(
                         'status' => 'error',
                         'message' => 'Please specify a program slug'
             ));
         }
 
-        $podcasts_dao = new rip_podcasts_dao;
-        $programs_dao = new rip_programs_dao();
-        $S3 = new rip_podcasts_s3_service();
-        $xml_service = new rip_podcasts_xml_service($podcasts_dao, $programs_dao, $S3);
+        $podcasts_dao  = new \Rip_Podcasts\Daos\Rip_Podcasts_Dao();
+        $programs_dao  = new \Rip_Programs\Daos\Rip_Programs_Dao();
+        $S3            = new \Rip_Podcasts\Services\Rip_Podcasts_S3_Service();
+        $xml_generator = new \Rip_Podcasts\Classes\Rip_Podcasts_Xml_Generator();
+
+        $xml_service = new \Rip_Podcasts\Services\Rip_Podcasts_Xml_Service(
+                $podcasts_dao, $programs_dao, $S3, $xml_generator
+        );
 
         $results = $xml_service->generate($slug);
 
         if (empty($results)) {
-            return $json_helper->to_json(array(
+            return $this->_response->set_code(500)->to_json(array(
                         'status' => 'error',
                         'message' => 'Error in generating the XML feed'
             ));
         }
 
-        $json_helper->to_json($results);
+        $this->_response->to_json($results);
     }
 
 }

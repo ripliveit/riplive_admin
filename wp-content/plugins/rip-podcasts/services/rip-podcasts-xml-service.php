@@ -1,11 +1,13 @@
 <?php
 
+namespace Rip_Podcasts\Services;
+
 /**
  * Service that handle
- * 1) Generation of XML feed for a specific program
- * 2) Move the file to te corretct location on Amazon S3
+ * 1) Generation of XML feed for a specific program.
+ * 2) Move the file to te correct location on Amazon S3
  */
-class rip_podcasts_xml_service {
+class Rip_Podcasts_Xml_Service {
 
     /**
      * Holds a reference to podcasts_dao Class.
@@ -44,42 +46,51 @@ class rip_podcasts_xml_service {
      * @param object $programs_dao
      * @param object $S3
      */
-    public function __construct($podcasts_dao, $programs_dao, $S3) {
+    public function __construct(
+            \Rip_General\Classes\Rip_Abstract_Dao $podcasts_dao, 
+            \Rip_General\Classes\Rip_Abstract_Dao $programs_dao, 
+            $S3,
+            $xml_generator
+        ) {
         $this->_podcasts_dao = $podcasts_dao;
         $this->_programs_dao = $programs_dao;
         $this->_S3 = $S3;
-        $this->_xml_generator = new rip_podcasts_xml_generator();
+        $this->_xml_generator = $xml_generator;
     }
 
     /**
      * Retrieve all program's data
+     * with a specific slug.
      * 
-     * @param int $id_program
+     * @param string $slug
      * @return array
      */
     protected function _get_channel_data($slug) {
         $channels_data = $this->_programs_dao->get_program_by_slug($slug);
-        
+
         return $channels_data;
     }
 
     /**
      * Retrieve all items data.
      * 
-     * @param int $id_program
+     * @param string $slug
      * @return array
      */
     protected function _get_items_data($slug) {
-        $items = $this->_podcasts_dao->get_all_podcasts_by_program_slug($slug);
- 
+        // Retrieve the total number of podcasts.
+        $pages  = $this->_podcasts_dao->get_podcasts_number_of_pages($slug);
+        $items  = $this->_podcasts_dao->set_items_per_page($pages['count_total'])
+                ->get_all_podcasts_by_program_slug($slug);
+
         return $items;
     }
 
     /**
-     * Generate the XML through xml_generato Class and
-     * move the feed to Amazon S3.
+     * Generate the XML through xml_generator class 
+     * and move the feed to Amazon S3.
      * 
-     * @param int $id_program
+     * @param string $slug
      * @return boolean
      * @throws Error
      */

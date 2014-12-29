@@ -18,7 +18,8 @@
         <a href="#/upload/{{slug}}" class="btn btn-large primary" ng-show="empty">
             Carica Podcast
         </a>
-
+        
+        <!--
         <div class="text-right">
             <span class="btn btn-large primary">
                 Filtra per anno
@@ -26,9 +27,10 @@
 
             <input ng-model="year" type="number" min="2009" max="2099"/>
         </div>
+        -->
     </header>
 
-    <article ng-repeat="podcast in podcasts | filter:{year : year}">
+    <article ng-repeat="podcast in podcasts">
         <figure>
             <img ng-src="{{podcast.podcast_images.thumbnail}}" width="100" height="100"/>
         </figure>

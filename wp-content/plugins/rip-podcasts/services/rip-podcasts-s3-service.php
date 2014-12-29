@@ -1,28 +1,33 @@
 <?php
 
-require plugin_dir_path(__FILE__) . '../library/Amazon/aws-autoloader.php';
+namespace Rip_Podcasts\Services;
 
-use Aws\S3\S3Client;
+require_once plugin_dir_path(__FILE__) . '../library/Amazon/aws-autoloader.php';
+
+use \Aws\S3\S3Client;
 
 /**
  * Amazon S3 service.
  */
-class rip_podcasts_s3_service {
+class Rip_Podcasts_S3_Service {
 
     /**
-     * Pubblic Key
+     * Pubblic Key.
+     * 
      * @var string 
      */
     protected $_key = 'AKIAJMWTVZGFOYVC6FRA';
 
     /**
      * Secret Key.
+     * 
      * @var string 
      */
     protected $_secret = 'ls17Ciiw4qHY5D3R+ZVquSx+8dCCib4hbHf6G8d/';
 
     /**
      * Holds the constructed S3 object from official S3 API.
+     * 
      * @var string 
      */
     protected $_client;
@@ -55,7 +60,7 @@ class rip_podcasts_s3_service {
                 $bucket_name = $bucket['Name'];
             }
         }
-        
+
         return $bucket_name;
     }
 

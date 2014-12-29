@@ -1,9 +1,11 @@
 <?php
 
+namespace Rip_Podcasts\Classes;
+
 /**
  * Generate the xml podcasts feed.
  */
-class rip_podcasts_xml_generator {
+class Rip_Podcasts_Xml_Generator {
 
     /**
      * Holds a reference to an object used to perform
@@ -59,7 +61,7 @@ class rip_podcasts_xml_generator {
 
         $this->_filename = $filename;
     }
-    
+
     /**
      * Return a string representing all authors of the podcast.
      * 
@@ -101,9 +103,9 @@ class rip_podcasts_xml_generator {
             );
         }
 
-        $filter = new rip_general_output_filter();
+        $filter = new \Rip_General\Filters\Rip_Output_Filter();
 
-        $xml = new DOMDocument('1.0', 'UTF-8');
+        $xml = new \DOMDocument('1.0', 'UTF-8');
         $xml->preserveWhiteSpace = false;
         $xml->formatOutput = true;
 
@@ -148,7 +150,7 @@ class rip_podcasts_xml_generator {
         $category = $channel->appendChild($xml->createElement('itunes:category'));
         $category->setAttribute('text', 'Music');
 
-        foreach ($items_data as $item_data) {   
+        foreach ($items_data as $item_data) {
             $item = $channel->appendChild($xml->createElement('item'));
 
             $item_title = $item->appendChild($xml->createElement('title'));
@@ -162,8 +164,8 @@ class rip_podcasts_xml_generator {
 
             $item_summary = $item->appendChild($xml->createElement('itunes:summary'));
             $item_summary->appendChild($xml->createCDATASection($filter::strip_content($item_data['summary'])));
-            
-            $item_image = $item->appendChild($xml->createElement('itunes:image'));          
+
+            $item_image = $item->appendChild($xml->createElement('itunes:image'));
             $item_image->setAttribute('href', $item_data['podcast_images']['image_large']);
 
             $item_enclosure = $item->appendChild($xml->createElement('enclosure'));
@@ -176,10 +178,10 @@ class rip_podcasts_xml_generator {
             $item->appendChild($xml->createElement('pubDate', date('r', strtotime($item_data['date']))));
             $item->appendChild($xml->createElement('itunes:duration', $filter::strip_content($item_data['duration'])));
         }
-        
+
         //Save the XML to the specified folder.
         $result = $xml->save($this->_folder . $this->_filename);
-        
+
         if ($result) {
             return array(
                 'status' => 'ok',
@@ -192,4 +194,5 @@ class rip_podcasts_xml_generator {
             return false;
         }
     }
+
 }

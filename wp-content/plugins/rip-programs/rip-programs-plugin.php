@@ -1,5 +1,7 @@
 <?php
 
+namespace Rip_Programs;
+
 /*
   Plugin Name: Programmi
   Description: Plugin per la gestione dei programmi
@@ -7,22 +9,22 @@
   Version: 1.0
  */
 
-require_once ABSPATH . 'wp-content/plugins/rip-general/rip-general.php';
-$autoloader = new rip_autoloader(plugin_dir_path(__FILE__));
+require_once ABSPATH . 'wp-content/plugins/rip-general/rip-general-plugin.php';
+$autoloader = new \Rip_General\Classes\Rip_Autoloader(plugin_dir_path(__FILE__));
 
 /**
  * Programmi plugin.
  * 
  * @author Gabriele D'Arrigo - @acirdesign
- * @see rip_programmi_abstract_plugin
+ * @see \Rip_General\Classes\Rip_Abstract_Plugin
  */
-class rip_programs extends rip_abstract_plugin {
+class Rip_Programs_Plugin extends \Rip_General\Classes\Rip_Abstract_Plugin {
 
     /**
-     * Set all plugin configuration.
+     * Set plugin's configuration.
      */
     protected function _init() {
-        $this->_metabox_prefix = 'rip_';
+        $this->_metabox_prefix = 'Rip_';
 
         $this->_assets_folder = plugin_dir_path(__FILE__) . 'assets';
 
@@ -116,10 +118,8 @@ class rip_programs extends rip_abstract_plugin {
         );
 
         // Retrieve all user
-        $dao = new rip_programs_dao();
-
+        $dao = new \Rip_Programs\Daos\Rip_Programs_Dao();
         $authors = $dao->get_all_users_for_metabox();
-
         $days = $dao->get_days_for_metaboxes();
 
         $this->_metaboxes = array(
@@ -221,36 +221,35 @@ class rip_programs extends rip_abstract_plugin {
 
         $this->_ajax = array(
             'rip_programs_get_all_programs' => array(
-                'class' => 'rip_programs_ajax_front_controller',
+                'class_name' => '\Rip_Programs\Controllers\Rip_Programs_Controller',
                 'method_name' => 'get_all_programs',
             ),
             'rip_programs_get_all_programs_for_podcasts' => array(
-                'class' => 'rip_programs_ajax_front_controller',
+                'class_name' => '\Rip_Programs\Controllers\Rip_Programs_Controller',
                 'method_name' => 'get_all_programs_for_podcasts',
             ),
             'rip_programs_get_program_by_slug' => array(
-                'class' => 'rip_programs_ajax_front_controller',
+                'class_name' => '\Rip_Programs\Controllers\Rip_Programs_Controller',
                 'method_name' => 'get_program_by_slug',
             ),
             'rip_programs_get_programs_schedule' => array(
-                'class' => 'rip_programs_ajax_front_controller',
+                'class_name' => '\Rip_Programs\Controllers\Rip_Programs_Controller',
                 'method_name' => 'get_programs_schedule',
             ),
         );
-
+        
         $this->_filters_to_add = array(
             array(
                 'tag' => 'json_api_encode',
-                'class' => 'rip_programs_json_api_filter',
-                'function' => 'check_programs_meta',
+                'class_name' => '\Rip_Programs\Filters\Rip_Programs_Json_Api_Filter',
+                'method_name' => 'check_programs_meta',
             ),
         );
 
         register_activation_hook(__FILE__, array($this, 'activate'));
-
         register_deactivation_hook(__FILE__, array($this, 'deactivate'));
     }
 
 }
 
-$programs = new rip_programs();
+$programs_plugin = new \Rip_Programs\Rip_Programs_Plugin();

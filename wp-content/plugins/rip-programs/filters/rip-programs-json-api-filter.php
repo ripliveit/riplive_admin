@@ -1,11 +1,12 @@
 <?php
 
+namespace Rip_Programs\Filters;
 
 /**
  * Perform a filer on JSON_API wordpress plugin iutput.
  */
-class rip_programs_json_api_filter {
-    
+class Rip_Programs_Json_Api_Filter {
+
     /**
      * Cycle all post and try to unserialize the required post_meta
      * 
@@ -23,7 +24,7 @@ class rip_programs_json_api_filter {
 
         return $response;
     }
-    
+
     /**
      * Unserialize programs-day, 
      * reruns-days and programs-authors post_meta.

@@ -1,18 +1,21 @@
 <?php
 
+namespace Rip_Programs\Daos;
+
 /**
- * Programs custom post type Data Access Object.
+ * Programs Data Access Object.
  */
-class rip_programs_dao extends rip_abstract_dao {
+class Rip_Programs_Dao extends \Rip_General\Classes\Rip_Abstract_Dao {
 
     /**
      * A method that set the Program data.
      * Retrieve the total count of podcasts associated to a program via the podcasts dao.
-     * @param WP_Query $query
+     * 
+     * @param \WP_Query $query
      * @return array
      */
-    protected function _set_programs_data(WP_Query $query) {
-        $podcasts_dao = new rip_podcasts_dao();
+    protected function _set_programs_data(\WP_Query $query) {
+        $podcasts_dao = new \Rip_Podcasts\Daos\Rip_Podcasts_Dao();
 
         $out = array();
 
@@ -53,8 +56,7 @@ class rip_programs_dao extends rip_abstract_dao {
     }
 
     /**
-     * Retrieve all Programs custom post type.
-     * Return a wp query object.
+     * Retrieve all programs.
      * 
      * @return array
      */
@@ -68,15 +70,14 @@ class rip_programs_dao extends rip_abstract_dao {
                 $args, $this->_items_per_page, $page
         );
 
-        $query = new WP_Query($args);
+        $query = new \WP_Query($args);
         $results = $this->_set_programs_data($query);
 
         return $results;
     }
 
     /**
-     * Retrieve all Programs for podcast (Even the ones in pending status).
-     * Return a wp query object.
+     * Retrieve all programs (Even the ones in pending status).
      * 
      * @return array
      */
@@ -93,15 +94,16 @@ class rip_programs_dao extends rip_abstract_dao {
                 $args, $this->_items_per_page, $page
         );
 
-        $query = new WP_Query($args);
+        $query = new \WP_Query($args);
         $results = $this->_set_programs_data($query);
 
         return $results;
     }
 
     /**
-     * Return a single program by its relative id.
-     * @param type $id
+     * Return a single program by its unique slug.
+     * 
+     * @param string $slug
      * @return \WP_Query
      */
     public function get_program_by_slug($slug) {
@@ -114,7 +116,7 @@ class rip_programs_dao extends rip_abstract_dao {
             ),
         );
 
-        $query = new WP_Query($args);
+        $query = new \WP_Query($args);
         $results = $this->_set_programs_data($query);
 
         return current($results);
@@ -125,7 +127,6 @@ class rip_programs_dao extends rip_abstract_dao {
      */
     public function get_programs_schedule() {
         $programs = $this->get_all_programs();
-
         $days = $this->get_days_for_metaboxes();
 
         if (empty($programs) || empty($days)) {
@@ -212,10 +213,9 @@ class rip_programs_dao extends rip_abstract_dao {
             return false;
         }
 
-        $author_dao = new rip_authors_dao();
+        $author_dao = new \Rip_Authors\Daos\Rip_Authors_Dao();
 
         $fields = get_post_custom($id_program);
-
         $meta = array();
 
         // Loop over all custom fields to populate $meta array.

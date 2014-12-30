@@ -5,36 +5,34 @@ namespace Rip_Social_Users\Controllers;
 /**
  * Social Users Front Controller.
  */
-class Rip_Front_Controller {
+class Rip_Social_Users_Controller extends \Rip_General\Classes\Rip_Abstract_Controller {
 
     /**
      * Return a user, given its unique email.
      * 
      * @return type
      */
-    public static function get_social_user_by_email() {
-        $json_helper = rip_general_json_helper::get_instance();
-        $request = rip_general_http_request::get_instance();
-        $email = $request->query->get('email');
+    public function get_social_user_by_email() {
+        $email = $this->_request->query->get('email');
 
         if (empty($email)) {
-            return $json_helper->to_json(array(
+            return $this->_response->to_json(array(
                         'status' => 'error',
                         'message' => 'Please specify a user email'
             ));
         }
 
-        $dao = new rip_social_users_dao();
+        $dao = new \Rip_Social_Users\Daos\Rip_Social_Users_Dao();
         $results = $dao->get_social_user_by_email($email);
 
         if (empty($results)) {
-            return $json_helper->to_json(array(
+            return $this->_response->to_json(array(
                         'status' => 'error',
                         'message' => 'Not found'
             ));
         }
 
-        return $json_helper->to_json(array(
+        return $this->_response->to_json(array(
                     'status' => 'ok',
                     'user' => $results
         ));
@@ -45,29 +43,27 @@ class Rip_Front_Controller {
      * 
      * @return type
      */
-    public static function get_social_user_by_uuid() {
-        $json_helper = rip_general_json_helper::get_instance();
-        $request = rip_general_http_request::get_instance();
-        $uuid = $request->query->get('uuid');
+    public function get_social_user_by_uuid() {
+        $uuid = $this->_request->query->get('uuid');
 
         if (empty($uuid)) {
-            return $json_helper->to_json(array(
+            return $this->_response->to_json(array(
                         'status' => 'error',
                         'message' => 'Please specify a valid uuid'
             ));
         }
 
-        $dao = new rip_social_users_dao();
+        $dao = new \Rip_Social_Users\Daos\Rip_Social_Users_Dao();
         $results = $dao->get_social_user_by_uuid($uuid);
 
         if (empty($results)) {
-            return $json_helper->to_json(array(
+            return $this->_response->to_json(array(
                         'status' => 'error',
                         'message' => 'Not found'
             ));
         }
 
-        return $json_helper->to_json(array(
+        return $this->_response->to_json(array(
                     'status' => 'ok',
                     'user' => $results
         ));
@@ -78,23 +74,20 @@ class Rip_Front_Controller {
      * 
      * @return string
      */
-    public static function insert_social_user() {
-        $json_helper = rip_general_json_helper::get_instance();
-        $request = rip_general_http_request::get_instance();
-
-        $user = stripslashes_deep($request->request->get('user'));
+    public function insert_social_user() {
+        $user = stripslashes_deep($this->_request->request->get('user'));
 
         if (empty($user)) {
-            return $json_helper->to_json(array(
+            return $this->_response->to_json(array(
                         'status' => 'error',
                         'message' => 'Please specify a user'
             ));
         }
 
-        $dao = new rip_social_users_dao();
+        $dao = new \Rip_Social_Users\Daos\Rip_Social_Users_Dao();
         $results = $dao->insert_social_user($user);
 
-        $json_helper->to_json($results);
+        $this->_response->to_json($results);
     }
 
 }

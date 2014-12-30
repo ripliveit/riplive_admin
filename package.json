@@ -1,0 +1,28 @@
+{
+  "name": "riplive_admin",
+  "version": "0.0.0",
+  "description": "0.0.1",
+  "main": "index.php",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ripliveit/riplive_admin.git"
+  },
+  "keywords": [
+    "wordpress",
+    "riplive",
+    "php"
+  ],
+  "author": "Gabriele D'Arrigo - @acirdesign",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ripliveit/riplive_admin/issues"
+  },
+  "homepage": "https://github.com/ripliveit/riplive_admin",
+  "devDependencies": {
+    "grunt": "~0.4.5",
+    "grunt-rsync": "~0.6.2"
+  }
+}

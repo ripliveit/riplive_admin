@@ -171,13 +171,13 @@ class Rip_Charts_Plugin extends \Rip_General\Classes\Rip_Abstract_Plugin {
                 'class_name' => '\Rip_Charts\Controllers\Rip_Charts_Controller',
                 'method_name' => 'get_all_complete_charts',
             ),
-            'rip_charts_get_last_complete_charts_per_genre' => array(
+            'rip_charts_get_all_complete_charts_by_chart_type' => array(
                 'class_name' => '\Rip_Charts\Controllers\Rip_Charts_Controller',
-                'method_name' => 'get_last_complete_charts_per_genre',
+                'method_name' => 'get_all_complete_charts_by_chart_type',
             ),
-            'rip_charts_get_all_complete_charts_by_chart_genre' => array(
+            'rip_charts_get_latest_complete_charts' => array(
                 'class_name' => '\Rip_Charts\Controllers\Rip_Charts_Controller',
-                'method_name' => 'get_all_complete_charts_by_chart_genre',
+                'method_name' => 'get_latest_complete_charts',
             ),
             'rip_charts_get_complete_chart_by_chart_archive_slug' => array(
                 'class_name' => '\Rip_Charts\Controllers\Rip_Charts_Controller',

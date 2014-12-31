@@ -100,51 +100,51 @@ class Rip_Charts_Controller extends \Rip_General\Classes\Rip_Abstract_Controller
     }
 
     /**
-     * Return a list of complete charts, 
-     * ordered by date and grouped by genre
-     */
-    public function get_last_complete_charts_per_genre() {
-        $count = $this->_request->query->get('count');
-
-        $dao = new \Rip_Charts\Daos\Rip_Charts_Dao();
-        $results = $dao->set_items_per_page($count)->get_last_complete_charts_per_genre();
-
-        $this->_response->to_json(array(
-            'status' => 'ok',
-            'count' => count($results),
-            'count_total' => (int) count($results),
-            'pages' => 1,
-            'complete_charts' => empty($results) ? array() : $results,
-        ));
-    }
-
-    /**
      * Return a list of all complete chart of a specific chart, 
      * specifing the slug of the chart. 
      */
-    public function get_all_complete_charts_by_chart_genre() {
-        $genre = $this->_request->query->get('genre');
+    public function get_all_complete_charts_by_chart_type() {
+        $slug = $this->_request->query->get('slug');
         $count = $this->_request->query->get('count');
         $page = $this->_request->query->get('page');
 
-        if (empty($genre)) {
+        if (empty($slug)) {
             return $this->_response->to_json(array(
                         'status' => 'error',
-                        'message' => 'Please specify a chart genre'
+                        'message' => 'Please specify a chart type, for example rock-chart'
             ));
         }
 
         $dao = new \Rip_Charts\Daos\Rip_Charts_Dao();
 
         $results = $dao->set_items_per_page($count)
-                ->get_all_complete_charts_by_chart_genre($genre, $page);
-        $pages = $dao->get_complete_charts_number_of_pages($genre);
+                ->get_all_complete_charts_by_chart_type($slug, $page);
+        $pages = $dao->get_complete_charts_number_of_pages($slug);
 
         $this->_response->to_json(array(
             'status' => 'ok',
             'count' => count($results),
             'count_total' => (int) $pages['count_total'],
             'pages' => $pages['pages'],
+            'complete_charts' => empty($results) ? array() : $results,
+        ));
+    }
+
+    /**
+     * Return lasts complete charts,
+     * one per genre.
+     */
+    public function get_latest_complete_charts() {
+        $count = $this->_request->query->get('count');
+
+        $dao = new \Rip_Charts\Daos\Rip_Charts_Dao();
+        $results = $dao->set_items_per_page($count)->get_latest_complete_charts();
+
+        $this->_response->to_json(array(
+            'status' => 'ok',
+            'count' => count($results),
+            'count_total' => (int) count($results),
+            'pages' => 1,
             'complete_charts' => empty($results) ? array() : $results,
         ));
     }
@@ -276,7 +276,7 @@ class Rip_Charts_Controller extends \Rip_General\Classes\Rip_Abstract_Controller
         $dao = new \Rip_Charts\Daos\Rip_Charts_Dao();
 
         $results = $dao->duplicate_complete_chart($slug);
-        
+
         if ($results['status'] === 'error') {
             return $this->_response->set_code(412)->to_json(array(
                         'status' => 'error',
@@ -295,12 +295,11 @@ class Rip_Charts_Controller extends \Rip_General\Classes\Rip_Abstract_Controller
      */
     public function insert_complete_chart_vote() {
         $chart_dao = new \Rip_Charts\Daos\Rip_Charts_Dao();
-        $social_user_dao = new \Rip_Social_Users\Daos\Rip_Social_Users_Dao();
 
         $chart_archive_slug = $this->_request->request->get('chart_archive_slug');
         $id_song = $this->_request->request->get('id_song');
 
-        $service = new \Rip_Charts\Services\Rip_Charts_Service($chart_dao, $social_user_dao);
+        $service = new \Rip_Charts\Services\Rip_Charts_Service($chart_dao);
         $can_vote = $service->check_if_user_can_vote($chart_archive_slug, $id_song);
 
         if ($can_vote['status'] === 'error') {

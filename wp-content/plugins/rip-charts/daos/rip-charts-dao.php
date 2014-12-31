@@ -179,7 +179,7 @@ class Rip_Charts_Dao extends \Rip_General\Classes\Rip_Abstract_Dao {
                 FROM wp_charts_archive";
 
         if ($slug !== null) {
-            $sql .= ' WHERE chart_genre = %s';
+            $sql .= ' WHERE chart_type = %s';
 
             $prepared = $wpdb->prepare($sql, array($slug));
         } else {
@@ -239,57 +239,13 @@ class Rip_Charts_Dao extends \Rip_General\Classes\Rip_Abstract_Dao {
     }
 
     /**
-     * Retrieve a list of all complete charts.
-     * Return a paginated array.
-     * 
-     * @param int $page
-     * @return array
-     */
-    public function get_last_complete_charts_per_genre($page = null) {
-        $wpdb = $this->get_db();
-
-        $sql = "SELECT 
-                        a.id AS id_chart_archive, a.chart_archive_slug, a.chart_genre, a.chart_date, a.chart_creation_date, a.songs_number AS chart_songs_number,
-                        c.id, c.id_chart, c.id_song, c.user_vote,
-                        p1.post_name AS chart_slug, p1.post_title AS chart_title, 
-                        p1.post_content AS chart_content, p1.post_excerpt AS chart_excerpt,
-                        p2.post_name AS song_slug, p2.post_title AS song_title, 
-                        p2.post_content AS song_content, p2.post_excerpt AS song_excerpt
-                FROM wp_charts_archive AS a, wp_charts_songs AS c, wp_posts AS p1, wp_posts AS p2
-                WHERE a.chart_archive_slug = c.chart_archive_slug
-                AND   c.id_chart   = p1.ID
-                AND   c.id_song    = p2.ID
-                AND   a.chart_date = (
-                        SELECT MAX(ca.chart_date) AS chart_date
-                                FROM wp_charts_archive AS ca
-                                WHERE ca.chart_genre = a.chart_genre
-                )
-                GROUP BY a.chart_genre
-                ORDER BY a.chart_date DESC";
-
-        if ($page) {
-            $offset = ($page * $this->_items_per_page) - $this->_items_per_page;
-            $sql .= ' LIMIT ' . $offset . ', ' . $this->_items_per_page;
-        } else {
-            $sql .= ' LIMIT ' . (int) $this->_items_per_page;
-        }
-
-        $chart_data = $wpdb->get_results($sql, ARRAY_A);
-
-        $results = $this->_set_complete_chart_data($chart_data);
-
-        return $results;
-    }
-
-    /**
-     * Return and retrieve all complete chart of a specific chart, 
-     * specifing the slug of the chart 
+     * Return and retrieve all complete chart of a specific chart type.
      * Include the song in first position.
      * 
      * @param string $slug
      * @return array
      */
-    public function get_all_complete_charts_by_chart_genre($genre, $page = null) {
+    public function get_all_complete_charts_by_chart_type($slug, $page = null) {
         $wpdb = $this->get_db();
 
         $sql = "SELECT 
@@ -303,7 +259,7 @@ class Rip_Charts_Dao extends \Rip_General\Classes\Rip_Abstract_Dao {
                 WHERE a.chart_archive_slug = c.chart_archive_slug
                 AND   c.id_chart = p1.ID
                 AND   c.id_song  = p2.ID 
-                AND   a.chart_genre = %s
+                AND   a.chart_type = %s
                 GROUP BY c.chart_archive_slug
                 ORDER BY a.id DESC, c.user_vote DESC";
 
@@ -315,10 +271,54 @@ class Rip_Charts_Dao extends \Rip_General\Classes\Rip_Abstract_Dao {
         }
 
         $prepared = $wpdb->prepare($sql, array(
-            $genre
+            $slug
         ));
 
         $chart_data = $wpdb->get_results($prepared, ARRAY_A);
+
+        $results = $this->_set_complete_chart_data($chart_data);
+
+        return $results;
+    }
+
+    /**
+     * Retrieve a list of all complete charts.
+     * Return a paginated array.
+     * 
+     * @param int $page
+     * @return array
+     */
+    public function get_latest_complete_charts($page = null) {
+        $wpdb = $this->get_db();
+
+        $sql = "SELECT 
+                        a.id AS id_chart_archive, a.chart_archive_slug, a.chart_type, 
+                        a.chart_date, a.chart_creation_date, a.songs_number AS chart_songs_number,
+                        c.id, c.id_chart, c.id_song, c.user_vote,
+                        p1.post_name AS chart_slug, p1.post_title AS chart_title, 
+                        p1.post_content AS chart_content, p1.post_excerpt AS chart_excerpt,
+                        p2.post_name AS song_slug, p2.post_title AS song_title, 
+                        p2.post_content AS song_content, p2.post_excerpt AS song_excerpt
+                FROM wp_charts_archive AS a, wp_charts_songs AS c, wp_posts AS p1, wp_posts AS p2
+                WHERE a.chart_archive_slug = c.chart_archive_slug
+                AND   c.id_chart   = p1.ID
+                AND   c.id_song    = p2.ID
+                AND   a.chart_date = (
+                        SELECT MAX(ca.chart_date) AS chart_date
+                                FROM wp_charts_archive AS ca
+                                WHERE ca.chart_type = a.chart_type
+                )
+                GROUP BY a.chart_type
+                ORDER BY a.chart_date DESC";
+
+        if ($page) {
+            $offset = ($page * $this->_items_per_page) - $this->_items_per_page;
+            $sql .= ' LIMIT ' . $offset . ', ' . $this->_items_per_page;
+        } else {
+            $sql .= ' LIMIT ' . (int) $this->_items_per_page;
+        }
+
+        $chart_data = $wpdb->get_results($sql, ARRAY_A);
 
         $results = $this->_set_complete_chart_data($chart_data);
 
@@ -522,7 +522,7 @@ class Rip_Charts_Dao extends \Rip_General\Classes\Rip_Abstract_Dao {
 
         try {
             $results = $wpdb->query($prepared);
-        } catch (Exception $exc) {           
+        } catch (Exception $exc) {
             $wpdb->query('ROLLBACK');
 
             return array(
@@ -532,8 +532,8 @@ class Rip_Charts_Dao extends \Rip_General\Classes\Rip_Abstract_Dao {
         }
 
         $wpdb->query('COMMIT');
-        
-        
+
+
 
 
         return $results;
@@ -587,16 +587,18 @@ class Rip_Charts_Dao extends \Rip_General\Classes\Rip_Abstract_Dao {
         $sql = "INSERT INTO wp_charts_songs_vote (
                     chart_archive_slug,
                     id_song,
-                    vote_date
+                    vote_date,
+                    vote_time
                 )
-                VALUES (%s, %d, %s )";
+                VALUES (%s, %d, %s, %s)";
 
         $prepared = $wpdb->prepare($sql, array(
             $data['chart_archive_slug'],
             (int) $data['id_song'],
-            date('Y-m-d', time())
+            date('Y-m-d', time()),
+            date('H:i:s', time())
         ));
-
+       
         if ($wpdb->query($prepared) === false) {
             $wpdb->query('ROLLBACK');
 

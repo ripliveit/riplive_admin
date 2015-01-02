@@ -1,35 +1,31 @@
-module.exports = function(grunt) {
+module.exports = function (grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
-        rsync: {
-            options: {
-                args: ['--verbose'],
-                exclude: [
-                    '.git*',
-                    '.htaccess',
-                    '.htpasswd',
-                    'node_modules',
-                    'nbproject',
-                    'wp-content/uploads/',
-                    'wp-config.php',
-                    '.DS_store'
-                ],
-                recursive: true
-            },
-            dist: {
+        // Deploy configuration
+        sshconfig: {
+            'server': {
+                host: process.env.SSH_HOST,
+                username: process.env.SSH_USER,
+                password: process.env.SSH_PASSWORD,
+                port: process.env.SSH_PORT
+            }
+        },
+        sshexec: {
+            deploy: {
+                command: [
+                    'cd /var/www/riplive_admin',
+                    'git pull origin master'
+                ].join(' && '),
                 options: {
-                    src: "./",
-                    dest: "/var/www/test",
-                    host: "rip@static.riplive.it",
-                    port : 5430
+                    config: 'server'
                 }
             }
-        }
+        },
     });
 
-    grunt.loadNpmTasks('grunt-rsync');
+    grunt.loadNpmTasks('grunt-ssh');
 
     grunt.registerTask('deploy', [
-        'rsync:dist'
+        'sshexec:deploy'
     ]);
 };

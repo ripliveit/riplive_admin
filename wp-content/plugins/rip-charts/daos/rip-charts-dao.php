@@ -392,7 +392,7 @@ class Rip_Charts_Dao extends \Rip_General\Classes\Rip_Abstract_Dao {
         $first_query = "INSERT INTO wp_charts_archive (
                             chart_archive_slug, 
                             id_chart,
-                            chart_slug, 
+                            chart_type, 
                             chart_date, 
                             chart_creation_date, 
                             songs_number

@@ -92,7 +92,13 @@ class Rip_Http_Response implements \Rip_General\Interfaces\Rip_Json_Interface {
             header('Content-Type: application/json; charset=utf-8');
         }
     }
-
+    
+    /**
+     * Set the http status code.
+     * 
+     * @param int $code
+     * @return \Rip_General\Classes\Rip_Http_Response
+     */
     public function set_code($code) {
         if (array_key_exists((int) $code, $this->_codes)) {
             $this->_code = (int) $code;

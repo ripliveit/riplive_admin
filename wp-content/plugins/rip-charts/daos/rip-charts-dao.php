@@ -326,6 +326,46 @@ class Rip_Charts_Dao extends \Rip_General\Classes\Rip_Abstract_Dao {
     }
 
     /**
+     * Return the last, single complete chart
+     * that has the specified song.
+     * 
+     * @param string $slug
+     * @return array
+     */
+    public function get_last_complete_chart_by_song_id($id) {
+        $wpdb = $this->get_db();
+
+        $sql = "SELECT 
+                        a.id AS id_chart_archive, a.chart_archive_slug, a.chart_date, 
+                        a.chart_creation_date, a.songs_number AS chart_songs_number,
+                        c.id, c.id_chart, c.id_song, c.user_vote,
+                        p1.post_name AS chart_slug, p1.post_title AS chart_title, 
+                        p1.post_content AS chart_content, p1.post_excerpt AS chart_excerpt,
+                        p2.post_name AS song_slug, p2.post_title AS song_title, 
+                        p2.post_content AS song_content, p2.post_excerpt AS song_excerpt
+                FROM wp_charts_archive AS a, 
+                     wp_charts_songs AS c, 
+                     wp_posts AS p1, 
+                     wp_posts AS p2
+                WHERE a.chart_archive_slug = c.chart_archive_slug
+                AND   c.id_chart = p1.ID
+                AND   c.id_song  = p2.ID 
+                AND   c.id_song  = %d
+                ORDER BY a.chart_date DESC
+                LIMIT 1";
+
+        $prepared = $wpdb->prepare($sql, array(
+            $id
+        ));
+
+        $chart_data = $wpdb->get_results($prepared, ARRAY_A);
+
+        $results = $this->_set_complete_chart_data($chart_data);
+
+        return empty($results) ? false : current($results);
+    }
+
+    /**
      * Return and retrieve a specific complete chart, passing a chart_archive_slug 
      * as argument.
      * $chart_archive_slug is the unique identifier in wp_charts_archive table.
@@ -349,7 +389,6 @@ class Rip_Charts_Dao extends \Rip_General\Classes\Rip_Abstract_Dao {
                 AND   c.id_song  = p2.ID 
                 AND   a.chart_archive_slug = %s 
                 ORDER BY c.user_vote DESC";
-
 
         $prepared = $wpdb->prepare($sql, array(
             $slug
@@ -598,7 +637,7 @@ class Rip_Charts_Dao extends \Rip_General\Classes\Rip_Abstract_Dao {
             date('Y-m-d', time()),
             date('H:i:s', time())
         ));
-       
+
         if ($wpdb->query($prepared) === false) {
             $wpdb->query('ROLLBACK');
 

@@ -298,8 +298,14 @@ class Rip_Charts_Controller extends \Rip_General\Classes\Rip_Abstract_Controller
 
         $chart_archive_slug = $this->_request->request->get('chart_archive_slug');
         $id_song = $this->_request->request->get('id_song');
-
-        $service = new \Rip_Charts\Services\Rip_Charts_Service($chart_dao);
+        
+//        return $this->_response->to_json($id_song);
+        
+//        echo '<pre>------';
+//        print_r($id_song);
+//        echo '</pre>';
+        
+        $service = new \Rip_Charts\Services\Rip_Charts_Vote_Service($chart_dao);
         $can_vote = $service->check_if_user_can_vote($chart_archive_slug, $id_song);
 
         if ($can_vote['status'] === 'error') {

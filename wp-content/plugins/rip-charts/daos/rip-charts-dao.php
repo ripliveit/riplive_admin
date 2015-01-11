@@ -558,7 +558,9 @@ class Rip_Charts_Dao extends \Rip_General\Classes\Rip_Abstract_Dao {
             $slug,
         ));
 
-        if ($results = $wpdb->query($prepared) === false) {
+        $results = $wpdb->query($prepared);
+        
+        if ($results === 0) {
             $wpdb->query('ROLLBACK');
 
             return array(

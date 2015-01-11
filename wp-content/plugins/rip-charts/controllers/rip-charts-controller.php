@@ -284,6 +284,7 @@ class Rip_Charts_Controller extends \Rip_General\Classes\Rip_Abstract_Controller
         if (isset($results['status']) && $results['status'] === 'error') {
             return $this->_response->set_code(412)->to_json(array(
                         'status' => 'error',
+                        'type' => 'duplicate',
                         'message' => 'You can duplicate a chart of the same type max one time a day'
             ));
         }

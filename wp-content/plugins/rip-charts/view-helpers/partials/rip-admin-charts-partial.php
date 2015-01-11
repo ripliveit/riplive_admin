@@ -143,17 +143,13 @@
                 action: 'rip_charts_duplicate_complete_chart',
                 slug: ChartArchiveSlug
             }).then(function(res) {
-                if (res.data.status === 'error') {
-                    if (res.data.type === 'duplicate') {
-                        alert('Puoi duplicare al massimo una classifica dello stesso tipo al giorno');
-                    } else {
-                        alert(res.data.message);
-                    }
+                $scope.charts.unshift(res.data);
+            }, function(err) {
+                if (err.data.status === 'error') {
+                    alert(err.data.message);
 
                     return false;
                 }
-
-                $scope.charts.unshift(res.data);
             });
         };
 

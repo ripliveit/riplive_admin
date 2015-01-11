@@ -456,21 +456,19 @@ class Rip_Charts_Dao extends \Rip_General\Classes\Rip_Abstract_Dao {
                 'message' => 'Error in inserting to wp_chart_archive. Probably the chart is already presents.'
             );
         }
-
-        // Insert all songs in wp_charts_song
-        foreach ($data['songs'] as $song) {
-            $sql = "INSERT INTO wp_charts_songs (chart_archive_slug, id_chart, id_song)
+        
+         // Insert all songs in wp_charts_song
+        $sql = "INSERT INTO wp_charts_songs (chart_archive_slug, id_chart, id_song)
                     VALUES (%s, %d, %d)";
-
+        
+        foreach ($data['songs'] as $song) {
             $prepared = $wpdb->prepare($sql, array(
                 $data['chart_archive_slug'],
                 (int) $data['id_chart'],
                 (int) $song['id_song'],
             ));
 
-            try {
-                $wpdb->query($prepared);
-            } catch (Exception $exc) {
+            if ($wpdb->query($prepared) === false) {
                 $wpdb->query('ROLLBACK');
 
                 return array(
@@ -507,33 +505,34 @@ class Rip_Charts_Dao extends \Rip_General\Classes\Rip_Abstract_Dao {
         }
 
         $wpdb = $this->get_db();
-
         $wpdb->query('START TRANSACTION');
+        
+        $sql = "UPDATE wp_charts_songs 
+                    SET id_song = %d, user_vote = %d
+                    WHERE id = %d
+                    AND chart_archive_slug = %s";
 
         foreach ($data['songs'] as $item) {
-            try {
-                $sql = "UPDATE wp_charts_songs 
-                        SET id_song = %d, user_vote = %d
-                        WHERE id = %d
-                        AND chart_archive_slug = %s";
-
-                $prepared = $wpdb->prepare($sql, array(
-                    (int) $item['id_song'],
-                    (int) $item['user_vote'],
-                    (int) $item['id_chart_song'],
-                    $data['chart_archive_slug'],
-                ));
-
-                $results = $wpdb->query($prepared);
-            } catch (Exception $exc) {
+            $prepared = $wpdb->prepare($sql, array(
+                (int) $item['id_song'],
+                (int) $item['user_vote'],
+                (int) $item['id_chart_song'],
+                $data['chart_archive_slug'],
+            ));
+            
+            if ($results = $wpdb->query($prepared) === false) {
                 $wpdb->query('ROLLBACK');
-                echo $exc->getTraceAsString();
+                
+                return array(
+                    'status' => 'error',
+                    'message' => 'Error in updating the complete charts'
+                );
             }
         }
+        
         $affected_rows = $wpdb->rows_affected;
-
         $wpdb->query('COMMIT');
-
+        
         return $affected_rows;
     }
 
@@ -559,9 +558,7 @@ class Rip_Charts_Dao extends \Rip_General\Classes\Rip_Abstract_Dao {
             $slug,
         ));
 
-        try {
-            $results = $wpdb->query($prepared);
-        } catch (Exception $exc) {
+        if ($results = $wpdb->query($prepared) === false) {
             $wpdb->query('ROLLBACK');
 
             return array(
@@ -571,9 +568,6 @@ class Rip_Charts_Dao extends \Rip_General\Classes\Rip_Abstract_Dao {
         }
 
         $wpdb->query('COMMIT');
-
-
-
 
         return $results;
     }
@@ -638,7 +632,7 @@ class Rip_Charts_Dao extends \Rip_General\Classes\Rip_Abstract_Dao {
             date('H:i:s', time())
         ));
 
-        if ($wpdb->query($prepared) === false) {
+        if ($result = $wpdb->query($prepared) === false) {
             $wpdb->query('ROLLBACK');
 
             return array(

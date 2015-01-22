@@ -402,28 +402,14 @@ class Rip_Charts_Dao extends \Rip_General\Classes\Rip_Abstract_Dao {
     }
 
     /**
-     * First insert a chart's record into wp_chart_archive, (that store all archive about chart)
-     * Then insert a complete chart into wp_charts_songs.
-     * Accept as parameter an array of rows to insert in a transaction. 
-     * Each row specify: the chart archive slug, the id_chart, and the id_song
-     * Return the last inserted item.
+     * Insert a chart into wp_chart_archive, (that store all archive about chart)
      * 
      * @param array $data
-     * @return array
+     * @return boolean
      */
     public function insert_complete_chart(array $data = array()) {
-        if (empty($data['chart_archive_slug'])) {
-            return array(
-                'status' => 'error',
-                'message' => 'Please specify a chart_archive_slug'
-            );
-        }
-
         $wpdb = $this->get_db();
         $wpdb->hide_errors();
-
-        $wpdb->query('START TRANSACTION');
-
         $date = date('Y-m-d', time());
         $date_time = date('Y-m-d H:i:s', time());
 
@@ -438,7 +424,7 @@ class Rip_Charts_Dao extends \Rip_General\Classes\Rip_Abstract_Dao {
                          )
                         VALUES (%s, %d, %s, %s, %s, %s)";
 
-        $first_prepared = $wpdb->prepare($first_query, array(
+        $prepared = $wpdb->prepare($first_query, array(
             $data['chart_archive_slug'],
             (int) $data['id_chart'],
             $data['chart_slug'],
@@ -447,92 +433,79 @@ class Rip_Charts_Dao extends \Rip_General\Classes\Rip_Abstract_Dao {
             $data['chart_songs_number'],
         ));
 
-        if ($wpdb->query($first_prepared) === false) {
-            $wpdb->query('ROLLBACK');
+        $result = $wpdb->query($prepared);
 
-            return array(
-                'status' => 'error',
-                'type' => 'duplicate',
-                'message' => 'Error in inserting to wp_chart_archive. Probably the chart is already presents.'
-            );
-        }
-        
-         // Insert all songs in wp_charts_song
-        $sql = "INSERT INTO wp_charts_songs (chart_archive_slug, id_chart, id_song)
-                    VALUES (%s, %d, %d)";
-        
-        foreach ($data['songs'] as $song) {
-            $prepared = $wpdb->prepare($sql, array(
-                $data['chart_archive_slug'],
-                (int) $data['id_chart'],
-                (int) $song['id_song'],
-            ));
-
-            if ($wpdb->query($prepared) === false) {
-                $wpdb->query('ROLLBACK');
-
-                return array(
-                    'status' => 'error',
-                    'message' => 'Error in inserting all songs in wp_chart_songs.'
-                );
-            }
+        if ($result === false) {
+            return false;
         }
 
-        $wpdb->query('COMMIT');
-
-        $results = $this->get_complete_chart_by_chart_archive_slug($data['chart_archive_slug']);
-
-        return $results;
+        return $result;
     }
 
     /**
-     * Update each row of a complete chart.
-     * A complete chart is made by 5, 10, 20, or 50 songs with the same chart_archive_slug.
-     * 
-     * IMPORTANT: 
-     * Each row id must be specified to perform the update in a transaction.
-     * The row id is passed AS id_chart_song
+     * Insert a song into wp_charts_songs, 
+     * (that store all songs associated with a specific chart)
      * 
      * @param array $data
-     * @return int (the number of the affected row).
+     * @return boolean
      */
-    public function update_complete_chart(array $data = array()) {
-        if (empty($data)) {
-            return array(
-                'status' => 'error',
-                'message' => 'No complete chart data was supplied',
-            );
+    public function insert_chart_song($chart_archive_slug = null, $id_chart = null, $id_song = null) {
+        $wpdb = $this->get_db();
+        $wpdb->hide_errors();
+
+        $sql = "INSERT INTO wp_charts_songs (chart_archive_slug, id_chart, id_song)
+                    VALUES (%s, %d, %d)";
+
+        $prepared = $wpdb->prepare($sql, array(
+            $chart_archive_slug,
+            (int) $id_chart,
+            (int) $id_song,
+        ));
+
+        $result = $wpdb->query($prepared);
+
+        if ($result === false) {
+            return false;
         }
 
+        return $result;
+    }
+
+    /**
+     * Update a single song's position
+     * into wp_charts_songs.
+     * 
+     * @param int $id_chart_song
+     * @param string $chart_archive_slug
+     * @param int $id_song
+     * @param int $user_vote
+     * @return boolean
+     */
+    public function update_chart_song(
+    $id_chart_song = null, $chart_archive_slug = null, $id_song = null, $user_vote = null
+    ) {
         $wpdb = $this->get_db();
-        $wpdb->query('START TRANSACTION');
-        
+
         $sql = "UPDATE wp_charts_songs 
                     SET id_song = %d, user_vote = %d
                     WHERE id = %d
                     AND chart_archive_slug = %s";
 
-        foreach ($data['songs'] as $item) {
-            $prepared = $wpdb->prepare($sql, array(
-                (int) $item['id_song'],
-                (int) $item['user_vote'],
-                (int) $item['id_chart_song'],
-                $data['chart_archive_slug'],
-            ));
-            
-            if ($results = $wpdb->query($prepared) === false) {
-                $wpdb->query('ROLLBACK');
-                
-                return array(
-                    'status' => 'error',
-                    'message' => 'Error in updating the complete charts'
-                );
-            }
+        $prepared = $wpdb->prepare($sql, array(
+            (int) $id_song,
+            (int) $user_vote,
+            (int) $id_chart_song,
+            $chart_archive_slug,
+        ));
+
+        $result = $wpdb->query($prepared);
+
+        if ($result === false) {
+            return false;
         }
-        
+
         $affected_rows = $wpdb->rows_affected;
-        $wpdb->query('COMMIT');
-        
+
         return $affected_rows;
     }
 
@@ -549,8 +522,6 @@ class Rip_Charts_Dao extends \Rip_General\Classes\Rip_Abstract_Dao {
     public function delete_complete_chart($slug) {
         $wpdb = $this->get_db();
 
-        $wpdb->query('START TRANSACTION');
-
         $sql = "DELETE FROM wp_charts_archive 
                         WHERE chart_archive_slug = %s";
 
@@ -558,46 +529,13 @@ class Rip_Charts_Dao extends \Rip_General\Classes\Rip_Abstract_Dao {
             $slug,
         ));
 
-        $results = $wpdb->query($prepared);
-        
-        if ($results === 0) {
-            $wpdb->query('ROLLBACK');
+        $result = $wpdb->query($prepared);
 
-            return array(
-                'status' => 'error',
-                'message' => 'Error in deleting the complete charts'
-            );
+        if ($result === false) {
+            return false;
         }
 
-        $wpdb->query('COMMIT');
-
-        return $results;
-    }
-
-    /**
-     * Duplicate a complete chart, retrieved by it's unique chart_archive_slug.
-     * Return the duplicated chart.
-     * 
-     * @param string $slug
-     * @return array
-     */
-    public function duplicate_complete_chart($slug) {
-        $data = $this->get_complete_chart_by_chart_archive_slug($slug);
-
-        if (empty($data)) {
-            return array(
-                'status' => 'error',
-                'message' => 'Cannot duplicate. Please specify a chart to duplicate.'
-            );
-        }
-
-        // Set the new chart archive slug.
-        // If already present @insert_complete_chart will not perform the insert.
-        $data['chart_archive_slug'] = $data['chart_slug'] . '-' . $date = date('Y-m-d', time());
-
-        $results = $this->insert_complete_chart($data);
-
-        return $results;
+        return $result;
     }
 
     /**
@@ -606,18 +544,9 @@ class Rip_Charts_Dao extends \Rip_General\Classes\Rip_Abstract_Dao {
      * @param array $data
      * @return array
      */
-    public function insert_complete_chart_vote(array $data = array()) {
-        if (empty($data)) {
-            return array(
-                'status' => 'error',
-                'message' => 'Please specify correct vote data'
-            );
-        }
-
+    public function insert_complete_chart_vote($chart_archive_slug, $id_song) {
         $wpdb = $this->get_db();
         $wpdb->hide_errors();
-
-        $wpdb->query('START TRANSACTION');
 
         $sql = "INSERT INTO wp_charts_songs_vote (
                     chart_archive_slug,
@@ -628,28 +557,19 @@ class Rip_Charts_Dao extends \Rip_General\Classes\Rip_Abstract_Dao {
                 VALUES (%s, %d, %s, %s)";
 
         $prepared = $wpdb->prepare($sql, array(
-            $data['chart_archive_slug'],
-            (int) $data['id_song'],
+            $chart_archive_slug,
+            $id_song,
             date('Y-m-d', time()),
             date('H:i:s', time())
         ));
-
-        if ($result = $wpdb->query($prepared) === false) {
-            $wpdb->query('ROLLBACK');
-
-            return array(
-                'status' => 'error',
-                'type' => 'duplicate',
-                'message' => 'Error in inserting to wp_charst_songs_vote. Probably already voted'
-            );
+        
+        $result = $wpdb->query($prepared);
+        
+        if ($result === false) {
+            return false;
         }
 
-        $wpdb->query('COMMIT');
-
-        return array(
-            'status' => 'ok',
-            'message' => 'Vote insertion was successfull'
-        );
+        return $result;
     }
 
 }

@@ -200,13 +200,14 @@ class Rip_Charts_Controller extends \Rip_General\Classes\Rip_Abstract_Controller
         }
 
         $dao = new \Rip_Charts\Daos\Rip_Charts_Dao();
+        $service = new \Rip_Charts\Services\Rip_Charts_Persist_Service($dao);
+        $result = $service->insert_complete_chart($complete_chart);
 
-        $results = $dao->insert_complete_chart($complete_chart);
-        
-        // check $results and return chart.
-        
-        
-        $this->_response->to_json($results);
+        if (isset($result['status']) && $result['status'] === 'error') {
+            return $this->_response->set_code(500)->to_json($result);
+        }
+
+        $this->_response->to_json($result);
     }
 
     /**
@@ -230,9 +231,14 @@ class Rip_Charts_Controller extends \Rip_General\Classes\Rip_Abstract_Controller
         }
 
         $dao = new \Rip_Charts\Daos\Rip_Charts_Dao();
+        $service = new \Rip_Charts\Services\Rip_Charts_Persist_Service($dao);
+        $result = $service->update_complete_chart($complete_chart);
 
-        $results = $dao->update_complete_chart($complete_chart);
-        $this->_response->to_json($results);
+        if (isset($result['status']) && $result['status'] === 'error') {
+            return $this->_response->set_code(500)->to_json($result);
+        }
+
+        $this->_response->to_json($result);
     }
 
     /**
@@ -249,19 +255,14 @@ class Rip_Charts_Controller extends \Rip_General\Classes\Rip_Abstract_Controller
         }
 
         $dao = new \Rip_Charts\Daos\Rip_Charts_Dao();
-        $results = $dao->delete_complete_chart($slug);
+        $service = new \Rip_Charts\Services\Rip_Charts_Persist_Service($dao);
+        $result = $service->delete_complete_chart($slug);
 
-        if ((int) $results === 0) {
-            return $this->_response->set_code(412)->to_json(array(
-                        'status' => 'error',
-                        'message' => 'Resource does not exists'
-            ));
+        if (isset($result['status']) && $result['status'] === 'error') {
+            return $this->_response->set_code(500)->to_json($result);
         }
 
-        $this->_response->set_code(200)->to_json(array(
-            'status' => 'ok',
-            'message' => 'Resource successfully deleted'
-        ));
+        $this->_response->set_code(204)->to_json($result);
     }
 
     /**
@@ -278,15 +279,11 @@ class Rip_Charts_Controller extends \Rip_General\Classes\Rip_Abstract_Controller
         }
 
         $dao = new \Rip_Charts\Daos\Rip_Charts_Dao();
-
-        $results = $dao->duplicate_complete_chart($slug);
+        $service = new \Rip_Charts\Services\Rip_Charts_Persist_Service($dao);
+        $results = $service->duplicate_complete_chart($slug);
 
         if (isset($results['status']) && $results['status'] === 'error') {
-            return $this->_response->set_code(412)->to_json(array(
-                        'status' => 'error',
-                        'type' => 'duplicate',
-                        'message' => 'You can duplicate a chart of the same type max one time a day'
-            ));
+            return $this->_response->set_code(500)->to_json($results);
         }
 
         $this->_response->to_json($results);
@@ -299,24 +296,18 @@ class Rip_Charts_Controller extends \Rip_General\Classes\Rip_Abstract_Controller
      * @return array
      */
     public function insert_complete_chart_vote() {
-        $chart_dao = new \Rip_Charts\Daos\Rip_Charts_Dao();
-
         $chart_archive_slug = $this->_request->request->get('chart_archive_slug');
         $id_song = $this->_request->request->get('id_song');
         
-        $service = new \Rip_Charts\Services\Rip_Charts_Vote_Service($chart_dao);
-        $can_vote = $service->check_if_user_can_vote($chart_archive_slug, $id_song);
-
-        if (isset($can_vote['status']) && $can_vote['status'] === 'error') {
-            return $this->_response->set_code(400)->to_json($can_vote);
+        $chart_dao = new \Rip_Charts\Daos\Rip_Charts_Dao();
+        $service = new \Rip_Charts\Services\Rip_Charts_Persist_Service($chart_dao);
+        $result  = $service->insert_complete_chart_vote($chart_archive_slug, $id_song);
+        
+        if (isset($result['status']) && $result['status'] === 'error') {
+            return $this->_response->set_code(400)->to_json($result);
         }
-
-        $results = $chart_dao->insert_complete_chart_vote(array(
-            'chart_archive_slug' => $chart_archive_slug,
-            'id_song' => $id_song,
-        ));
-
-        $this->_response->to_json($results);
+        
+        $this->_response->to_json($result);
     }
 
 }

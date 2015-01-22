@@ -65,17 +65,16 @@ app.controller('UpdateCtrl', function ($scope, $routeParams, $location, $timeout
             action: 'rip_charts_update_complete_chart'
         }, {
             complete_chart: $scope.chart
-        }).success(function (res) {
+        }).then(function (res) {
             if (res) {
                 alert('Inserimento avvenuto con successo!');
 
-//                    $timeout(function() {
-//                        $location.path('/');
-//                    }, 1000);
+                $timeout(function () {
+                    $location.path('/');
+                }, 1000);
             }
-        }).error(function (err, status) {
-            console.log(err);
+        }, function (err) {
+            alert(err.data.message);
         });
-
     };
 });

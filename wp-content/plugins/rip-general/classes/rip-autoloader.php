@@ -35,10 +35,6 @@ class Rip_Autoloader {
      */
     protected function _load_classes($class_name) {
         $exploded = explode('\\', $class_name);
-//        echo '<pre>';
-//        print_r(explode('\\', $class_name));
-//        echo '</pre>';
-
         $namespace = $exploded[0] . '\\';
 
         $filename = str_replace($namespace, '', $class_name);
@@ -48,9 +44,6 @@ class Rip_Autoloader {
         $path = $this->_plugin_dir_path . strtolower($filename);
 
         if (file_exists($path)) {
-//            echo '<pre>';
-//            print_r($path);
-//            echo '</pre>';
             include($path);
         }
     }

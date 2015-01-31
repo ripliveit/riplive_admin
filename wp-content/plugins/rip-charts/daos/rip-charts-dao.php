@@ -14,116 +14,6 @@ class Rip_Charts_Dao extends \Rip_General\Classes\Rip_Abstract_Dao {
     protected $_items_per_page = 24;
 
     /**
-     * A method that set the Charts data.
-     * 
-     * @param WP_Query $query
-     * @return array
-     */
-    protected function _set_charts_data(\WP_Query $query) {
-        $out = array();
-
-        while ($query->have_posts()) {
-            $query->the_post();
-            $post = get_post(get_the_ID());
-
-            array_push($out, array(
-                'id_chart' => html_entity_decode(get_the_ID(), ENT_COMPAT, 'UTF-8'),
-                'chart_slug' => $post->post_name,
-                'chart_title' => get_the_title(),
-                'chart_content' => $this->get_the_content(),
-                'chart_excerpt' => get_the_excerpt(),
-                'chart_genre' => wp_get_post_terms(get_the_ID(), 'chart-genre'),
-                'chart_tags' => wp_get_post_terms(get_the_ID(), 'chart-tag'),
-                'chart_images' => array(
-                    'thumbnail' => $this->get_post_images(get_the_ID(), 'thumbnail'),
-                    'image_medium' => $this->get_post_images(get_the_ID(), 'medium'),
-                    'image_large' => $this->get_post_images(get_the_ID(), 'large'),
-                    'image_full' => $this->get_post_images(get_the_ID(), 'full'),
-                    'landscape_medium' => $this->get_post_images(get_the_ID(), 'medium-landscape'),
-                    'landscape_large' => $this->get_post_images(get_the_ID(), 'large-landscape'),
-                ),
-            ));
-        }
-
-        wp_reset_query();
-        wp_reset_postdata();
-
-        return $out;
-    }
-
-    /**
-     * A method that set the Complete Chart's data.
-     * 
-     * @param array $chart_data
-     * @return boolean|array
-     */
-    protected function _set_complete_chart_data(array $chart_data) {
-        if (empty($chart_data)) {
-            return array();
-        }
-
-        $out = array();
-
-        // First populate the chart's data.
-        foreach ($chart_data as $value) {
-            $archive_slug = $value['chart_archive_slug'];
-
-            $out[$archive_slug]['id_chart_archive'] = (int) $value['id_chart_archive'];
-            $out[$archive_slug]['chart_archive_slug'] = $value['chart_archive_slug'];
-            $out[$archive_slug]['id_chart'] = (int) $value['id_chart'];
-            $out[$archive_slug]['chart_slug'] = $value['chart_slug'];
-            $out[$archive_slug]['chart_title'] = $value['chart_title'];
-            $out[$archive_slug]['chart_content'] = $value['chart_content'];
-            $out[$archive_slug]['chart_excerpt'] = $value['chart_excerpt'];
-            $out[$archive_slug]['chart_date'] = $value['chart_date'];
-            $out[$archive_slug]['chart_locale_date'] = date_i18n('d F Y', strtotime($value['chart_date']));
-            $out[$archive_slug]['chart_creation_date'] = $value['chart_creation_date'];
-            $out[$archive_slug]['chart_songs_number'] = $value['chart_songs_number'];
-            $out[$archive_slug]['chart_genre'] = wp_get_post_terms((int) $value['id_chart'], 'chart-genre');
-            $out[$archive_slug]['chart_tags'] = wp_get_post_terms((int) $value['id_chart'], 'chart-tag');
-            $out[$archive_slug]['chart_images'] = array(
-                'thumbnail' => $this->get_post_images($value['id_chart'], 'thumbnail'),
-                'image_medium' => $this->get_post_images($value['id_chart'], 'medium'),
-                'image_large' => $this->get_post_images($value['id_chart'], 'large'),
-                'image_full' => $this->get_post_images($value['id_chart'], 'full'),
-                'landscape_medium' => $this->get_post_images($value['id_chart'], 'medium-landscape'),
-                'landscape_large' => $this->get_post_images($value['id_chart'], 'large-landscape'),
-            );
-            $out[$archive_slug]['songs'] = array();
-        }
-
-        // Then fill with all relative's songs.
-        foreach ($chart_data as $item) {
-            $archive_slug = $item['chart_archive_slug'];
-
-            array_push($out[$archive_slug]['songs'], array(
-                'id_chart_song' => (int) $item['id'],
-                'id_song' => (int) $item['id_song'],
-                'song_slug' => $item['song_slug'],
-                'song_title' => $item['song_title'],
-                'song_content' => $item['song_content'],
-                'song_excerpt' => $item['song_excerpt'],
-                'song_genre' => wp_get_post_terms($item['id_song'], 'song-genre'),
-                'song_tags' => wp_get_post_terms($item['id_song'], 'song-tag'),
-                'song_images' => array(
-                    'thumbnail' => $this->get_post_images($item['id_song'], 'thumbnail'),
-                    'image_medium' => $this->get_post_images($item['id_song'], 'medium'),
-                    'image_large' => $this->get_post_images($item['id_song'], 'large'),
-                    'image_full' => $this->get_post_images($item['id_song'], 'full'),
-                    'landscape_medium' => $this->get_post_images($item['id_song'], 'medium-landscape'),
-                    'landscape_large' => $this->get_post_images($item['id_song'], 'large-landscape'),
-                ),
-                'song_artist' => get_post_meta($item['id_song'], 'songs-artist', true),
-                'song_album' => get_post_meta($item['id_song'], 'songs-album', true),
-                'url_spotify' => get_post_meta($item['id_song'], 'songs-spotify', true),
-                'user_vote' => (int) $item['user_vote'],
-            ));
-        }
-
-        return array_values($out);
-    }
-
-    /**
      * Retrieve all posts 
      * from Charts Custom Post Type. 
      * 
@@ -140,9 +30,7 @@ class Rip_Charts_Dao extends \Rip_General\Classes\Rip_Abstract_Dao {
 
         $query = new \WP_Query($args);
 
-        $results = $this->_set_charts_data($query);
-
-        return $results;
+        return $query;
     }
 
     /**
@@ -159,9 +47,7 @@ class Rip_Charts_Dao extends \Rip_General\Classes\Rip_Abstract_Dao {
 
         $query = new \WP_Query($args);
 
-        $results = $this->_set_charts_data($query);
-
-        return current($results);
+        return $query;
     }
 
     /**
@@ -231,9 +117,7 @@ class Rip_Charts_Dao extends \Rip_General\Classes\Rip_Abstract_Dao {
             $sql .= ' LIMIT ' . (int) $this->_items_per_page;
         }
 
-        $chart_data = $wpdb->get_results($sql, ARRAY_A);
-
-        $results = $this->_set_complete_chart_data($chart_data);
+        $results = $wpdb->get_results($sql, ARRAY_A);
 
         return $results;
     }
@@ -274,9 +158,7 @@ class Rip_Charts_Dao extends \Rip_General\Classes\Rip_Abstract_Dao {
             $slug
         ));
 
-        $chart_data = $wpdb->get_results($prepared, ARRAY_A);
-
-        $results = $this->_set_complete_chart_data($chart_data);
+        $results = $wpdb->get_results($prepared, ARRAY_A);
 
         return $results;
     }
@@ -318,9 +200,7 @@ class Rip_Charts_Dao extends \Rip_General\Classes\Rip_Abstract_Dao {
             $sql .= ' LIMIT ' . (int) $this->_items_per_page;
         }
 
-        $chart_data = $wpdb->get_results($sql, ARRAY_A);
-
-        $results = $this->_set_complete_chart_data($chart_data);
+        $results = $wpdb->get_results($sql, ARRAY_A);
 
         return $results;
     }
@@ -358,9 +238,7 @@ class Rip_Charts_Dao extends \Rip_General\Classes\Rip_Abstract_Dao {
             $id
         ));
 
-        $chart_data = $wpdb->get_results($prepared, ARRAY_A);
-
-        $results = $this->_set_complete_chart_data($chart_data);
+        $results = $wpdb->get_results($prepared, ARRAY_A);
 
         return empty($results) ? false : current($results);
     }
@@ -394,9 +272,7 @@ class Rip_Charts_Dao extends \Rip_General\Classes\Rip_Abstract_Dao {
             $slug
         ));
 
-        $chart_data = $wpdb->get_results($prepared, ARRAY_A);
-
-        $results = $this->_set_complete_chart_data($chart_data);
+        $results = $wpdb->get_results($prepared, ARRAY_A);
 
         return empty($results) ? false : current($results);
     }

@@ -26,7 +26,11 @@ class Rip_Charts_Query_Service {
      * Retrieve all posts from 'Charts' custom post type.
      */
     public function get_all_charts() {
-        $data = $this->_charts_dao->get_all_charts();
+        $mapper = \Rip_General\Mappers\Rip_Factory_Mapper::create_mapper(
+                        '\Rip_Charts\Mappers\Rip_Chart_Mapper', new \Rip_General\Daos\Rip_Posts_Dao()
+        );
+
+        $data = $mapper->map($this->_charts_dao->get_all_charts());
 
         $message = new \Rip_General\Dto\Message();
         $message->set_status('ok')
@@ -51,7 +55,10 @@ class Rip_Charts_Query_Service {
                             ->set_message('Please specify a chart slug');
         }
 
-        $data = $this->_charts_dao->get_chart_by_slug($slug);
+        $mapper = \Rip_General\Mappers\Rip_Factory_Mapper::create_mapper(
+                        '\Rip_Charts\Mappers\Rip_Chart_Mapper', new \Rip_General\Daos\Rip_Posts_Dao()
+        );
+        $data = $mapper->map($this->_charts_dao->get_chart_by_slug($slug));
 
         if (empty($data)) {
             return $message->set_code(404)
@@ -61,7 +68,7 @@ class Rip_Charts_Query_Service {
 
         return $message->set_code(200)
                         ->set_status('ok')
-                        ->set_chart($data);
+                        ->set_chart(current($data));
     }
 
     /**
@@ -177,4 +184,5 @@ class Rip_Charts_Query_Service {
                         ->set_status('ok')
                         ->set_complete_chart($data);
     }
+
 }

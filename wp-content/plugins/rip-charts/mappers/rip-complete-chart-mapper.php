@@ -15,7 +15,7 @@ class Rip_Complete_Chart_Mapper implements \Rip_General\Interfaces\Rip_Mapper_Ar
         $this->_dao = $dao;
     }
 
-    public function map(array $chart_data) {
+    public function map(array $chart_data = array()) {
        if (empty($chart_data)) {
             return array();
         }

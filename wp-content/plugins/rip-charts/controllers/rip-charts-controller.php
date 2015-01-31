@@ -89,11 +89,9 @@ class Rip_Charts_Controller extends \Rip_General\Classes\Rip_Abstract_Controller
      * one per genre.
      */
     public function get_latest_complete_charts() {
-        $count = $this->_request->query->get('count');
-
         $dao = new \Rip_Charts\Daos\Rip_Charts_Dao();
         $service = new \Rip_Charts\Services\Rip_Charts_Query_Service($dao);
-        $result = $service->get_latest_complete_charts($count);
+        $result = $service->get_latest_complete_charts();
 
         $this->_response->set_code($result->get_code())
                 ->to_json($result);
@@ -120,27 +118,9 @@ class Rip_Charts_Controller extends \Rip_General\Classes\Rip_Abstract_Controller
     public function insert_complete_chart() {
         $complete_chart = stripslashes_deep($this->_request->request->get('complete_chart'));
 
-        if (empty($complete_chart)) {
-            return $this->_response->set_code(400)->to_json(array(
-                        'status' => 'error',
-                        'message' => 'Please specify chart data to persists'
-            ));
-        }
-
-        if (empty($complete_chart['songs'])) {
-            return $this->_response->set_code(400)->to_json(array(
-                        'status' => 'error',
-                        'message' => 'Please specify at least five songs'
-            ));
-        }
-
         $dao = new \Rip_Charts\Daos\Rip_Charts_Dao();
         $service = new \Rip_Charts\Services\Rip_Charts_Persist_Service($dao);
         $result = $service->insert_complete_chart($complete_chart);
-
-        if (isset($result['status']) && $result['status'] === 'error') {
-            return $this->_response->set_code(500)->to_json($result);
-        }
 
         $this->_response->to_json($result);
     }
@@ -237,10 +217,6 @@ class Rip_Charts_Controller extends \Rip_General\Classes\Rip_Abstract_Controller
         $chart_dao = new \Rip_Charts\Daos\Rip_Charts_Dao();
         $service = new \Rip_Charts\Services\Rip_Charts_Persist_Service($chart_dao);
         $result = $service->insert_complete_chart_vote($chart_archive_slug, $id_song);
-
-        if (isset($result['status']) && $result['status'] === 'error') {
-            return $this->_response->set_code(400)->to_json($result);
-        }
 
         $this->_response->to_json($result);
     }

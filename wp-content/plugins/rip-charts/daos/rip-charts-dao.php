@@ -164,13 +164,14 @@ class Rip_Charts_Dao extends \Rip_General\Classes\Rip_Abstract_Dao {
     }
 
     /**
-     * Retrieve a list of all complete charts.
+     * Retrieve a list of the latest
+     * complete charts, one per type.
      * Return a paginated array.
      * 
      * @param int $page
      * @return array
      */
-    public function get_latest_complete_charts($page = null) {
+    public function get_latest_complete_charts() {
         $wpdb = $this->get_db();
 
         $sql = "SELECT 
@@ -192,13 +193,6 @@ class Rip_Charts_Dao extends \Rip_General\Classes\Rip_Abstract_Dao {
                 )
                 GROUP BY a.chart_type
                 ORDER BY a.chart_date DESC";
-
-        if ($page) {
-            $offset = ($page * $this->_items_per_page) - $this->_items_per_page;
-            $sql .= ' LIMIT ' . $offset . ', ' . $this->_items_per_page;
-        } else {
-            $sql .= ' LIMIT ' . (int) $this->_items_per_page;
-        }
 
         $results = $wpdb->get_results($sql, ARRAY_A);
 
@@ -238,9 +232,9 @@ class Rip_Charts_Dao extends \Rip_General\Classes\Rip_Abstract_Dao {
             $id
         ));
 
-        $results = $wpdb->get_results($prepared, ARRAY_A);
+        $result = $wpdb->get_row($prepared, ARRAY_A);
 
-        return empty($results) ? false : current($results);
+        return $result;
     }
 
     /**
@@ -272,9 +266,9 @@ class Rip_Charts_Dao extends \Rip_General\Classes\Rip_Abstract_Dao {
             $slug
         ));
 
-        $results = $wpdb->get_results($prepared, ARRAY_A);
+        $result = $wpdb->get_row($prepared, ARRAY_A);
 
-        return empty($results) ? false : current($results);
+        return $result;
     }
 
     /**
@@ -438,9 +432,9 @@ class Rip_Charts_Dao extends \Rip_General\Classes\Rip_Abstract_Dao {
             date('Y-m-d', time()),
             date('H:i:s', time())
         ));
-        
+
         $result = $wpdb->query($prepared);
-        
+
         if ($result === false) {
             return false;
         }

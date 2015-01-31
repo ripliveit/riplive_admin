@@ -17,18 +17,16 @@ class Rip_Charts_Vote_Validator {
      * @return boolean
      */
     public function check_if_chart_has_song(array $chart = array(), $id_song = null) {
+        $message = new \Rip_General\Dto\Message();
+        
         if (empty($chart)) {
-            return array(
-                'status' => 'error',
-                'message' => 'Please pass a chart to check'
-            );
+            return $message->set_status('error')
+                    ->set_message('Please pass a chart to check');
         }
 
         if (empty($id_song)) {
-            return array(
-                'status' => 'error',
-                'message' => 'Please specify an id song'
-            );
+            return $message->set_status('error')
+                            ->set_message('Please specify an id song');
         }
 
         // Check if the chart
@@ -40,10 +38,8 @@ class Rip_Charts_Vote_Validator {
         }
 
         if (!in_array($id_song, $song_ids)) {
-            return array(
-                'status' => 'error',
-                'message' => 'Invalid id song: the song is not in chart'
-            );
+            return $message->set_status('error')
+                            ->set_message('Invalid id song: the song is not in chart');
         }
 
         return true;

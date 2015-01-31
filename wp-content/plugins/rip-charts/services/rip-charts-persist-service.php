@@ -32,35 +32,56 @@ class Rip_Charts_Persist_Service {
     }
 
     /**
-     * First insert a chart's record into wp_chart_archive, (that store all archive about chart)
-     * Then insert all chart's songs into wp_charts_songs.
-     * Accept as parameter an array of rows to insert in a transaction. 
-     * Each row specify: the chart archive slug, the id_chart, and the id_song
-     * Return the last inserted item.
+     * First insert the chart into wp_chart_archive, that store all complete chart,
+     * then insert all songs into wp_charts_songs.
      * 
-     * @param array $data
+     * Accept an array of rows as parameter. 
+     * Each row specify: the chart archive slug, the id_chart, and the id_song
+     * Return the inserted chart.
+     * 
+     * @param array $chart
      * @return array
      */
-    public function insert_complete_chart(array $data = array()) {
-        if (empty($data['chart_archive_slug'])) {
-            return array(
-                'status' => 'error',
-                'message' => 'Please specify a chart_archive_slug'
-            );
+    public function insert_complete_chart(array $chart = array()) {
+        $message = new \Rip_General\Dto\Message();
+        $query_service = new \Rip_Charts\Services\Rip_Charts_Query_Service($this->_charts_dao);
+
+        if (empty($chart)) {
+            $message->set_code(400)
+                    ->set_status('error')
+                    ->set_message('Please specify chart data to persists');
+
+            return $message;
         }
 
-        $data = stripslashes_deep($data);
+        if (empty($chart['songs'])) {
+            $message->set_code(400)
+                    ->set_status('error')
+                    ->set_message('Please specify at least five songs to insert');
+
+            return $message;
+        }
+
+        if (empty($chart['chart_archive_slug'])) {
+            $message->set_code(400)
+                    ->set_status('error')
+                    ->set_message('Please specify a chart_archive_slug');
+
+            return $message;
+        }
+
+        $data = stripslashes_deep($chart);
         $this->_transaction->start();
         $chart_result = $this->_charts_dao->insert_complete_chart($data);
 
         if ($chart_result === false) {
             $this->_transaction->rollback();
-
-            return array(
-                'status' => 'error',
-                'type' => 'duplicate',
-                'message' => 'Error in inserting to wp_chart_archive. Probably the chart is already presents'
-            );
+            
+            $message->set_code(400)
+                    ->set_status('error')
+                    ->set_message('Error in inserting the new chart. Probably it is already presents');
+            
+            return $message;
         }
 
         // Insert 
@@ -68,11 +89,12 @@ class Rip_Charts_Persist_Service {
         foreach ($data['songs'] as $song) {
             if (empty($data['chart_archive_slug']) || empty($data['id_chart']) || empty($song['id_song'])) {
                 $this->_transaction->rollback();
-
-                return array(
-                    'status' => 'error',
-                    'message' => 'Missing parameter required for inserting.'
-                );
+                
+                $message->set_code(400)
+                        ->set_status('error')
+                        ->set_message('Missing parameter required for inserting');
+                
+                return $message;
             }
 
             $song_result = $this->_charts_dao->insert_chart_song(
@@ -81,16 +103,17 @@ class Rip_Charts_Persist_Service {
 
             if ($song_result === false) {
                 $this->_transaction->rollback();
-
-                return array(
-                    'status' => 'error',
-                    'message' => 'Error in inserting song in wp_chart_songs'
-                );
+                
+                $message->set_code(500)
+                        ->set_status('error')
+                        ->set_message('Error in inserting songs into wp_chart_songs');
+                
+                return $message;
             }
         }
 
         $this->_transaction->commit();
-        $chart = $this->_charts_dao->get_complete_chart_by_chart_archive_slug($data['chart_archive_slug']);
+        $chart = $query_service->get_complete_chart_by_chart_archive_slug($data['chart_archive_slug']);
 
         return $chart;
     }
@@ -207,23 +230,27 @@ class Rip_Charts_Persist_Service {
      * @return array
      */
     public function insert_complete_chart_vote($chart_archive_slug = null, $id_song = null) {
+        $message = new \Rip_General\Dto\Message();
+        $query_service = new \Rip_Charts\Services\Rip_Charts_Query_Service($this->_charts_dao);
+        $validator = new \Rip_Charts\Services\Rip_Charts_Vote_Validator();
+
         // If no chart archive slug is passed,
         // retrieve the last chart where the song is present.
         if (empty($chart_archive_slug)) {
-            $chart = $this->_charts_dao->get_last_complete_chart_by_song_id($id_song);
+            $data = $query_service->get_last_complete_chart_by_song_id($id_song);
         } else {
-            $chart = $this->_charts_dao->get_complete_chart_by_chart_archive_slug($chart_archive_slug);
+            $data = $query_service->get_complete_chart_by_chart_archive_slug($chart_archive_slug);
         }
 
-        $validator = new \Rip_Charts\Services\Rip_Charts_Vote_Validator();
-        $can_vote  = $validator->check_if_chart_has_song($chart, $id_song);
-        
-        if (isset($can_vote['status']) && $can_vote['status'] === 'error') {
+        $chart = $data->get_complete_chart();
+        $can_vote = $validator->check_if_chart_has_song($chart, $id_song);
+
+        if (isset($can_vote->status) && $can_vote->status === 'error') {
+            $can_vote->set_code(400);
             return $can_vote;
         }
 
         $this->_transaction->start();
-
         $result = $this->_charts_dao->insert_complete_chart_vote(
                 $chart['chart_archive_slug'], (int) $id_song
         );
@@ -231,19 +258,16 @@ class Rip_Charts_Persist_Service {
         if ($result === false) {
             $this->_transaction->rollback();
 
-            return array(
-                'status' => 'error',
-                'type' => 'duplicate',
-                'message' => 'Error in inserting to wp_charst_songs_vote. Probably already voted'
-            );
+            return $message->set_code(500)
+                            ->set_status('error')
+                            ->set_message('Error in inserting to wp_charst_songs_vote.');
         }
 
         $this->_transaction->commit();
 
-        return array(
-            'status' => 'ok',
-            'message' => 'Vote insertion was successfull'
-        );
+        return $message->set_code(200)
+                        ->set_status('ok')
+                        ->set_message('Vote insertion was successfull');
     }
 
 }

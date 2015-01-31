@@ -10,7 +10,7 @@ namespace Rip_General\Metaboxes;
  * @author Gabriele D'Arrigo - @acirdesign
  * @see rip_abstract_factory_metabox
  */
-class Rip_Factory_Metabox extends \Rip_General\Classes\Rip_Abstract_Metabox {
+class Rip_Factory_Metabox implements \Rip_General\Interfaces\Rip_Factory_Metabox_Interface {
     
     /**
      * Namespace used
@@ -18,10 +18,10 @@ class Rip_Factory_Metabox extends \Rip_General\Classes\Rip_Abstract_Metabox {
      * 
      * @var string 
      */
-    protected $_namespace = '\Rip_General\Metaboxes\\';
+    protected static $_namespace = '\Rip_General\Metaboxes\\';
 
     /**
-     * Factory method
+     * Factory method.
      * Return the metabox content.
      * 
      * @param string $field
@@ -29,12 +29,12 @@ class Rip_Factory_Metabox extends \Rip_General\Classes\Rip_Abstract_Metabox {
      * @param string $class_name
      * @throws Exception
      */
-    public function create_metabox($field, $meta, $class_name) {
+    public static function create_metabox($field, $meta, $class_name) {
         if (empty($class_name)) {
             throw new Exception('Specify metabox class name to permit the construction of the metabox');
         }
 
-        $class_name = $this->_namespace . $class_name;
+        $class_name = self::$_namespace . $class_name;
 
         if (class_exists($class_name)) {
             $metabox = new $class_name($field, $meta);

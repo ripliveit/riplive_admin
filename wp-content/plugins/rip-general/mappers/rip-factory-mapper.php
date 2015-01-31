@@ -7,7 +7,7 @@ namespace Rip_General\Mappers;
  *
  * @author Gabriele
  */
-class Rip_Factory_Mapper extends \Rip_General\Classes\Rip_Abstract_Factory_Mapper {
+class Rip_Factory_Mapper implements \Rip_General\Interfaces\Rip_Factory_Mapper_Interface {
 
     /**
      * Namespace used
@@ -15,7 +15,7 @@ class Rip_Factory_Mapper extends \Rip_General\Classes\Rip_Abstract_Factory_Mappe
      * 
      * @var string 
      */
-    protected $_namespace = '\Rip_General\Mappers\\';
+    protected static $_namespace = '\Rip_General\Mappers\\';
     
     /**
      * Dinamically create a mapper.
@@ -24,19 +24,19 @@ class Rip_Factory_Mapper extends \Rip_General\Classes\Rip_Abstract_Factory_Mappe
      * @return \class_name
      * @throws Exception
      */
-    public function create_mapper($class_name) {
+    public static function create_mapper($class_name, $arguments) {
         if (empty($class_name)) {
             throw new Exception('Specify a mapper class name to create.');
         }
 
-        $class_name = $this->_namespace . $class_name;
+        //$class_name = self::$_namespace . $class_name;
 
         if (class_exists($class_name)) {
-            $mapper = new $class_name();
+            $mapper = new $class_name($arguments);
 
             return $mapper;
         } else {
-            throw new Exception('Mapper ' . $class_name . ' was not found and cannot be created');
+            throw new \Exception('Mapper ' . $class_name . ' was not found and cannot be created');
         };
     }
 

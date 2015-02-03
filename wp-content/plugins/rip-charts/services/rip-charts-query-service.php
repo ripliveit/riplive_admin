@@ -84,15 +84,6 @@ class Rip_Charts_Query_Service {
      */
     public function get_complete_charts_number_of_pages($slug = null) {
         $message = new \Rip_General\Dto\Message();
-
-        if (empty($slug)) {
-            $message->set_code(400)
-                    ->set_status('error')
-                    ->set_message('Please specify a chart slug');
-
-            return $message;
-        }
-
         $data = $this->_charts_dao->get_complete_charts_number_of_pages($slug);
 
         if (empty($data)) {
@@ -221,10 +212,10 @@ class Rip_Charts_Query_Service {
         $mapper = \Rip_General\Mappers\Rip_Factory_Mapper::create_mapper(
                         '\Rip_Charts\Mappers\Rip_Complete_Chart_Mapper', new \Rip_General\Daos\Rip_Posts_Dao()
         );
-
-        $data = $mapper->map(array(
+               
+        $data = $mapper->map(
             $this->_charts_dao->get_complete_chart_by_chart_archive_slug($slug)
-        ));
+        );
 
         if (empty($data)) {
             $message->set_code(404)

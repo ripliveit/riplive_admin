@@ -116,44 +116,28 @@ class Rip_Charts_Controller extends \Rip_General\Classes\Rip_Abstract_Controller
      * Insert a new complete chart.
      */
     public function insert_complete_chart() {
-        $complete_chart = stripslashes_deep($this->_request->request->get('complete_chart'));
+        $complete_chart = $this->_request->request->get('complete_chart');
 
         $dao = new \Rip_Charts\Daos\Rip_Charts_Dao();
         $service = new \Rip_Charts\Services\Rip_Charts_Persist_Service($dao);
         $result = $service->insert_complete_chart($complete_chart);
 
-        $this->_response->to_json($result);
+        $this->_response->set_code($result->get_code())
+                ->to_json($result);
     }
 
     /**
      * Update complete chart.
      */
     public function update_complete_chart() {
-        $complete_chart = stripslashes_deep($this->_request->request->get('complete_chart'));
-
-        if (empty($complete_chart)) {
-            return $this->_response->set_code(400)->to_json(array(
-                        'status' => 'error',
-                        'message' => 'Please specify chart informations'
-            ));
-        }
-
-        if (empty($complete_chart['songs'])) {
-            return $this->_response->set_code(400)->to_json(array(
-                        'status' => 'error',
-                        'message' => 'Please specify at least five songs'
-            ));
-        }
+        $complete_chart = $this->_request->request->get('complete_chart');
 
         $dao = new \Rip_Charts\Daos\Rip_Charts_Dao();
         $service = new \Rip_Charts\Services\Rip_Charts_Persist_Service($dao);
         $result = $service->update_complete_chart($complete_chart);
 
-        if (isset($result['status']) && $result['status'] === 'error') {
-            return $this->_response->set_code(500)->to_json($result);
-        }
-
-        $this->_response->to_json($result);
+        $this->_response->set_code($result->get_code())
+                ->to_json($result);
     }
 
     /**
@@ -162,22 +146,12 @@ class Rip_Charts_Controller extends \Rip_General\Classes\Rip_Abstract_Controller
     public function delete_complete_chart() {
         $slug = $this->_request->query->get('slug');
 
-        if (empty($slug)) {
-            return $this->_response->to_json(array(
-                        'status' => 'error',
-                        'message' => 'Please specify a chart archive slug'
-            ));
-        }
-
         $dao = new \Rip_Charts\Daos\Rip_Charts_Dao();
         $service = new \Rip_Charts\Services\Rip_Charts_Persist_Service($dao);
         $result = $service->delete_complete_chart($slug);
 
-        if (isset($result['status']) && $result['status'] === 'error') {
-            return $this->_response->set_code(500)->to_json($result);
-        }
-
-        $this->_response->set_code(204)->to_json($result);
+        $this->_response->set_code($result->get_code())
+                ->to_json($result);
     }
 
     /**
@@ -186,22 +160,12 @@ class Rip_Charts_Controller extends \Rip_General\Classes\Rip_Abstract_Controller
     public function duplicate_complete_chart() {
         $slug = $this->_request->query->get('slug');
 
-        if (empty($slug)) {
-            return $this->_response->set_code(400)->to_json(array(
-                        'status' => 'error',
-                        'message' => 'Please specify a chart archive slug'
-            ));
-        }
-
         $dao = new \Rip_Charts\Daos\Rip_Charts_Dao();
         $service = new \Rip_Charts\Services\Rip_Charts_Persist_Service($dao);
-        $results = $service->duplicate_complete_chart($slug);
+        $result = $service->duplicate_complete_chart($slug);
 
-        if (isset($results['status']) && $results['status'] === 'error') {
-            return $this->_response->set_code(500)->to_json($results);
-        }
-
-        $this->_response->to_json($results);
+        $this->_response->set_code($result->get_code())
+                ->to_json($result);
     }
 
     /**

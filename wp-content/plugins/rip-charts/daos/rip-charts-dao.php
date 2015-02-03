@@ -266,7 +266,7 @@ class Rip_Charts_Dao extends \Rip_General\Classes\Rip_Abstract_Dao {
             $slug
         ));
 
-        $result = $wpdb->get_row($prepared, ARRAY_A);
+        $result = $wpdb->get_results($prepared, ARRAY_A);
 
         return $result;
     }
@@ -283,8 +283,7 @@ class Rip_Charts_Dao extends \Rip_General\Classes\Rip_Abstract_Dao {
         $date = date('Y-m-d', time());
         $date_time = date('Y-m-d H:i:s', time());
 
-        // First insert into wp_chart_archive.
-        $first_query = "INSERT INTO wp_charts_archive (
+        $sql = "INSERT INTO wp_charts_archive (
                             chart_archive_slug, 
                             id_chart,
                             chart_type, 
@@ -294,7 +293,7 @@ class Rip_Charts_Dao extends \Rip_General\Classes\Rip_Abstract_Dao {
                          )
                         VALUES (%s, %d, %s, %s, %s, %s)";
 
-        $prepared = $wpdb->prepare($first_query, array(
+        $prepared = $wpdb->prepare($sql, array(
             $data['chart_archive_slug'],
             (int) $data['id_chart'],
             $data['chart_slug'],

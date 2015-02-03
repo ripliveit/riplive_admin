@@ -24,12 +24,11 @@
             </span>
         </h2>
 
-        <div id="loader" ng-hide="loaded" class="text-center">
+        <div id="loader" ng-show="chartLoading" class="text-center">
             <h1>
-                Caricamento in corso...
+                Caricamento classifica in corso...
             </h1>
-            <img src="/wp-content/plugins/rip-charts/assets/loading.gif" 
-                 title="Elaborazione in corso" alt="Elaborazione in corso" width="150px"/>
+            <img src="/wp-content/plugins/rip-charts/assets/loading.gif" title="Elaborazione in corso" alt="Elaborazione in corso" width="150px"/>
         </div>
 
         <article ng-repeat="i in positions">
@@ -82,8 +81,15 @@
 
             <input id="searched-text" type="search" ng-model="searchedText" placeholder="Cerca il titolo del Brano"/>
         </header>
-
-        <article ng-repeat="s in songs | filter: searchedText | filter : {song_genre :  searchedGenre.name}">
+        
+        <div id="loader" ng-show="songsLoading" class="text-center">
+            <h1>
+                Caricamento canzoni in corso...
+            </h1>
+            <img src="/wp-content/plugins/rip-charts/assets/loading.gif" title="Elaborazione in corso" alt="Elaborazione in corso" width="150px"/>
+        </div>
+        
+        <article ng-repeat="s in songs| filter: searchedText | filter : filterBySongGenre">
             <figure>
                 <img ng-src="{{s.song_images.thumbnail}}" width="60" height="60"/>
             </figure>

@@ -34,13 +34,13 @@ app.factory('chartsService', function ($http) {
             return false;
         },
         createChartPositions: function (length) {
-            var ar = [];
+            var arr = [];
 
             for (var i = 0; i < length; i++) {
-                ar.push(i);
+                arr.push(i);
             }
 
-            return ar;
+            return arr;
         },
         createChartPositionsWithId: function (array) {
             var positions = this.createChartPositions(array.length);

@@ -3,7 +3,7 @@
  * Load all charts data to populate the select box
  * and all archive charts to show them on a list.
  */
-app.controller('ListCtrl', function ($scope, $routeParams, $location, chartsService) {
+app.controller('ListCtrl', function ($scope, $routeParams, $location, $rootScope, chartsService) {
     var page = $routeParams.page || 1;
 
     chartsService.loadData({
@@ -19,8 +19,8 @@ app.controller('ListCtrl', function ($scope, $routeParams, $location, chartsServ
         $scope.charts = res.data.complete_charts;
     });
 
-    // Load the new views on select box change only if
-    // a chart with same date and slug IS NOT already present in wp_charts_archive.
+    // Insert a new chart only if
+    // a chart with same date and slug IS NOT already present into the database.
     $scope.$watch('selectedChart', function (newValue) {
         if (newValue !== undefined) {
             var slug = newValue.chart_slug + '-' + chartsService.getDate();
@@ -30,8 +30,19 @@ app.controller('ListCtrl', function ($scope, $routeParams, $location, chartsServ
                 slug: slug
             }).then(function (res) {
                 if (res.data.status === 'ok') {
-                    alert('Puoi inserire al massimo una classifica dello stesso tipo al giorno');
+                    $rootScope.$broadcast('alert:message', {
+                        type: 'error',
+                        message: 'Puoi inserire al massimo una classifica dello stesso tipo al giorno'
+                    });
                     return false;
+                }
+
+            }, function (err) {
+                if (err.status !== 404) {
+                    $rootScope.$broadcast('alert:message', {
+                        type: 'error',
+                        message: err.data.message
+                    });
                 }
 
                 $scope.chartPosition = $scope.chartPosition === undefined ? 50 : $scope.chartPosition;
@@ -45,14 +56,18 @@ app.controller('ListCtrl', function ($scope, $routeParams, $location, chartsServ
             action: 'rip_charts_duplicate_complete_chart',
             slug: ChartArchiveSlug
         }).then(function (res) {
-            $scope.charts.unshift(res.data);
+            $scope.charts.unshift(res.data.complete_chart);
+            $rootScope.$broadcast('alert:message', {
+                type: 'success',
+                message: 'Duplicazione avvenuta con successo'
+            });
+
         }, function (err) {
             if (err.data.status === 'error') {
-                if(err.data.type === 'duplicate') {
-                    err.data.message = 'Puoi inserire al massimo una classifica dello stesso tipo al giorno';
-                } 
-                
-                alert(err.data.message);
+                $rootScope.$broadcast('alert:message', {
+                    type: 'error',
+                    message: 'Puoi inserire al massimo una classifica dello stesso tipo al giorno'
+                });
 
                 return false;
             }
@@ -65,6 +80,11 @@ app.controller('ListCtrl', function ($scope, $routeParams, $location, chartsServ
             slug: ChartArchiveSlug
         }).then(function (res) {
             $scope.charts.splice($index, 1);
+        }, function (err) {
+            $rootScope.$broadcast('alert:message', {
+                type: 'error',
+                message: err.data.message
+            });
         });
     };
 });

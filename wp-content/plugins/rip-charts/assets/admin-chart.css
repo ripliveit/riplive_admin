@@ -3,10 +3,9 @@
     Created on : 29-dic-2013, 12.40.44
     Author     : Gabriele D'Arrigo - @acirdesign'
 */
-
 #admin-charts {
-    overflow: hidden;
     margin: 20px 20px 0 0;
+    overflow: hidden;
 }
 
 #admin-charts .text-left {
@@ -34,15 +33,11 @@
     text-decoration: underline;
 }
 
-#charts {
-
-}
-
 #charts article {
-    overflow: hidden;
-    margin: 10px 0;
-    padding: 5px;
     border-bottom: 1px solid #DDD;
+    margin: 10px 0;
+    overflow: hidden;
+    padding: 5px;
 }
 
 #charts article:nth-of-type(2n +1) {
@@ -51,14 +46,14 @@
 
 #charts article > figure {
     float: left;
-    width: 100px;
     margin: 0;
+    width: 100px;
 }
 
 #charts article > div {
     float: left;
-    width: 85%;
     padding: 0 5px 5px;
+    width: 85%;
 }
 
 #single-chart {
@@ -66,21 +61,21 @@
 }
 
 #single-chart #positions {
-    width: 46%;
     float: left;
+    width: 46%;
 }
 
 #single-chart #songs {
-    width: 52%;
-    height: 3800px;
     float: right;
+    height: 3800px;
     overflow-y: scroll;
     position: relative;
+    width: 52%;
 }
 
 #single-chart #songs article {
-    margin: 5px;
     background-color: #FFF;
+    margin: 5px;
 }
 
 #single-chart article {
@@ -88,10 +83,10 @@
 }
 
 #single-chart article > .position {
-    width: 50px;
-    text-align: center;
-    line-height: 50px;
     font-size: 22px;
+    line-height: 50px;
+    text-align: center;
+    width: 50px;
 }
 
 #single-chart article > figure {
@@ -99,14 +94,14 @@
 }
 
 #single-chart article > figure img {
-    width: 60px;
     height: 60px;
+    width: 60px;
 }
 
 #single-chart article > .song-content {
-    width: 65%;
-    position: relative;
     padding: 0 5px 5px 10px;
+    position: relative;
+    width: 65%;
 }
 
 #single-chart article > .song-content h3 {
@@ -119,60 +114,60 @@
 
 #single-chart article .song-vote {
     position: absolute;
-    top: 0;
     right: 10px;
+    top: 0;
 }
 
 #single-chart article > .song-control {
-    width: 15%;
     float: left;
+    width: 15%;
 }
 
 #single-chart #searched-text {
-    width: 90%;
     margin: 10px 0;
     padding: 5px;
+    width: 90%;
 }
 
 #single-chart #searched-genre {
-    position: absolute;
     left: 160px;
+    position: absolute;
     top: 15px;
 }
 
-#paginator ul {
-    overflow: hidden;        
+#paginator ul {        
     margin: 10px 0;
+    overflow: hidden;
 }
 
 #paginator ul li {
-    text-decoration: none;
     float: left;
     margin: 2px;
+    text-decoration: none;
 }
 
 #paginator ul li a {
+    border: 1px solid #DDD;
     display: block;
-    width: 20px;
     height: 20px;
     padding: 10px;
     text-align: center;
-    border: 1px solid #DDD;
+    width: 20px;
 }
 
 #admin-charts .btn {
-    display: inline-block;
-    padding: 5px 10px;
     border-radius: 2px;
     color: #FFF;
+    display: inline-block;
     font-weight: bold;
+    padding: 5px 10px;
     text-decoration: none;
 }
 
 #admin-charts .btn.mini {
+    margin: 0 4px 0 0;
     padding: 2px;
     width: 50px;
-    margin: 0 4px 0 0;
 }
 
 #admin-charts .btn.large {
@@ -181,8 +176,8 @@
 
 #admin-charts a.btn:hover {
     color: #FFF;
-    text-decoration: underline;
     cursor: pointer;
+    text-decoration: underline;
 }
 
 #admin-charts .btn.primary {
@@ -202,11 +197,70 @@
     color: #333;
 }
 
-
 #admin-charts #footer {
     margin: 20px 0;
 }
 
+#overlay {
+    background-color: rgba(0, 0, 0, 0.5);
+    height: 100%;
+    margin-left: -20px;
+    opacity: 0;
+    padding: 0 0 0 20px;
+    position: fixed;
+    top: 0;
+    transition: all 0.4s;
+    visibility: hidden;
+    width: 100%;
+}
+
+#overlay.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+#alert {
+    background-color: #EDEDED;
+    height: 250px;
+    left: 50%;
+    margin-left: -225px;
+    margin-top: -125px;
+    position: absolute;
+    text-align: center;
+    top: 50%;
+    width: 450px;
+    z-index: 2;
+}
+
+#alert #alert-type {
+    border-bottom: 1px solid #DDD;
+    box-sizing: border-box;
+    color: #000;
+    font-size: 22px;
+    height: 40px;
+    line-height: 40px;
+    padding-left: 10px;
+    text-align: left;
+    text-transform: capitalize;
+    vertical-align: middle;
+    width: 100%;
+}
+
+#alert #alert-message {
+    margin-top: 50px;
+    position: relative;
+}
+
+#alert .btn.warning {
+    bottom: 20px;
+    margin-left: -75px;
+    position: absolute;
+    width: 150px;
+}
+
+#alert .btn.warning:hover {
+    cursor: pointer; 
+}
 
 @media only screen and (min-width:768px) and (max-width:1024px) {
     #admin-charts {
@@ -226,8 +280,8 @@
     }
 
     #single-chart article > figure img {
-        width: 50px;
         height: 50px;
+        width: 50px;
     }
 
     #admin-charts .btn {

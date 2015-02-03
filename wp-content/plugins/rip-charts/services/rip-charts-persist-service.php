@@ -42,7 +42,7 @@ class Rip_Charts_Persist_Service {
      * @param array $chart
      * @return array
      */
-    public function insert_complete_chart(array $chart = array()) {
+    public function insert_complete_chart($chart = array()) {
         $message = new \Rip_General\Dto\Message();
         $query_service = new \Rip_Charts\Services\Rip_Charts_Query_Service($this->_charts_dao);
 
@@ -76,11 +76,11 @@ class Rip_Charts_Persist_Service {
 
         if ($chart_result === false) {
             $this->_transaction->rollback();
-            
-            $message->set_code(400)
+
+            $message->set_code(500)
                     ->set_status('error')
                     ->set_message('Error in inserting the new chart. Probably it is already presents');
-            
+
             return $message;
         }
 
@@ -89,11 +89,11 @@ class Rip_Charts_Persist_Service {
         foreach ($data['songs'] as $song) {
             if (empty($data['chart_archive_slug']) || empty($data['id_chart']) || empty($song['id_song'])) {
                 $this->_transaction->rollback();
-                
+
                 $message->set_code(400)
                         ->set_status('error')
                         ->set_message('Missing parameter required for inserting');
-                
+
                 return $message;
             }
 
@@ -103,19 +103,19 @@ class Rip_Charts_Persist_Service {
 
             if ($song_result === false) {
                 $this->_transaction->rollback();
-                
+
                 $message->set_code(500)
                         ->set_status('error')
                         ->set_message('Error in inserting songs into wp_chart_songs');
-                
+
                 return $message;
             }
         }
 
         $this->_transaction->commit();
-        $chart = $query_service->get_complete_chart_by_chart_archive_slug($data['chart_archive_slug']);
+        $result = $query_service->get_complete_chart_by_chart_archive_slug($data['chart_archive_slug']);
 
-        return $chart;
+        return $result;
     }
 
     /**
@@ -129,14 +129,27 @@ class Rip_Charts_Persist_Service {
      * @param array $data
      * @return int (the number of the affected row).
      */
-    public function update_complete_chart(array $data = array()) {
-        if (empty($data)) {
-            return array(
-                'status' => 'error',
-                'message' => 'No complete chart data was supplied',
-            );
+    public function update_complete_chart($chart = array()) {
+        $message = new \Rip_General\Dto\Message();
+        $query_service = new \Rip_Charts\Services\Rip_Charts_Query_Service($this->_charts_dao);
+
+        if (empty($chart)) {
+            $message->set_code(400)
+                    ->set_status('error')
+                    ->set_message('No chart data was supplied');
+
+            return $message;
         }
 
+        if (empty($chart['songs'])) {
+            $message->set_code(400)
+                    ->set_status('error')
+                    ->set_message('Cannot insert. Please specify at least five songs');
+
+            return $message;
+        }
+
+        $data = stripslashes_deep($chart);
         $this->_transaction->start();
 
         foreach ($data['songs'] as $item) {
@@ -147,43 +160,18 @@ class Rip_Charts_Persist_Service {
             if ($result === false) {
                 $this->_transaction->rollback();
 
-                return array(
-                    'status' => 'error',
-                    'message' => 'Error in updating the complete charts into wp_charts_songs'
-                );
+                $message->set_code(500)
+                        ->set_status('error')
+                        ->set_message('Error in updating the complete charts into wp_charts_songs');
+
+                return $message;
             }
         }
 
         $this->_transaction->commit();
-        $chart = $this->_charts_dao->get_complete_chart_by_chart_archive_slug($data['chart_archive_slug']);
+        $result = $query_service->get_complete_chart_by_chart_archive_slug($data['chart_archive_slug']);
 
-        return $chart;
-    }
-
-    /**
-     * Duplicate a complete chart, retrieved by it's unique chart_archive_slug.
-     * Return the duplicated chart.
-     * 
-     * @param string $slug
-     * @return array
-     */
-    public function duplicate_complete_chart($slug = null) {
-        $data = $this->_charts_dao->get_complete_chart_by_chart_archive_slug($slug);
-
-        if (empty($data)) {
-            return array(
-                'status' => 'error',
-                'message' => 'Cannot duplicate. Please specify a chart to duplicate.'
-            );
-        }
-
-        // Set the new chart archive slug.
-        // If already present @insert_complete_chart will not perform the insert.
-        $data['chart_archive_slug'] = $data['chart_slug'] . '-' . $date = date('Y-m-d', time());
-
-        $results = $this->insert_complete_chart($data);
-
-        return $results;
+        return $result;
     }
 
     /**
@@ -196,29 +184,90 @@ class Rip_Charts_Persist_Service {
      * @param string $slug
      * @return type
      */
-    public function delete_complete_chart($slug) {
+    public function delete_complete_chart($slug = null) {
+        $message = new \Rip_General\Dto\Message();
+
+        if (empty($slug)) {
+            $message->set_code(400)
+                    ->set_status('error')
+                    ->set_message('Please specify a chart archive slug');
+
+            return $message;
+        }
+
         $this->_transaction->start();
         $result = $this->_charts_dao->delete_complete_chart($slug);
-
-        // Return success
-        // to mantain delete idempotent.
-        if ($result === 0) {
-            return array(
-                'status' => 'succes',
-                'message' => 'Resource does not exists'
-            );
-        }
 
         if ($result === false) {
             $this->_transaction->rollback();
 
-            return array(
-                'status' => 'error',
-                'message' => 'Error in deleting the complete charts'
-            );
+            $message->set_code(500)
+                    ->set_status('error')
+                    ->set_message('Error in deleting the complete charts');
+
+            return $message;
+        }
+
+        // Return success
+        // to mantain delete idempotent.
+        if ($result === 0) {
+            $message->set_code(200)
+                    ->set_status('success')
+                    ->set_message('Resource does not exists');
+
+            return $message;
         }
 
         $this->_transaction->commit();
+
+        $message->set_code(200)
+                ->set_status('success')
+                ->set_message('Resource successfully deleted');
+        
+        return $message;
+    }
+
+    /**
+     * Duplicate a complete chart, retrieved by it's unique chart_archive_slug.
+     * Return the duplicated chart.
+     * 
+     * @param string $slug
+     * @return array
+     */
+    public function duplicate_complete_chart($slug = null) {
+        $message = new \Rip_General\Dto\Message();
+        $query_service = new \Rip_Charts\Services\Rip_Charts_Query_Service($this->_charts_dao);
+
+        if (empty($slug)) {
+            $message->set_code(400)
+                    ->set_status('error')
+                    ->set_message('Please specify a chart archive slug');
+
+            return $message;
+        }
+        
+        $data = $query_service->get_complete_chart_by_chart_archive_slug($slug);
+        $chart = $data->get_complete_chart();
+
+        
+        if (empty($chart)) {
+            $message->set_code(404)
+                    ->set_status('error')
+                    ->set_message('Cannot find the chart to duplicate. Please specify a chart to duplicate');
+
+            return $message;
+        }
+
+        // Set the new chart archive slug.
+        // If already present @insert_complete_chart will not perform the insert.
+        $chart['chart_archive_slug'] = $chart['chart_slug'] . '-' . date('Y-m-d', time());
+
+        $result = $this->insert_complete_chart($chart);
+        
+//                echo '<pre>';
+//        print_r($result);
+//        echo '</pre>';
+//        die(0);
 
         return $result;
     }

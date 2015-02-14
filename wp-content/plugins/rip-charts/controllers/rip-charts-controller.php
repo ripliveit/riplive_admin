@@ -8,13 +8,22 @@ namespace Rip_Charts\Controllers;
  * to retrieve chart's data.
  */
 class Rip_Charts_Controller extends \Rip_General\Classes\Rip_Abstract_Controller {
+    
+    /**
+     * On construction set the container.
+     * @param \Rip_General\Classes\Rip_Http_Request $request
+     * @param \Rip_General\Classes\Rip_Http_Response $response
+     */
+    public function __construct(\Rip_General\Classes\Rip_Http_Request $request, \Rip_General\Classes\Rip_Http_Response $response) {
+        parent::__construct($request, $response);
+        $this->_container = new \Rip_Charts\Services\Rip_Charts_Container();
+    }
 
     /**
      * Retrieve all posts from 'Charts' custom post type.
      */
     public function get_all_charts() {
-        $dao = new \Rip_Charts\Daos\Rip_Charts_Dao();
-        $service = new \Rip_Charts\Services\Rip_Charts_Query_Service($dao);
+        $service = $this->_container['chartsQueryService'];
         $result = $service->get_all_charts();
 
         $this->_response->set_code($result->get_code())
@@ -27,8 +36,7 @@ class Rip_Charts_Controller extends \Rip_General\Classes\Rip_Abstract_Controller
     public function get_chart_by_slug() {
         $slug = $this->_request->query->get('slug');
 
-        $dao = new \Rip_Charts\Daos\Rip_Charts_Dao();
-        $service = new \Rip_Charts\Services\Rip_Charts_Query_Service($dao);
+        $service = $this->_container['chartsQueryService'];
         $result = $service->get_chart_by_slug($slug);
 
         $this->_response->set_code($result->get_code())
@@ -43,8 +51,7 @@ class Rip_Charts_Controller extends \Rip_General\Classes\Rip_Abstract_Controller
     public function get_complete_charts_number_of_pages() {
         $slug = $this->_request->query->get('slug');
 
-        $dao = new \Rip_Charts\Daos\Rip_Charts_Dao();
-        $service = new \Rip_Charts\Services\Rip_Charts_Query_Service($dao);
+        $service = $this->_container['chartsQueryService'];
         $result = $service->get_complete_charts_number_of_pages($slug);
 
         $this->_response->set_code($result->get_code())
@@ -59,8 +66,7 @@ class Rip_Charts_Controller extends \Rip_General\Classes\Rip_Abstract_Controller
         $count = $this->_request->query->get('count');
         $page = $this->_request->query->get('page');
 
-        $dao = new \Rip_Charts\Daos\Rip_Charts_Dao();
-        $service = new \Rip_Charts\Services\Rip_Charts_Query_Service($dao);
+        $service = $this->_container['chartsQueryService'];
         $result = $service->get_all_complete_charts($count, $page);
 
         $this->_response->set_code($result->get_code())
@@ -76,8 +82,7 @@ class Rip_Charts_Controller extends \Rip_General\Classes\Rip_Abstract_Controller
         $count = $this->_request->query->get('count');
         $page = $this->_request->query->get('page');
 
-        $dao = new \Rip_Charts\Daos\Rip_Charts_Dao();
-        $service = new \Rip_Charts\Services\Rip_Charts_Query_Service($dao);
+        $service = $this->_container['chartsQueryService'];
         $result = $service->get_all_complete_charts_by_chart_type($slug, $count, $page);
 
         $this->_response->set_code($result->get_code())
@@ -89,8 +94,7 @@ class Rip_Charts_Controller extends \Rip_General\Classes\Rip_Abstract_Controller
      * one per genre.
      */
     public function get_latest_complete_charts() {
-        $dao = new \Rip_Charts\Daos\Rip_Charts_Dao();
-        $service = new \Rip_Charts\Services\Rip_Charts_Query_Service($dao);
+        $service = $this->_container['chartsQueryService'];
         $result = $service->get_latest_complete_charts();
 
         $this->_response->set_code($result->get_code())
@@ -104,8 +108,7 @@ class Rip_Charts_Controller extends \Rip_General\Classes\Rip_Abstract_Controller
     public function get_complete_chart_by_chart_archive_slug() {
         $slug = $this->_request->query->get('slug');
 
-        $dao = new \Rip_Charts\Daos\Rip_Charts_Dao();
-        $service = new \Rip_Charts\Services\Rip_Charts_Query_Service($dao);
+        $service = $this->_container['chartsQueryService'];
         $result = $service->get_complete_chart_by_chart_archive_slug($slug);
 
         $this->_response->set_code($result->get_code())
@@ -118,8 +121,7 @@ class Rip_Charts_Controller extends \Rip_General\Classes\Rip_Abstract_Controller
     public function insert_complete_chart() {
         $complete_chart = $this->_request->request->get('complete_chart');
 
-        $dao = new \Rip_Charts\Daos\Rip_Charts_Dao();
-        $service = new \Rip_Charts\Services\Rip_Charts_Persist_Service($dao);
+        $service = $this->_container['chartsPersistsService'];
         $result = $service->insert_complete_chart($complete_chart);
 
         $this->_response->set_code($result->get_code())
@@ -132,8 +134,7 @@ class Rip_Charts_Controller extends \Rip_General\Classes\Rip_Abstract_Controller
     public function update_complete_chart() {
         $complete_chart = $this->_request->request->get('complete_chart');
 
-        $dao = new \Rip_Charts\Daos\Rip_Charts_Dao();
-        $service = new \Rip_Charts\Services\Rip_Charts_Persist_Service($dao);
+        $service = $this->_container['chartsPersistsService'];
         $result = $service->update_complete_chart($complete_chart);
 
         $this->_response->set_code($result->get_code())
@@ -146,8 +147,7 @@ class Rip_Charts_Controller extends \Rip_General\Classes\Rip_Abstract_Controller
     public function delete_complete_chart() {
         $slug = $this->_request->query->get('slug');
 
-        $dao = new \Rip_Charts\Daos\Rip_Charts_Dao();
-        $service = new \Rip_Charts\Services\Rip_Charts_Persist_Service($dao);
+        $service = $this->_container['chartsPersistsService'];
         $result = $service->delete_complete_chart($slug);
 
         $this->_response->set_code($result->get_code())
@@ -160,8 +160,7 @@ class Rip_Charts_Controller extends \Rip_General\Classes\Rip_Abstract_Controller
     public function duplicate_complete_chart() {
         $slug = $this->_request->query->get('slug');
 
-        $dao = new \Rip_Charts\Daos\Rip_Charts_Dao();
-        $service = new \Rip_Charts\Services\Rip_Charts_Persist_Service($dao);
+        $service = $this->_container['chartsPersistsService'];
         $result = $service->duplicate_complete_chart($slug);
 
         $this->_response->set_code($result->get_code())
@@ -178,8 +177,7 @@ class Rip_Charts_Controller extends \Rip_General\Classes\Rip_Abstract_Controller
         $chart_archive_slug = $this->_request->request->get('chart_archive_slug');
         $id_song = $this->_request->request->get('id_song');
 
-        $chart_dao = new \Rip_Charts\Daos\Rip_Charts_Dao();
-        $service = new \Rip_Charts\Services\Rip_Charts_Persist_Service($chart_dao);
+        $service = $this->_container['chartsPersistsService'];
         $result = $service->insert_complete_chart_vote($chart_archive_slug, $id_song);
 
         $this->_response->to_json($result);

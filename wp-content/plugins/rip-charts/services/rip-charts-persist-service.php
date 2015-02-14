@@ -9,26 +9,47 @@ namespace Rip_Charts\Services;
 class Rip_Charts_Persist_Service {
 
     /**
+     * Holds a reference to Complete Charts Dao.
+     * 
+     * @var Object 
+     */
+    private $_complete_charts_dao;
+
+    /**
+     * Holds a reference to Chart Query Service.
+     * 
+     * @var Object 
+     */
+    private $_query_service;
+
+    /**
+     * Holds a reference to Chart Vote Validator
+     * 
+     * @var Object 
+     */
+    private $_validator;
+
+    /**
      * An object used to open db
      * transaction.
      * 
      * @var Object 
      */
-    protected $_transaction;
-
-    /**
-     * Holds a reference to Chart DAO.
-     * 
-     * @var Object 
-     */
-    protected $_charts_dao;
+    private $_transaction;
 
     /**
      * Class constructor.
      */
-    public function __construct(\Rip_General\Classes\Rip_Abstract_Dao $charts_dao) {
-        $this->_charts_dao = $charts_dao;
-        $this->_transaction = new \Rip_General\Classes\Rip_Transaction();
+    public function __construct(
+            \Rip_General\Classes\Rip_Abstract_Dao $complete_charts_dao, 
+            \Rip_General\Classes\Rip_Abstract_Query_Service $query_service, 
+            \Rip_General\Classes\Rip_Abstract_Validator $validator, 
+            \Rip_General\Classes\Rip_Transaction $transaction
+    ) {
+        $this->_complete_charts_dao = $complete_charts_dao;
+        $this->_query_service = $query_service;
+        $this->_validator = $validator;
+        $this->_transaction = $transaction;
     }
 
     /**
@@ -44,7 +65,6 @@ class Rip_Charts_Persist_Service {
      */
     public function insert_complete_chart($chart = array()) {
         $message = new \Rip_General\Dto\Message();
-        $query_service = new \Rip_Charts\Services\Rip_Charts_Query_Service($this->_charts_dao);
 
         if (empty($chart)) {
             $message->set_code(400)
@@ -72,7 +92,7 @@ class Rip_Charts_Persist_Service {
 
         $data = stripslashes_deep($chart);
         $this->_transaction->start();
-        $chart_result = $this->_charts_dao->insert_complete_chart($data);
+        $chart_result = $this->_complete_charts_dao->insert_complete_chart($data);
 
         if ($chart_result === false) {
             $this->_transaction->rollback();
@@ -97,7 +117,7 @@ class Rip_Charts_Persist_Service {
                 return $message;
             }
 
-            $song_result = $this->_charts_dao->insert_chart_song(
+            $song_result = $this->_complete_charts_dao->insert_chart_song(
                     $data['chart_archive_slug'], (int) $data['id_chart'], (int) $song['id_song']
             );
 
@@ -113,7 +133,7 @@ class Rip_Charts_Persist_Service {
         }
 
         $this->_transaction->commit();
-        $result = $query_service->get_complete_chart_by_chart_archive_slug($data['chart_archive_slug']);
+        $result = $this->_query_service->get_complete_chart_by_chart_archive_slug($data['chart_archive_slug']);
 
         return $result;
     }
@@ -131,7 +151,6 @@ class Rip_Charts_Persist_Service {
      */
     public function update_complete_chart($chart = array()) {
         $message = new \Rip_General\Dto\Message();
-        $query_service = new \Rip_Charts\Services\Rip_Charts_Query_Service($this->_charts_dao);
 
         if (empty($chart)) {
             $message->set_code(400)
@@ -153,7 +172,7 @@ class Rip_Charts_Persist_Service {
         $this->_transaction->start();
 
         foreach ($data['songs'] as $item) {
-            $result = $this->_charts_dao->update_chart_song(
+            $result = $this->_complete_charts_dao->update_chart_song(
                     (int) $item['id_chart_song'], $data['chart_archive_slug'], (int) $item['id_song'], (int) $item['user_vote']
             );
 
@@ -169,7 +188,7 @@ class Rip_Charts_Persist_Service {
         }
 
         $this->_transaction->commit();
-        $result = $query_service->get_complete_chart_by_chart_archive_slug($data['chart_archive_slug']);
+        $result = $this->_query_service->get_complete_chart_by_chart_archive_slug($data['chart_archive_slug']);
 
         return $result;
     }
@@ -196,7 +215,7 @@ class Rip_Charts_Persist_Service {
         }
 
         $this->_transaction->start();
-        $result = $this->_charts_dao->delete_complete_chart($slug);
+        $result = $this->_complete_charts_dao->delete_complete_chart($slug);
 
         if ($result === false) {
             $this->_transaction->rollback();
@@ -223,7 +242,7 @@ class Rip_Charts_Persist_Service {
         $message->set_code(200)
                 ->set_status('success')
                 ->set_message('Resource successfully deleted');
-        
+
         return $message;
     }
 
@@ -236,7 +255,6 @@ class Rip_Charts_Persist_Service {
      */
     public function duplicate_complete_chart($slug = null) {
         $message = new \Rip_General\Dto\Message();
-        $query_service = new \Rip_Charts\Services\Rip_Charts_Query_Service($this->_charts_dao);
 
         if (empty($slug)) {
             $message->set_code(400)
@@ -245,11 +263,11 @@ class Rip_Charts_Persist_Service {
 
             return $message;
         }
-        
-        $data = $query_service->get_complete_chart_by_chart_archive_slug($slug);
+
+        $data = $this->_query_service->get_complete_chart_by_chart_archive_slug($slug);
         $chart = $data->get_complete_chart();
 
-        
+
         if (empty($chart)) {
             $message->set_code(404)
                     ->set_status('error')
@@ -263,11 +281,6 @@ class Rip_Charts_Persist_Service {
         $chart['chart_archive_slug'] = $chart['chart_slug'] . '-' . date('Y-m-d', time());
 
         $result = $this->insert_complete_chart($chart);
-        
-//                echo '<pre>';
-//        print_r($result);
-//        echo '</pre>';
-//        die(0);
 
         return $result;
     }
@@ -280,19 +293,17 @@ class Rip_Charts_Persist_Service {
      */
     public function insert_complete_chart_vote($chart_archive_slug = null, $id_song = null) {
         $message = new \Rip_General\Dto\Message();
-        $query_service = new \Rip_Charts\Services\Rip_Charts_Query_Service($this->_charts_dao);
-        $validator = new \Rip_Charts\Services\Rip_Charts_Vote_Validator();
 
         // If no chart archive slug is passed,
         // retrieve the last chart where the song is present.
         if (empty($chart_archive_slug)) {
-            $data = $query_service->get_last_complete_chart_by_song_id($id_song);
+            $data = $this->_query_service->get_last_complete_chart_by_song_id($id_song);
         } else {
-            $data = $query_service->get_complete_chart_by_chart_archive_slug($chart_archive_slug);
+            $data = $this->_query_service->get_complete_chart_by_chart_archive_slug($chart_archive_slug);
         }
 
         $chart = $data->get_complete_chart();
-        $can_vote = $validator->check_if_chart_has_song($chart, $id_song);
+        $can_vote = $this->_validator->validate($chart, $id_song);
 
         if (isset($can_vote->status) && $can_vote->status === 'error') {
             $can_vote->set_code(400);
@@ -300,7 +311,7 @@ class Rip_Charts_Persist_Service {
         }
 
         $this->_transaction->start();
-        $result = $this->_charts_dao->insert_complete_chart_vote(
+        $result = $this->_complete_charts_dao->insert_complete_chart_vote(
                 $chart['chart_archive_slug'], (int) $id_song
         );
 

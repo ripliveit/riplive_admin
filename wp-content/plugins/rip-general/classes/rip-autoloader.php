@@ -16,7 +16,7 @@ class Rip_Autoloader {
      * 
      * @var type 
      */
-    protected $_plugin_dir_path;
+    private $_plugin_dir_path;
 
     /**
      * On class construction set current plugin directory tree.
@@ -33,7 +33,7 @@ class Rip_Autoloader {
      * 
      * @param type $class_name
      */
-    protected function _load_classes($class_name) {
+    private function _load_classes($class_name) {
         $exploded = explode('\\', $class_name);
         $namespace = $exploded[0] . '\\';
 

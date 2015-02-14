@@ -1,12 +1,12 @@
 <?php
 
-namespace Rip_Charts\Services;
+namespace Rip_Charts\Validators;
 
 /**
  * A service used by other Chart plugin's classes
  * to implement and run chart's business logic.
  */
-class Rip_Charts_Vote_Validator {
+class Rip_Charts_Vote_Validator extends \Rip_General\Classes\Rip_Abstract_Validator {
 
     /**
      * Check if a chart has
@@ -16,7 +16,7 @@ class Rip_Charts_Vote_Validator {
      * @param array $chart
      * @return boolean
      */
-    public function check_if_chart_has_song(array $chart = array(), $id_song = null) {
+    public function validate(array $chart = array(), $id_song = null) {
         $message = new \Rip_General\Dto\Message();
         
         if (empty($chart)) {

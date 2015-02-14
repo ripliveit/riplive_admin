@@ -1,28 +1,71 @@
 <?php
 
-namespace Rip_Songs\Controllers;
+namespace Rip_Songs\Services;
 
 /**
- * Songs ajax front controller.
- * Implements method invoked byt ajax method to retrieve songs's data.
+ * A service used by other Chart plugin's classes
+ * to implement and run chart's business logic.
  */
-class Rip_Songs_Controller extends \Rip_General\Classes\Rip_Abstract_Controller {
+class Rip_Songs_Query_Service {
+
+    /**
+     * Number of items per page when listing all charts.
+     * 
+     * @var int 
+     */
+    protected $_items_per_page;
+
+    /**
+     * Holds a reference to Chart Dao.
+     * 
+     * @var Object 
+     */
+    protected $_songs_dao;
+
+    /**
+     * Holds a reference to Post Dao.
+     * 
+     * @var type 
+     */
+    protected $_posts_dao;
+    
+    /**
+     * Holds a reference to the factory mapper.
+     * 
+     * @var type 
+     */
+    protected $_factory_mapper;
+
+    /**
+     * Class constructor.
+     */
+    public function __construct(
+    \Rip_General\Classes\Rip_Abstract_Dao $songs_dao, \Rip_General\Classes\Rip_Abstract_Dao $posts_dao, \Rip_General\Mappers\Rip_Factory_Mapper $factory_mapper) {
+        $this->_songs_dao = $songs_dao;
+        $this->_posts_dao = $posts_dao;
+        $this->_factory_mapper = $factory_mapper;
+    }
 
     /**
      * Retrieve all songs.
      */
-    public function get_all_songs() {
-        $count = $this->_request->query->get('count');
-        $page = $this->_request->query->get('page');
-        $divide = $this->_request->query->get('divide');
+    public function get_all_songs($count = null, $page = null, $divide = null) {
+        $page_args = $this->_posts_dao->get_pagination_args($count, $page);
+        $pages     = $this->_posts_dao->get_post_type_number_of_pages('songs', $count);
+        $results   = $this->_songs_dao->get_all_songs($page_args);
+        
+        if ($divide) {
+            $general_service = new \Rip_General\Services\Rip_General_Service();
+            $results = $general_service->divide_data_by_letter('song_title', $results);
+        }
 
-        $songs_dao = new \Rip_Songs\Daos\Rip_Songs_Dao();
-        $mapper  = new \Rip_General\Mappers\Rip_Factory_Mapper();
-        $service = new \Rip_Songs\Services\Rip_Songs_Query_Service($songs_dao, new \Rip_General\Daos\Rip_Posts_Dao(), $mapper);
-        $result = $service->get_all_songs($count, $page, $divide);
-
-        $this->_response->set_code($result->get_code())
-                ->to_json($result);
+        return (array(
+            'status' => 'ok',
+            'count' => count($results),
+            'count_total' => (int) $pages['count_total'],
+            'pages' => $pages['pages'],
+            'songs' => empty($results) ? array() : $results,
+        ));
     }
 
     /**

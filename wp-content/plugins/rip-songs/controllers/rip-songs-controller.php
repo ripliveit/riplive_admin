@@ -9,17 +9,25 @@ namespace Rip_Songs\Controllers;
 class Rip_Songs_Controller extends \Rip_General\Classes\Rip_Abstract_Controller {
 
     /**
+     * On construction set the container.
+     * @param \Rip_General\Classes\Rip_Http_Request $request
+     * @param \Rip_General\Classes\Rip_Http_Response $response
+     */
+    public function __construct(\Rip_General\Classes\Rip_Http_Request $request, \Rip_General\Classes\Rip_Http_Response $response) {
+        parent::__construct($request, $response);
+        $this->_container = new \Rip_Songs\Services\Rip_Songs_Container();
+    }
+
+    /**
      * Retrieve all songs.
      */
     public function get_all_songs() {
-        $count = $this->_request->query->get('count');
-        $page = $this->_request->query->get('page');
+        $count  = $this->_request->query->get('count');
+        $page   = $this->_request->query->get('page');
         $divide = $this->_request->query->get('divide');
-
-        $songs_dao = new \Rip_Songs\Daos\Rip_Songs_Dao();
-        $mapper  = new \Rip_General\Mappers\Rip_Factory_Mapper();
-        $service = new \Rip_Songs\Services\Rip_Songs_Query_Service($songs_dao, new \Rip_General\Daos\Rip_Posts_Dao(), $mapper);
-        $result = $service->get_all_songs($count, $page, $divide);
+        
+        $service = $this->_container['songsQueryService'];
+        $result  = $service->get_all_songs($count, $page, $divide);
 
         $this->_response->set_code($result->get_code())
                 ->to_json($result);

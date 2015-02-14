@@ -1,6 +1,6 @@
 <?php
 
-namespace Rip_Charts\Mappers;
+namespace Rip_Songs\Mappers;
 
 /**
  * Map raw data from the database
@@ -9,9 +9,21 @@ namespace Rip_Charts\Mappers;
  * @author Gabriele
  */
 class Rip_Songs_Mapper implements \Rip_General\Interfaces\Rip_Mapper_Wp_Query_Interface {
-
+    
+    /**
+     * Holds a reference
+     * to Post_Dao, used to hydrate
+     * some properties that require a query through Wordpress system.
+     * 
+     * @var Object 
+     */
     protected $_posts_dao;
-
+    
+    /**
+     * On construction set the dependecies.
+     * 
+     * @param \Rip_General\Classes\Rip_Abstract_Dao $posts_dao
+     */
     public function __construct(\Rip_General\Classes\Rip_Abstract_Dao $posts_dao) {
         $this->_posts_dao = $posts_dao;
     }

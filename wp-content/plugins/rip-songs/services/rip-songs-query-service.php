@@ -6,14 +6,7 @@ namespace Rip_Songs\Services;
  * A service used by other Chart plugin's classes
  * to implement and run chart's business logic.
  */
-class Rip_Songs_Query_Service {
-
-    /**
-     * Number of items per page when listing all charts.
-     * 
-     * @var int 
-     */
-    protected $_items_per_page;
+class Rip_Songs_Query_Service extends \Rip_General\Classes\Rip_Abstract_Query_Service {
 
     /**
      * Holds a reference to Chart Dao.
@@ -25,58 +18,61 @@ class Rip_Songs_Query_Service {
     /**
      * Holds a reference to Post Dao.
      * 
-     * @var type 
+     * @var Object 
      */
     protected $_posts_dao;
-    
+
     /**
-     * Holds a reference to the factory mapper.
+     * Holds a reference to Rip_General_Service
      * 
-     * @var type 
+     * @var Object 
      */
-    protected $_factory_mapper;
+    protected $_general_service;
 
     /**
      * Class constructor.
      */
     public function __construct(
-    \Rip_General\Classes\Rip_Abstract_Dao $songs_dao, \Rip_General\Classes\Rip_Abstract_Dao $posts_dao, \Rip_General\Mappers\Rip_Factory_Mapper $factory_mapper) {
+    \Rip_General\Classes\Rip_Abstract_Dao $songs_dao, \Rip_General\Classes\Rip_Abstract_Dao $posts_dao, \Rip_General\Services\Rip_General_Service $general_service
+    ) {
         $this->_songs_dao = $songs_dao;
         $this->_posts_dao = $posts_dao;
-        $this->_factory_mapper = $factory_mapper;
+        $this->_general_service = $general_service;
     }
 
     /**
      * Retrieve all songs.
      */
     public function get_all_songs($count = null, $page = null, $divide = null) {
-        $page_args = $this->_posts_dao->get_pagination_args($count, $page);
-        $pages     = $this->_posts_dao->get_post_type_number_of_pages('songs', $count);
-        $results   = $this->_songs_dao->get_all_songs($page_args);
-        
+        $mapper = \Rip_General\Mappers\Rip_Factory_Mapper::create_mapper(
+                        '\Rip_Songs\Mappers\Rip_Songs_Mapper', $this->_posts_dao
+        );
+
+        $page_args = $this->get_wpquery_pagination_args($count, $page);
+        $pages = $this->_posts_dao->get_posts_type_number_of_pages('songs', $count);
+        $data = $mapper->map($this->_songs_dao->get_all_songs($page_args));
+
         if ($divide) {
-            $general_service = new \Rip_General\Services\Rip_General_Service();
-            $results = $general_service->divide_data_by_letter('song_title', $results);
+            $data = $this->_general_service->divide_data_by_letter('song_title', $data);
         }
 
-        return (array(
-            'status' => 'ok',
-            'count' => count($results),
-            'count_total' => (int) $pages['count_total'],
-            'pages' => $pages['pages'],
-            'songs' => empty($results) ? array() : $results,
-        ));
+        $message = new \Rip_General\Dto\Message();
+        $message->set_status('ok')
+                ->set_code(200)
+                ->set_count(count($data))
+                ->set_count_total((int) $pages['count_total'])
+                ->set_pages($pages['pages'])
+                ->set_charts(empty($data) ? array() : $data);
+
+        return $message;
     }
 
     /**
      * Retrieve all songs with a specific genre.
      */
-    public function get_all_songs_by_genre_slug() {
-        $slug = $this->_request->query->get('slug');
-        $count = $this->_request->query->get('count');
-        $page = $this->_request->query->get('page');
-        $divide = $this->_request->query->get('divide');
-
+    public function get_all_songs_by_genre_slug($count = null, $page = null, $divide = null) {
+        $message = new \Rip_General\Dto\Message();
+        
         if (empty($slug)) {
             return $this->_response->set_code(400)->to_json(array(
                         'status' => 'error',

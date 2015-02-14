@@ -10,25 +10,24 @@ class Rip_Songs_Dao extends \Rip_General\Classes\Rip_Abstract_Dao {
     /**
      * Retrieve all posts from Brani Custom Post Type.
      * 
-     * @param int $page
-     * @return array
+     * @param array $page_args
+     * @return Array
      */
-    public function get_all_songs($page = null) {
+    public function get_all_songs(array $page_args = array()) {
         $args = array(
             'post_type' => 'songs',
             'post_status' => 'publish',
             'orderby' => 'name',
             'order' => 'ASC'
         );
-
-        $args = $this->get_pagination_args(
-                $args, $this->_items_per_page, $page
-        );
+        
+        if (!empty($page_args)) {
+            $args = array_merge($args, $page_args);
+        }
 
         $query = new \WP_Query($args);
-        $results = $this->_set_songs_data($query);
-
-        return $results;
+        
+        return $query;
     }
 
     /**

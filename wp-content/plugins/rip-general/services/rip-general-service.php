@@ -1,4 +1,5 @@
 <?php
+
 namespace Rip_General\Services;
 
 /**
@@ -24,11 +25,14 @@ class Rip_General_Service {
         // to the temporary array.
         foreach ($array as $key => $data) {
             if (!array_key_exists($field, $data)) {
-                throw new Exception('Field used to divide the data not exists');
-                return false;
+                throw new Exception('Field used to divide the data does not exists');
             }
-            
-            $letter = $data[$field][0];
+
+            if (empty($data[$field])) {
+                $letter = '0';
+            } else {
+                $letter = $data[$field][0];
+            }
 
             if (!array_key_exists($letter, $tmp)) {
                 $tmp[$letter] = array();
@@ -39,4 +43,5 @@ class Rip_General_Service {
 
         return $tmp;
     }
+
 }

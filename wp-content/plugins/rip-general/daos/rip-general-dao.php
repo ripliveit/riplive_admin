@@ -8,26 +8,6 @@ namespace Rip_General\Daos;
 class Rip_General_Dao extends \Rip_General\Classes\Rip_Abstract_Dao {
 
     /**
-     * Set an array with only the value returned from the below query.
-     * 
-     * @param array $data
-     * @return boolean|array
-     */
-    protected function _set_data(array $data) {
-        if (empty($data)) {
-            return false;
-        }
-
-        $out = array();
-
-        foreach ($data as $item) {
-            array_push($out, $item['value']);
-        }
-
-        return $out;
-    }
-
-    /**
      * Return all data from wp_general_comuni.
      * 
      * @return array
@@ -40,9 +20,7 @@ class Rip_General_Dao extends \Rip_General\Classes\Rip_Abstract_Dao {
 
         $results = $wpdb->get_results($sql, ARRAY_A);
 
-        $out = $this->_set_data($results);
-
-        return $out;
+        return $results;
     }
 
     /**
@@ -58,9 +36,7 @@ class Rip_General_Dao extends \Rip_General\Classes\Rip_Abstract_Dao {
 
         $results = $wpdb->get_results($sql, ARRAY_A);
 
-        $out = $this->_set_data($results);
-
-        return $out;
+        return $results;
     }
 
     /**
@@ -77,9 +53,7 @@ class Rip_General_Dao extends \Rip_General\Classes\Rip_Abstract_Dao {
 
         $results = $wpdb->get_results($sql, ARRAY_A);
 
-        $out = $this->_set_data($results);
-
-        return $out;
+        return $results;
     }
 
     /**
@@ -95,9 +69,7 @@ class Rip_General_Dao extends \Rip_General\Classes\Rip_Abstract_Dao {
 
         $results = $wpdb->get_results($sql, ARRAY_A);
 
-        $out = $this->_set_data($results);
-
-        return $out;
+        return $results;
     }
 
 }

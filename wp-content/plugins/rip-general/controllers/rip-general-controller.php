@@ -3,73 +3,70 @@
 namespace Rip_General\Controllers;
 
 /**
- * Implements method that return data in Json format.
+ * General Controller
+ * implements method that return data in JSON format.
  * 
  */
 class Rip_General_Controller extends \Rip_General\Classes\Rip_Abstract_Controller {
+    
+    /**
+     * On construction set the container
+     * as the main dependencies.
+     * 
+     * @param \Rip_General\Classes\Rip_Http_Request $request
+     * @param \Rip_General\Classes\Rip_Http_Response $response
+     */
+    public function __construct(\Rip_General\Classes\Rip_Http_Request $request, \Rip_General\Classes\Rip_Http_Response $response) {
+        parent::__construct($request, $response);
+        $this->_container = new \Rip_General\Services\Rip_General_Container();
+    }
 
     /**
-     * Return all data from wp_general_comuni.
+     * Return a list
+     * of all italian cities.
      */
     public function get_comuni() {
-        $dao = new \Rip_General\Daos\Rip_General_Dao();
-        $results = $dao->get_comuni();
+        $service = $this->_container['generalQueryService'];
+        $result = $service->get_comuni();
 
-        $this->_response->to_json(array(
-            'status' => 'ok',
-            'count' => count($results),
-            'count_total' => count($results),
-            'pages' => 1,
-            'items' => empty($results) ? array() : $results,
-        ));
+        $this->_response->set_code($result->get_code())
+                ->to_json($result);
     }
 
     /**
-     * Return all data from wp_general_province.
+     * Return a list
+     * of all italian provinces.
      */
     public function get_province() {
-        $dao = new \Rip_General\Daos\Rip_General_Dao();
-        $results = $dao->get_province();
+        $service = $this->_container['generalQueryService'];
+        $result = $service->get_province();
 
-        $this->_response->to_json(array(
-            'status' => 'ok',
-            'count' => count($results),
-            'count_total' => count($results),
-            'pages' => 1,
-            'items' => empty($results) ? array() : $results,
-        ));
+        $this->_response->set_code($result->get_code())
+                ->to_json($result);
     }
 
     /**
-     * Return all data from wp_general_regioni.
+     * Return a list
+     * of all italian regions.
      */
     public function get_regioni() {
-        $dao = new \Rip_General\Daos\Rip_General_Dao();
-        $results = $dao->get_regioni();
+        $service = $this->_container['generalQueryService'];
+        $result = $service->get_regioni();
 
-        $this->_response->to_json(array(
-            'status' => 'ok',
-            'count' => count($results),
-            'count_total' => count($results),
-            'pages' => 1,
-            'items' => empty($results) ? array() : $results,
-        ));
+        $this->_response->set_code($result->get_code())
+                ->to_json($result);
     }
 
     /**
-     * Return all data from wp_general_nazioni.
+     * Return a list
+     * of all words nations.
      */
     public function get_nazioni() {
-        $dao = new \Rip_General\Daos\Rip_General_Dao();
-        $results = $dao->get_nazioni();
+        $service = $this->_container['generalQueryService'];
+        $result = $service->get_nazioni();
 
-        $this->_response->to_json(array(
-            'status' => 'ok',
-            'count' => count($results),
-            'count_total' => count($results),
-            'pages' => 1,
-            'items' => empty($results) ? array() : $results,
-        ));
+        $this->_response->set_code($result->get_code())
+                ->to_json($result);
     }
 
 }

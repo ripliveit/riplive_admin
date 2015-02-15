@@ -21,10 +21,10 @@ class Rip_Autoloader {
     /**
      * On class construction set current plugin directory tree.
      * 
-     * @param type $plugin_dir_path
+     * @param string $path
      */
-    public function __construct($plugin_dir_path) {
-        $this->_plugin_dir_path = $plugin_dir_path;
+    public function __construct($path) {
+        $this->_plugin_dir_path = plugin_dir_path($path);
         spl_autoload_register(array($this, '_load_classes'));
     }
 
@@ -34,11 +34,7 @@ class Rip_Autoloader {
      * @param type $class_name
      */
     private function _load_classes($class_name) {
-        $exploded = explode('\\', $class_name);
-        $namespace = $exploded[0] . '\\';
-
-        $filename = str_replace($namespace, '', $class_name);
-        $filename = str_replace('\\', '/', $filename);
+        $filename = str_replace('\\', '/', $class_name);
         $filename = str_replace('_', '-', $filename) . '.php';
 
         $path = $this->_plugin_dir_path . strtolower($filename);

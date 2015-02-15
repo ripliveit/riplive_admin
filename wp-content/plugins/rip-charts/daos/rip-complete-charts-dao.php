@@ -190,8 +190,7 @@ class Rip_Complete_Charts_Dao extends \Rip_General\Classes\Rip_Abstract_Dao {
     }
 
     /**
-     * Return and retrieve a specific complete chart, passing a chart_archive_slug 
-     * as argument.
+     * Return and retrieve a specific complete chart. 
      * $chart_archive_slug is the unique identifier in wp_charts_archive table.
      * 
      * @param string $slug
@@ -218,7 +217,7 @@ class Rip_Complete_Charts_Dao extends \Rip_General\Classes\Rip_Abstract_Dao {
             $slug
         ));
 
-        $result = $wpdb->get_results($prepared, ARRAY_A);
+        $result = $wpdb->get_row($prepared, ARRAY_A);
 
         return $result;
     }

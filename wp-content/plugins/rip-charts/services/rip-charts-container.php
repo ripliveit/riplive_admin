@@ -3,16 +3,26 @@
 namespace Rip_Charts\Services;
 
 /**
- * Description of rip-charts-container
+ * Charts dependency
+ * injection container.
  *
  * @author Gabriele
  */
 class Rip_Charts_Container extends \Rip_General\Vendor\Pimple\Lib\Pimple {
-
+    
+    /**
+     * On construction set all 
+     * plugin dependencies.
+     */
     public function __construct() {
         $this->_set_dependencies();
     }
-
+    
+    /**
+     * Set the plugin dependencies.
+     * 
+     * @return \Rip_Charts\Services\Rip_Charts_Container
+     */
     private function _set_dependencies() {
         $this['chartsDao'] = function($container) {
             return new \Rip_Charts\Daos\Rip_Charts_Dao();

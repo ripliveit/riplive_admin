@@ -3,14 +3,14 @@
 namespace Rip_Charts\Controllers;
 
 /**
- * Charts controller.
- * Implements method invoked by ajax method 
- * to retrieve chart's data.
+ * Songs Controller.
+ * Each method, publicly available, return data in JSON format.
  */
 class Rip_Charts_Controller extends \Rip_General\Classes\Rip_Abstract_Controller {
     
     /**
      * On construction set the container.
+     * 
      * @param \Rip_General\Classes\Rip_Http_Request $request
      * @param \Rip_General\Classes\Rip_Http_Response $response
      */
@@ -20,7 +20,7 @@ class Rip_Charts_Controller extends \Rip_General\Classes\Rip_Abstract_Controller
     }
 
     /**
-     * Retrieve all posts from 'Charts' custom post type.
+     * Retrieve all charts.
      */
     public function get_all_charts() {
         $service = $this->_container['chartsQueryService'];
@@ -31,7 +31,8 @@ class Rip_Charts_Controller extends \Rip_General\Classes\Rip_Abstract_Controller
     }
 
     /**
-     * Retrieve a single post from 'Charts' custom post type.
+     * Retrieve a single charts
+     * with a specific slug.
      */
     public function get_chart_by_slug() {
         $slug = $this->_request->query->get('slug');
@@ -45,7 +46,7 @@ class Rip_Charts_Controller extends \Rip_General\Classes\Rip_Abstract_Controller
 
     /**
      * Return the number of all charts
-     * and the number of total pages. 
+     * and the total number of pages. 
      * Used for client side pagination.
      */
     public function get_complete_charts_number_of_pages() {
@@ -74,8 +75,9 @@ class Rip_Charts_Controller extends \Rip_General\Classes\Rip_Abstract_Controller
     }
 
     /**
-     * Return a list of all complete chart of a specific chart, 
-     * specifing the slug of the chart. 
+     * Return a list of all complete chart of a specific type
+     * (for example all rock's chart and so on), 
+     * specifing the slug of the type. 
      */
     public function get_all_complete_charts_by_chart_type() {
         $slug = $this->_request->query->get('slug');
@@ -90,8 +92,8 @@ class Rip_Charts_Controller extends \Rip_General\Classes\Rip_Abstract_Controller
     }
 
     /**
-     * Return lasts complete charts,
-     * one per genre.
+     * Return latest complete charts,
+     * one per genre (rock, electronic, pop and so on)
      */
     public function get_latest_complete_charts() {
         $service = $this->_container['chartsQueryService'];
@@ -102,7 +104,7 @@ class Rip_Charts_Controller extends \Rip_General\Classes\Rip_Abstract_Controller
     }
 
     /**
-     * Return a complete chart,
+     * Return a single complete chart,
      * with all realtive songs.
      */
     public function get_complete_chart_by_chart_archive_slug() {
@@ -170,8 +172,6 @@ class Rip_Charts_Controller extends \Rip_General\Classes\Rip_Abstract_Controller
     /**
      * Insert a user vote 
      * 
-     * @param array $data
-     * @return array
      */
     public function insert_complete_chart_vote() {
         $chart_archive_slug = $this->_request->request->get('chart_archive_slug');

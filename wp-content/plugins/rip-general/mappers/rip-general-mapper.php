@@ -8,19 +8,26 @@ namespace Rip_General\Mappers;
  * @author Gabriele
  */
 class Rip_General_Mapper implements \Rip_General\Interfaces\Rip_Mapper_Array_Interface {
-
-    public function set_data(\WP_Query $query) {
+    
+    /**
+     * Map geographic data 
+     * into a more coheren structure.
+     * 
+     * @param array $data
+     * @return boolean|array
+     */
+    public function map(array $data = array()) {
         if (empty($data)) {
             return false;
         }
 
-        $out = array();
+        $accumulator = array();
 
         foreach ($data as $item) {
-            array_push($out, $item['value']);
+            array_push($accumulator, $item['value']);
         }
 
-        return $out;
+        return $accumulator;
     }
 
 }

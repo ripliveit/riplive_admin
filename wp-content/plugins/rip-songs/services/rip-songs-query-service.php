@@ -45,11 +45,11 @@ class Rip_Songs_Query_Service extends \Rip_General\Classes\Rip_Abstract_Query_Se
      */
     public function get_all_songs($count = null, $page = null, $divide = null) {
         $mapper = \Rip_General\Mappers\Rip_Factory_Mapper::create_mapper(
-                        '\Rip_Songs\Mappers\Rip_Songs_Mapper', $this->_posts_dao
+                        '\Rip_Songs\Mappers\Rip_Song_Mapper', $this->_posts_dao
         );
 
         $page_args = $this->get_wpquery_pagination_args($count, $page);
-        $pages = $this->_posts_dao->get_posts_type_number_of_pages('songs', $count);
+        $pages = $this->_posts_dao->get_post_type_number_of_page('songs', $count);
         $data = $mapper->map($this->_songs_dao->get_all_songs($page_args));
 
         if ($divide) {
@@ -62,7 +62,7 @@ class Rip_Songs_Query_Service extends \Rip_General\Classes\Rip_Abstract_Query_Se
                 ->set_count(count($data))
                 ->set_count_total((int) $pages['count_total'])
                 ->set_pages($pages['pages'])
-                ->set_charts(empty($data) ? array() : $data);
+                ->set_songs(empty($data) ? array() : $data);
 
         return $message;
     }
@@ -70,101 +70,115 @@ class Rip_Songs_Query_Service extends \Rip_General\Classes\Rip_Abstract_Query_Se
     /**
      * Retrieve all songs with a specific genre.
      */
-    public function get_all_songs_by_genre_slug($count = null, $page = null, $divide = null) {
+    public function get_all_songs_by_genre_slug($slug, $count = null, $page = null, $divide = null) {
         $message = new \Rip_General\Dto\Message();
-        
+
         if (empty($slug)) {
-            return $this->_response->set_code(400)->to_json(array(
-                        'status' => 'error',
-                        'message' => 'Please specify a genre slug'
-            ));
+            $message->set_code(400)
+                    ->set_status('error')
+                    ->set_message('Please specify a genre slug');
+
+            return $message;
         }
 
-        $dao = new \Rip_Songs\Daos\Rip_Songs_Dao();
-        $results = $dao->set_items_per_page($count)->get_all_songs_by_genre_slug($slug, $page);
-        $pages = $dao->get_post_type_number_of_pages('songs', array(
+        $mapper = \Rip_General\Mappers\Rip_Factory_Mapper::create_mapper(
+                        '\Rip_Songs\Mappers\Rip_Song_Mapper', $this->_posts_dao
+        );
+
+        $page_args = $this->get_wpquery_pagination_args($count, $page);
+        $pages = $this->_posts_dao->get_post_type_number_of_page('songs', $count, array(
             'song-genre' => $slug
         ));
 
+        $data = $mapper->map($this->_songs_dao->get_all_songs_by_genre_slug($slug, $page_args));
+
         if ($divide) {
-            $service = new \Rip_General\Services\Rip_General_Service();
-            $results = $service->divide_data_by_letter('song_title', $results);
+            $data = $this->_general_service->divide_data_by_letter('song_title', $data);
         }
 
-        $this->_response->to_json(array(
-            'status' => 'ok',
-            'count' => count($results),
-            'count_total' => (int) $pages['count_total'],
-            'pages' => $pages['pages'],
-            'genre' => get_term_by('slug', $slug, 'song-genre'),
-            'songs' => empty($results) ? array() : $results,
-        ));
+        $message->set_status('ok')
+                ->set_code(200)
+                ->set_count(count($data))
+                ->set_count_total((int) $pages['count_total'])
+                ->set_pages($pages['pages'])
+                ->set_genre(get_term_by('slug', $slug, 'song-genre'))
+                ->set_songs(empty($data) ? array() : $data);
+
+        return $message;
     }
 
     /**
      * Retrieve all songs with a specific tag.
      */
-    public function get_all_songs_by_tag_slug() {
-        $slug = $this->_request->query->get('slug');
-        $count = $this->_request->query->get('count');
-        $page = $this->_request->query->get('page');
-        $divide = $this->_request->query->get('divide');
+    public function get_all_songs_by_tag_slug($slug, $count = null, $page = null, $divide = null) {
+        $message = new \Rip_General\Dto\Message();
 
         if (empty($slug)) {
-            return $this->_response->set_code(400)->to_json(array(
-                        'status' => 'error',
-                        'message' => 'Please specify a tag slug'
-            ));
+            $message->set_code(400)
+                    ->set_status('error')
+                    ->set_message('Please specify a tag slug');
+
+            return $message;
         }
 
-        $dao = new \Rip_Songs\Daos\Rip_Songs_Dao();
-        $results = $dao->set_items_per_page($count)->get_all_songs_by_tag_slug($slug, $page);
-        $pages = $dao->get_post_type_number_of_pages('songs', array(
+        $mapper = \Rip_General\Mappers\Rip_Factory_Mapper::create_mapper(
+                        '\Rip_Songs\Mappers\Rip_Song_Mapper', $this->_posts_dao
+        );
+
+        $page_args = $this->get_wpquery_pagination_args($count, $page);
+        $pages = $this->_posts_dao->get_post_type_number_of_page('songs', $count, array(
             'song-tag' => $slug
         ));
 
+        $data = $mapper->map($this->_songs_dao->get_all_songs_by_tag_slug($slug, $page_args));
+
         if ($divide) {
-            $service = new \Rip_General\Services\Rip_General_Service();
-            $results = $service->divide_data_by_letter('song_title', $results);
+            $data = $this->_general_service->divide_data_by_letter('song_title', $data);
         }
 
-        $this->_response->to_json(array(
-            'status' => 'ok',
-            'count' => count($results),
-            'count_total' => (int) $pages['count_total'],
-            'pages' => $pages['pages'],
-            'tag' => get_term_by('slug', $slug, 'song-tag'),
-            'songs' => empty($results) ? array() : $results,
-        ));
+        $message->set_status('ok')
+                ->set_code(200)
+                ->set_count(count($data))
+                ->set_count_total((int) $pages['count_total'])
+                ->set_pages($pages['pages'])
+                ->set_tag(get_term_by('slug', $slug, 'song-tag'))
+                ->set_songs(empty($data) ? array() : $data);
+
+        return $message;
     }
 
     /**
      * Retrieve a song by it's unique identifier.
      */
-    public function get_song_by_slug() {
-        $slug = $this->_request->query->get('slug');
+    public function get_song_by_slug($slug) {
+        $message = new \Rip_General\Dto\Message();
 
         if (empty($slug)) {
-            return $this->_response->set_code(400)->to_json(array(
-                        'status' => 'error',
-                        'message' => 'Please specify a song slug'
-            ));
+            $message->set_code(400)
+                    ->set_status('error')
+                    ->set_message('Please specify a song slug');
+
+            return $message;
         }
+        
+        $mapper = \Rip_General\Mappers\Rip_Factory_Mapper::create_mapper(
+                        '\Rip_Songs\Mappers\Rip_Song_Mapper', $this->_posts_dao
+        );
+        $data = $mapper->map($this->_songs_dao->get_song_by_slug($slug));
+        
+        if (empty($data)) {
+            $message->set_code(404)
+                    ->set_status('error')
+                    ->set_message('Cannot find song with slug ' . $slug);
 
-        $dao = new \Rip_Songs\Daos\Rip_Songs_Dao();
-        $results = $dao->get_song_by_slug($slug);
-
-        if (empty($results)) {
-            return $this->_response->to_json(array(
-                        'status' => 'error',
-                        'message' => 'Not found'
-            ));
+            return $message;
         }
+        
+        $message->set_code(200)
+                ->set_status('ok')
+                ->set_song(current($data));
 
-        $this->_response->to_json(array(
-            'status' => 'ok',
-            'song' => $results
-        ));
+        return $message;
     }
 
     /**
@@ -172,16 +186,23 @@ class Rip_Songs_Query_Service extends \Rip_General\Classes\Rip_Abstract_Query_Se
      * taxonomy of custom post type 'Songs'.
      */
     public function get_songs_genres() {
-        $dao = new \Rip_Songs\Daos\Rip_Songs_Dao();
-        $results = $dao->get_songs_genres();
+        $message = new \Rip_General\Dto\Message();
+        
+        $mapper = \Rip_General\Mappers\Rip_Factory_Mapper::create_mapper(
+                        '\Rip_General\Mappers\Rip_Genre_Mapper', $this->_posts_dao
+        );
+        
+        $data = $mapper->map($this->_songs_dao->get_songs_genres());
+        
+        $message->set_status('ok')
+                ->set_code(200)
+                ->set_count(count($data))
+                ->set_count_total(count($data))
+                ->set_pages(1)
+                ->set_genres(empty($data) ? array() : $data);
 
-        $this->_response->to_json(array(
-            'status' => 'ok',
-            'count' => count($results),
-            'count_total' => count($results),
-            'pages' => 1,
-            'genres' => empty($results) ? array() : $results,
-        ));
+        return $message;
+
     }
 
 }

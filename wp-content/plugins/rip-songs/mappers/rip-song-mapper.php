@@ -8,7 +8,7 @@ namespace Rip_Songs\Mappers;
  *
  * @author Gabriele
  */
-class Rip_Songs_Mapper implements \Rip_General\Interfaces\Rip_Mapper_Wp_Query_Interface {
+class Rip_Song_Mapper implements \Rip_General\Interfaces\Rip_Mapper_Wp_Query_Interface {
     
     /**
      * Holds a reference
@@ -29,7 +29,8 @@ class Rip_Songs_Mapper implements \Rip_General\Interfaces\Rip_Mapper_Wp_Query_In
     }
 
     /**
-     * A private method that set songs data.
+     * Map a Wp_Query data to
+     * an array that contains song's data.
      * 
      * @param WP_Query $query
      * @return array

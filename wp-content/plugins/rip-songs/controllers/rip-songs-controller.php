@@ -3,13 +3,15 @@
 namespace Rip_Songs\Controllers;
 
 /**
- * Songs ajax front controller.
- * Implements method invoked byt ajax method to retrieve songs's data.
+ * Songs Controller.
+ * Each method, publicly available, return data in JSON format.
  */
 class Rip_Songs_Controller extends \Rip_General\Classes\Rip_Abstract_Controller {
 
     /**
-     * On construction set the container.
+     * On construction set the container
+     * as the
+     * 
      * @param \Rip_General\Classes\Rip_Http_Request $request
      * @param \Rip_General\Classes\Rip_Http_Response $response
      */
@@ -22,12 +24,12 @@ class Rip_Songs_Controller extends \Rip_General\Classes\Rip_Abstract_Controller 
      * Retrieve all songs.
      */
     public function get_all_songs() {
-        $count  = $this->_request->query->get('count');
-        $page   = $this->_request->query->get('page');
+        $count = $this->_request->query->get('count');
+        $page = $this->_request->query->get('page');
         $divide = $this->_request->query->get('divide');
-        
+
         $service = $this->_container['songsQueryService'];
-        $result  = $service->get_all_songs($count, $page, $divide);
+        $result = $service->get_all_songs($count, $page, $divide);
 
         $this->_response->set_code($result->get_code())
                 ->to_json($result);
@@ -42,32 +44,11 @@ class Rip_Songs_Controller extends \Rip_General\Classes\Rip_Abstract_Controller 
         $page = $this->_request->query->get('page');
         $divide = $this->_request->query->get('divide');
 
-        if (empty($slug)) {
-            return $this->_response->set_code(400)->to_json(array(
-                        'status' => 'error',
-                        'message' => 'Please specify a genre slug'
-            ));
-        }
+        $service = $this->_container['songsQueryService'];
+        $result = $service->get_all_songs_by_genre_slug($slug, $count, $page, $divide);
 
-        $dao = new \Rip_Songs\Daos\Rip_Songs_Dao();
-        $results = $dao->set_items_per_page($count)->get_all_songs_by_genre_slug($slug, $page);
-        $pages = $dao->get_post_type_number_of_pages('songs', array(
-            'song-genre' => $slug
-        ));
-
-        if ($divide) {
-            $service = new \Rip_General\Services\Rip_General_Service();
-            $results = $service->divide_data_by_letter('song_title', $results);
-        }
-
-        $this->_response->to_json(array(
-            'status' => 'ok',
-            'count' => count($results),
-            'count_total' => (int) $pages['count_total'],
-            'pages' => $pages['pages'],
-            'genre' => get_term_by('slug', $slug, 'song-genre'),
-            'songs' => empty($results) ? array() : $results,
-        ));
+        $this->_response->set_code($result->get_code())
+                ->to_json($result);
     }
 
     /**
@@ -79,32 +60,11 @@ class Rip_Songs_Controller extends \Rip_General\Classes\Rip_Abstract_Controller 
         $page = $this->_request->query->get('page');
         $divide = $this->_request->query->get('divide');
 
-        if (empty($slug)) {
-            return $this->_response->set_code(400)->to_json(array(
-                        'status' => 'error',
-                        'message' => 'Please specify a tag slug'
-            ));
-        }
+        $service = $this->_container['songsQueryService'];
+        $result = $service->get_all_songs_by_tag_slug($slug, $count, $page, $divide);
 
-        $dao = new \Rip_Songs\Daos\Rip_Songs_Dao();
-        $results = $dao->set_items_per_page($count)->get_all_songs_by_tag_slug($slug, $page);
-        $pages = $dao->get_post_type_number_of_pages('songs', array(
-            'song-tag' => $slug
-        ));
-
-        if ($divide) {
-            $service = new \Rip_General\Services\Rip_General_Service();
-            $results = $service->divide_data_by_letter('song_title', $results);
-        }
-
-        $this->_response->to_json(array(
-            'status' => 'ok',
-            'count' => count($results),
-            'count_total' => (int) $pages['count_total'],
-            'pages' => $pages['pages'],
-            'tag' => get_term_by('slug', $slug, 'song-tag'),
-            'songs' => empty($results) ? array() : $results,
-        ));
+        $this->_response->set_code($result->get_code())
+                ->to_json($result);
     }
 
     /**
@@ -113,27 +73,11 @@ class Rip_Songs_Controller extends \Rip_General\Classes\Rip_Abstract_Controller 
     public function get_song_by_slug() {
         $slug = $this->_request->query->get('slug');
 
-        if (empty($slug)) {
-            return $this->_response->set_code(400)->to_json(array(
-                        'status' => 'error',
-                        'message' => 'Please specify a song slug'
-            ));
-        }
+        $service = $this->_container['songsQueryService'];
+        $result = $service->get_song_by_slug($slug);
 
-        $dao = new \Rip_Songs\Daos\Rip_Songs_Dao();
-        $results = $dao->get_song_by_slug($slug);
-
-        if (empty($results)) {
-            return $this->_response->to_json(array(
-                        'status' => 'error',
-                        'message' => 'Not found'
-            ));
-        }
-
-        $this->_response->to_json(array(
-            'status' => 'ok',
-            'song' => $results
-        ));
+        $this->_response->set_code($result->get_code())
+                ->to_json($result);
     }
 
     /**
@@ -141,16 +85,11 @@ class Rip_Songs_Controller extends \Rip_General\Classes\Rip_Abstract_Controller 
      * taxonomy of custom post type 'Songs'.
      */
     public function get_songs_genres() {
-        $dao = new \Rip_Songs\Daos\Rip_Songs_Dao();
-        $results = $dao->get_songs_genres();
+        $service = $this->_container['songsQueryService'];
+        $result = $service->get_songs_genres();
 
-        $this->_response->to_json(array(
-            'status' => 'ok',
-            'count' => count($results),
-            'count_total' => count($results),
-            'pages' => 1,
-            'genres' => empty($results) ? array() : $results,
-        ));
+        $this->_response->set_code($result->get_code())
+                ->to_json($result);
     }
 
 }

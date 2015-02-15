@@ -3,20 +3,40 @@
 namespace Rip_Charts\Mappers;
 
 /**
- * Description of rip-charts-mapper
+ * Map complete chart data.
  *
  * @author Gabriele
  */
 class Rip_Complete_Chart_Mapper implements \Rip_General\Interfaces\Rip_Mapper_Array_Interface {
 
-    protected $_dao;
+    /**
+     * Holds a reference to 
+     * Posts_Dao
+     * 
+     * @var Object 
+     */
+    protected $_posts_dao;
 
-    public function __construct(\Rip_General\Classes\Rip_Abstract_Dao $dao) {
-        $this->_dao = $dao;
+    /**
+     * On construction
+     * set the Post_Dao dependency.
+     * 
+     * @param \Rip_General\Classes\Rip_Abstract_Dao $dao
+     */
+    public function __construct(\Rip_General\Classes\Rip_Abstract_Dao $posts_dao) {
+        $this->posts_dao = $posts_dao;
     }
 
+    /**
+     * Map an array
+     * of flat chart data into a
+     * coherent structure.
+     * 
+     * @param array $chart_data
+     * @return array
+     */
     public function map(array $chart_data = array()) {
-       if (empty($chart_data)) {
+        if (empty($chart_data)) {
             return array();
         }
 
@@ -40,12 +60,12 @@ class Rip_Complete_Chart_Mapper implements \Rip_General\Interfaces\Rip_Mapper_Ar
             $accumulator[$archive_slug]['chart_genre'] = wp_get_post_terms((int) $value['id_chart'], 'chart-genre');
             $accumulator[$archive_slug]['chart_tags'] = wp_get_post_terms((int) $value['id_chart'], 'chart-tag');
             $accumulator[$archive_slug]['chart_images'] = array(
-                'thumbnail' => $this->_dao->get_post_images($value['id_chart'], 'thumbnail'),
-                'image_medium' => $this->_dao->get_post_images($value['id_chart'], 'medium'),
-                'image_large' => $this->_dao->get_post_images($value['id_chart'], 'large'),
-                'image_full' => $this->_dao->get_post_images($value['id_chart'], 'full'),
-                'landscape_medium' => $this->_dao->get_post_images($value['id_chart'], 'medium-landscape'),
-                'landscape_large' => $this->_dao->get_post_images($value['id_chart'], 'large-landscape'),
+                'thumbnail' => $this->posts_dao->get_post_images($value['id_chart'], 'thumbnail'),
+                'image_medium' => $this->posts_dao->get_post_images($value['id_chart'], 'medium'),
+                'image_large' => $this->posts_dao->get_post_images($value['id_chart'], 'large'),
+                'image_full' => $this->posts_dao->get_post_images($value['id_chart'], 'full'),
+                'landscape_medium' => $this->posts_dao->get_post_images($value['id_chart'], 'medium-landscape'),
+                'landscape_large' => $this->posts_dao->get_post_images($value['id_chart'], 'large-landscape'),
             );
             $accumulator[$archive_slug]['songs'] = array();
         }
@@ -64,12 +84,12 @@ class Rip_Complete_Chart_Mapper implements \Rip_General\Interfaces\Rip_Mapper_Ar
                 'song_genre' => wp_get_post_terms($item['id_song'], 'song-genre'),
                 'song_tags' => wp_get_post_terms($item['id_song'], 'song-tag'),
                 'song_images' => array(
-                    'thumbnail' => $this->_dao->get_post_images($item['id_song'], 'thumbnail'),
-                    'image_medium' => $this->_dao->get_post_images($item['id_song'], 'medium'),
-                    'image_large' => $this->_dao->get_post_images($item['id_song'], 'large'),
-                    'image_full' => $this->_dao->get_post_images($item['id_song'], 'full'),
-                    'landscape_medium' => $this->_dao->get_post_images($item['id_song'], 'medium-landscape'),
-                    'landscape_large' => $this->_dao->get_post_images($item['id_song'], 'large-landscape'),
+                    'thumbnail' => $this->posts_dao->get_post_images($item['id_song'], 'thumbnail'),
+                    'image_medium' => $this->posts_dao->get_post_images($item['id_song'], 'medium'),
+                    'image_large' => $this->posts_dao->get_post_images($item['id_song'], 'large'),
+                    'image_full' => $this->posts_dao->get_post_images($item['id_song'], 'full'),
+                    'landscape_medium' => $this->posts_dao->get_post_images($item['id_song'], 'medium-landscape'),
+                    'landscape_large' => $this->posts_dao->get_post_images($item['id_song'], 'large-landscape'),
                 ),
                 'song_artist' => get_post_meta($item['id_song'], 'songs-artist', true),
                 'song_album' => get_post_meta($item['id_song'], 'songs-album', true),

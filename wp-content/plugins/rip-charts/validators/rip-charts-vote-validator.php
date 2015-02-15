@@ -3,8 +3,9 @@
 namespace Rip_Charts\Validators;
 
 /**
- * A service used by other Chart plugin's classes
- * to implement and run chart's business logic.
+ * Validate the
+ * user's votes data before the insertion
+ * into the database.
  */
 class Rip_Charts_Vote_Validator extends \Rip_General\Classes\Rip_Abstract_Validator {
 
@@ -12,16 +13,16 @@ class Rip_Charts_Vote_Validator extends \Rip_General\Classes\Rip_Abstract_Valida
      * Check if a chart has
      * a specific song.
      * 
-     * @param int $id_song
      * @param array $chart
+     * @param type $id_song
      * @return boolean
      */
     public function validate(array $chart = array(), $id_song = null) {
         $message = new \Rip_General\Dto\Message();
-        
+
         if (empty($chart)) {
             return $message->set_status('error')
-                    ->set_message('Please pass a chart to check');
+                            ->set_message('Please pass a chart to check');
         }
 
         if (empty($id_song)) {

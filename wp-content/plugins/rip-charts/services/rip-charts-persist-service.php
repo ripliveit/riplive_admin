@@ -38,7 +38,13 @@ class Rip_Charts_Persist_Service {
     private $_transaction;
 
     /**
-     * Class constructor.
+     * On construction
+     * set service dependencies.
+     * 
+     * @param \Rip_General\Classes\Rip_Abstract_Dao $complete_charts_dao
+     * @param \Rip_General\Classes\Rip_Abstract_Query_Service $query_service
+     * @param \Rip_General\Classes\Rip_Abstract_Validator $validator
+     * @param \Rip_General\Classes\Rip_Transaction $transaction
      */
     public function __construct(
             \Rip_General\Classes\Rip_Abstract_Dao $complete_charts_dao, 
@@ -53,15 +59,15 @@ class Rip_Charts_Persist_Service {
     }
 
     /**
-     * First insert the chart into wp_chart_archive, that store all complete chart,
+     * First insert the chart into wp_chart_archive,
      * then insert all songs into wp_charts_songs.
      * 
      * Accept an array of rows as parameter. 
      * Each row specify: the chart archive slug, the id_chart, and the id_song
      * Return the inserted chart.
      * 
-     * @param array $chart
-     * @return array
+     * @param type $chart
+     * @return \Rip_General\Dto\Message
      */
     public function insert_complete_chart($chart = array()) {
         $message = new \Rip_General\Dto\Message();
@@ -146,8 +152,8 @@ class Rip_Charts_Persist_Service {
      * Each row id must be specified to perform the update in a transaction.
      * The row id is passed AS id_chart_song
      * 
-     * @param array $data
-     * @return int (the number of the affected row).
+     * @param type $chart
+     * @return \Rip_General\Dto\Message
      */
     public function update_complete_chart($chart = array()) {
         $message = new \Rip_General\Dto\Message();
@@ -286,10 +292,13 @@ class Rip_Charts_Persist_Service {
     }
 
     /**
-     * Insert a user vote on wp_charts_songs_vote
+     * Insert a user vote into wp_charts_songs_vote.
+     * To perform a vote the client must specify at least
+     * the song_id.
      * 
-     * @param array $data
-     * @return array
+     * @param string $chart_archive_slug
+     * @param id $id_song
+     * @return type
      */
     public function insert_complete_chart_vote($chart_archive_slug = null, $id_song = null) {
         $message = new \Rip_General\Dto\Message();

@@ -3,7 +3,9 @@
 namespace Rip_General\Mappers;
 
 /**
- * Description of rip-factory-mapper
+ * A concrete factory
+ * that implements a factory method used to create
+ * objects at runtime.
  *
  * @author Gabriele
  */
@@ -28,8 +30,6 @@ class Rip_Factory_Mapper implements \Rip_General\Interfaces\Rip_Factory_Mapper_I
         if (empty($class_name)) {
             throw new Exception('Specify a mapper class name to create.');
         }
-
-        //$class_name = self::$_namespace . $class_name;
 
         if (class_exists($class_name)) {
             $mapper = new $class_name($arguments);

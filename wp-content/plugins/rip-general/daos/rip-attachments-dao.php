@@ -3,14 +3,15 @@
 namespace Rip_General\Daos;
 
 /**
- * Description of rip-attachments-dao
+ * Attachment Data Access Object
  *
  * @author Gabriele
  */
 class Rip_Attachment_Dao extends \Rip_General\Classes\Rip_Abstract_Dao {
 
     /**
-     * Return all attachments images, giving an attachments id.
+     * Return all attachments images, 
+     * given an attachments id.
      * 
      * @param int $attachment_id
      * @param string $size

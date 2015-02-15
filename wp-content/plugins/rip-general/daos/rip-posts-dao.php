@@ -3,7 +3,7 @@
 namespace Rip_General\Daos;
 
 /**
- * Description of rip-posts-dao
+ * Post Data Access Object.
  *
  * @author Gabriele
  */
@@ -42,6 +42,54 @@ class Rip_Posts_Dao extends \Rip_General\Classes\Rip_Abstract_Dao {
         $content = $post->post_content;
         $content = apply_filters('the_content', $content);
         $content = str_replace(']]>', ']]&gt;', $content);
+    }
+
+    /**
+     * Return the total number of pages
+     * for a specific post type.
+     * 
+     * @param string $post_type
+     * @param int $count
+     * @param array $terms
+     * @param string $all_post_status
+     * @return array
+     */
+    public function get_post_type_number_of_page($post_type = null, $count = null, array $terms = array(), $all_post_status = null) {
+        $args = array(
+            'posts_per_page' => -1,
+            'post_status' => array(
+                'publish'
+        ));
+
+        // Set the post type.
+        if ($post_type) {
+            $args['post_type'] = $post_type;
+        }
+
+        // Set the args with the terms query.
+        if (!empty($terms)) {
+            foreach ($terms as $term => $slug) {
+                $args[$term] = $slug;
+            }
+        }
+
+        if ($all_post_status) {
+            array_push($args['post_status'], 'pending');
+        }
+
+        $query = new \WP_Query($args);
+        $total_items = $query->post_count;
+
+        if ($count === null) {
+            $number_of_pages = 1;
+        } else {
+            $number_of_pages = ceil($total_items / $count);
+        }
+
+        return array(
+            'count_total' => $total_items,
+            'pages' => $number_of_pages
+        );
     }
 
 }

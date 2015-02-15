@@ -306,9 +306,9 @@ class Rip_Charts_Query_Service extends \Rip_General\Classes\Rip_Abstract_Query_S
                         '\Rip_Charts\Mappers\Rip_Complete_Chart_Mapper', $this->_posts_dao
         );
 
-        $data = $mapper->map(array(
+        $data = $mapper->map(
             $this->_complete_charts_dao->get_complete_chart_by_chart_archive_slug($slug)
-        ));
+        );
 
         if (empty($data)) {
             $message->set_code(404)

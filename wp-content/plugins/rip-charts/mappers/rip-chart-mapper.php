@@ -6,8 +6,8 @@ namespace Rip_Charts\Mappers;
  * Map Chart Custom Post Type data
  */
 class Rip_Chart_Mapper implements \Rip_General\Interfaces\Rip_Mapper_Wp_Query_Interface {
-    
-        /**
+
+    /**
      * Holds a reference
      * to Post_Dao, used to hydrate
      * some properties that require a query through Wordpress system.
@@ -15,8 +15,7 @@ class Rip_Chart_Mapper implements \Rip_General\Interfaces\Rip_Mapper_Wp_Query_In
      * @var Object 
      */
     protected $_posts_dao;
-    protected $_posts_dao;
-    
+
     /**
      * On construction
      * set the Post_Dao dependency.
@@ -26,7 +25,7 @@ class Rip_Chart_Mapper implements \Rip_General\Interfaces\Rip_Mapper_Wp_Query_In
     public function __construct(\Rip_General\Classes\Rip_Abstract_Dao $dao) {
         $this->_posts_dao = $dao;
     }
-    
+
     /**
      * Map WP_Query data
      * to a coherent chart structure.

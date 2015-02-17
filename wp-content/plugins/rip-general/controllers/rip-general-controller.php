@@ -8,18 +8,6 @@ namespace Rip_General\Controllers;
  * 
  */
 class Rip_General_Controller extends \Rip_General\Classes\Rip_Abstract_Controller {
-    
-    /**
-     * On construction set the container
-     * as the main dependencies.
-     * 
-     * @param \Rip_General\Classes\Rip_Http_Request $request
-     * @param \Rip_General\Classes\Rip_Http_Response $response
-     */
-    public function __construct(\Rip_General\Classes\Rip_Http_Request $request, \Rip_General\Classes\Rip_Http_Response $response) {
-        parent::__construct($request, $response);
-        $this->_container = new \Rip_General\Services\Rip_General_Container();
-    }
 
     /**
      * Return a list

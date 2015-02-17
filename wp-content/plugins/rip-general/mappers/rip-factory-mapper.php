@@ -26,7 +26,7 @@ class Rip_Factory_Mapper implements \Rip_General\Interfaces\Rip_Factory_Mapper_I
      * @return \class_name
      * @throws Exception
      */
-    public static function create_mapper($class_name, $arguments) {
+    public static function create_mapper($class_name, $arguments = null) {
         if (empty($class_name)) {
             throw new Exception('Specify a mapper class name to create.');
         }

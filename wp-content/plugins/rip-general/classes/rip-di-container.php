@@ -68,7 +68,18 @@ class Rip_Di_Container {
         $this->_container['transaction'] = function($c) {
             return new \Rip_General\Classes\Rip_Transaction();
         };
-
+                
+        //
+        // Author plugin's dependencies
+        //
+        $this->_container['authorsDao'] = function($c) {
+            return new \Rip_Authors\Daos\Rip_Authors_Dao();
+        };
+        
+        $this->_container['authorsQueryService'] = function($c) {
+            return new \Rip_Authors\Services\Rip_Authors_Query_Service($c['authorsDao']);
+        };
+                
         //
         // Charts plugin's dependencies
         //

@@ -159,7 +159,6 @@ abstract class Rip_Abstract_Plugin {
      */
     public function __construct() {
         $this->_init();
-
         $this->_set_ajax();
 
         if (!empty($this->_sidebars)) {
@@ -208,13 +207,20 @@ abstract class Rip_Abstract_Plugin {
      * Registers the ajax calls
      */
     protected function _set_ajax() {
+//        echo '<pre>';
+//        print_r(\Rip_General\Classes\Rip_Di_Container::get_instance()->get_container());
+//        echo '</pre>';
+//        die(0);
+//        
         if (!empty($this->_ajax)) {
             foreach ($this->_ajax as $hook => $config) {
 
                 // Construct the controller
                 if (class_exists($config['class_name'])) {
                     $controller = new $config['class_name'](
-                            new \Rip_General\Classes\Rip_Http_Request(), new \Rip_General\Classes\Rip_Http_Response()
+                            new \Rip_General\Classes\Rip_Http_Request(), 
+                            new \Rip_General\Classes\Rip_Http_Response(),
+                            \Rip_General\Classes\Rip_Di_Container::get_instance()->get_container()
                     );
                     $action = $config['method_name'];
                 }

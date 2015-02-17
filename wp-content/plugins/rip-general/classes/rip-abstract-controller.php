@@ -21,6 +21,13 @@ class Rip_Abstract_Controller {
      * @var \Rip_General\Classes\Rip_Http_Response
      */
     protected $_response;
+    
+    /**
+     * The Dependency Injection Container.
+     * 
+     * @var \ArrayAccess 
+     */
+    protected $_container;
 
     /**
      * On construction
@@ -31,10 +38,12 @@ class Rip_Abstract_Controller {
      */
     public function __construct(
         \Rip_General\Classes\Rip_Http_Request $request, 
-        \Rip_General\Classes\Rip_Http_Response $response
+        \Rip_General\Classes\Rip_Http_Response $response,
+        \ArrayAccess $container
     ) {
         $this->_request = $request;
         $this->_response = $response;
+        $this->_container = $container;
     }
 
 }

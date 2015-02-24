@@ -3,7 +3,9 @@
 namespace Rip_General\Services;
 
 /**
- * A service that helps all plugin's DAO to handle business logic.
+ * A service that 
+ * implements generic's helper
+ * used by other plugin's class.
  */
 class Rip_General_Service {
 
@@ -42,6 +44,24 @@ class Rip_General_Service {
         }
 
         return $tmp;
+    }
+
+    /**
+     * Return a list of week days.
+     * 
+     * @return array
+     */
+    public function get_days() {
+        $out = array();
+
+        for ($i = 1; $i <= 7; $i++) {
+            array_push($out, array(
+                'label' => date('l', strtotime("Sunday + $i days")),
+                'value' => $i
+            ));
+        }
+
+        return $out;
     }
 
 }

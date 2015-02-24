@@ -9,8 +9,8 @@ namespace Rip_Authors\Services;
  *
  * @author Gabriele
  */
-class Rip_Authors_Query_Service {
-    
+class Rip_Authors_Query_Service extends \Rip_General\Classes\Rip_Abstract_Query_Service {
+
     /**
      * Holds a reference
      * to Author Access Object.
@@ -18,7 +18,7 @@ class Rip_Authors_Query_Service {
      * @var Objecty 
      */
     private $_authors_dao;
-    
+
     /**
      * On construction
      * set Authors_Dao as main dependency.
@@ -28,7 +28,7 @@ class Rip_Authors_Query_Service {
     public function __construct(\Rip_General\Classes\Rip_Abstract_Dao $authors_dao) {
         $this->_authors_dao = $authors_dao;
     }
-        
+
     /**
      * Query for all
      * site's authors, excluded the administrator.
@@ -37,25 +37,25 @@ class Rip_Authors_Query_Service {
      */
     public function get_all_authors() {
         $message = new \Rip_General\Dto\Message();
-        
+
         $authors = $this->_authors_dao->get_all_authors('author');
         $editors = $this->_authors_dao->get_all_authors('editor');
-        $result  = array_merge($authors, $editors);
+        $result = array_merge($authors, $editors);
         ksort($result);
-               
+
         $mapper = \Rip_General\Mappers\Rip_Factory_Mapper::create_mapper('\Rip_Authors\Mappers\Rip_Author_Mapper');
         $data = $mapper->map($result);
-        
+
         $message->set_status('ok')
                 ->set_code(200)
                 ->set_count(count($data))
                 ->set_count_total(count($data))
                 ->set_pages(1)
                 ->set_authors(empty($data) ? array() : $data);
-        
+
         return $message;
     }
-    
+
     /**
      * Query for a specific author.
      * 
@@ -93,6 +93,29 @@ class Rip_Authors_Query_Service {
                 ->set_author(current($data));
 
         return $message;
+    }
+
+    /**
+     * Return an array with all wordpress users and their respective id.
+     * @return array
+     */
+    public function get_users_for_metabox() {
+        $users = get_users();
+
+        if (empty($users)) {
+            return false;
+        }
+
+        $accumulator = array();
+
+        foreach ($users as $user) {
+            array_push($accumulator, array(
+                'label' => $user->display_name,
+                'value' => $user->ID
+            ));
+        }
+
+        return $accumulator;
     }
 
 }

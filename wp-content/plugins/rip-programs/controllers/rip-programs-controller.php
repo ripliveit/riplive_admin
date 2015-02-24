@@ -4,49 +4,23 @@ namespace Rip_Programs\Controllers;
 
 /**
  * Programs Controller.
- * Implements method invoked by ajax request to retrieve programs's data.
+ * Each method, publicly available, return data in JSON format.
  */
 class Rip_Programs_Controller extends \Rip_General\Classes\Rip_Abstract_Controller {
 
     /**
-     * Retrieve all posts from 'Programs' custom post type.
+     * Return a list of programs.
      */
     public function get_all_programs() {
-        $dao = new \Rip_Programs\Daos\Rip_Programs_Dao();
         $count = $this->_request->query->get('count');
         $page = $this->_request->query->get('page');
+        $status = $this->_request->query->get('status');
+        $service = $this->_container['programsQueryService'];
 
-        $results = $dao->set_items_per_page($count)->get_all_programs($page);
-        $pages = $dao->get_post_type_number_of_pages('programs');
-        
-        $this->_response->to_json(array(
-            'status' => 'ok',
-            'count' => count($results),
-            'count_total' => (int) $pages['count_total'],
-            'pages' => $pages['pages'],
-            'programs' => empty($results) ? array() : $results,
-        ));
-    }
+        $result = $service->get_all_programs($count, $page, $status);
 
-    /**
-     * Retrieve all posts from 'Programs' custom post type, who are eligible to have
-     * podcasts, even the ones in pending status.
-     */
-    public function get_all_programs_for_podcasts() {
-        $dao = new \Rip_Programs\Daos\Rip_Programs_Dao();
-        $count = $this->_request->query->get('count');
-        $page = $this->_request->query->get('page');
-
-        $results = $dao->set_items_per_page($count)->get_all_programs_for_podcasts($page);
-        $pages = $dao->get_post_type_number_of_pages('programs', null, true);
-
-        $this->_response->to_json(array(
-            'status' => 'ok',
-            'count' => count($results),
-            'count_total' => (int) $pages['count_total'],
-            'pages' => $pages['pages'],
-            'programs' => empty($results) ? array() : $results,
-        ));
+        $this->_response->set_code($result->get_code())
+                ->to_json($result);
     }
 
     /**
@@ -55,47 +29,22 @@ class Rip_Programs_Controller extends \Rip_General\Classes\Rip_Abstract_Controll
     public function get_program_by_slug() {
         $slug = $this->_request->query->get('slug');
 
-        if (empty($slug)) {
-            return $this->_response->set_code(400)->to_json(array(
-                        'status' => 'error',
-                        'message' => 'Please specify a program slug'
-            ));
-        }
+        $service = $this->_container['programsQueryService'];
+        $result = $service->get_program_by_slug($slug);
 
-        $dao = new \Rip_Programs\Daos\Rip_Programs_Dao();
-        $results = $dao->get_program_by_slug($slug);
-
-        if (empty($results)) {
-            return $this->_response->set_code(404)->to_json(array(
-                        'status' => 'error',
-                        'message' => 'Not found'
-            ));
-        }
-
-        $this->_response->to_json(array(
-            'status' => 'ok',
-            'program' => $results
-        ));
+        $this->_response->set_code($result->get_code())
+                ->to_json($result);
     }
 
     /**
      * Return the programs week schedule.
      */
     public function get_programs_schedule() {
-        $dao = new \Rip_Programs\Daos\Rip_Programs_Dao();
-        $results = $dao->get_programs_schedule();
+        $service = $this->_container['programsQueryService'];
+        $result = $service->get_programs_schedule();
 
-        if (empty($results)) {
-            return $this->_response->to_json(array(
-                        'status' => 'error',
-                        'message' => 'Not found'
-            ));
-        }
-
-        $this->_response->to_json(array(
-            'status' => 'ok',
-            'schedule' => $results
-        ));
+        $this->_response->set_code($result->get_code())
+                ->to_json($result);
     }
 
 }

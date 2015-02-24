@@ -19,7 +19,22 @@ $autoloader = new \Rip_General\Classes\Rip_Autoloader(plugin_dir_path(__FILE__))
  * @see \Rip_General\Classes\Rip_Abstract_Plugin
  */
 class Rip_Programs_Plugin extends \Rip_General\Classes\Rip_Abstract_Plugin {
-
+    
+    private $_days;
+    
+    private $_authors;
+    
+    public function __construct(
+            \Rip_General\Classes\Rip_Abstract_Query_Service $authors_query_service, 
+            \Rip_General\Services\Rip_General_Service $general_service
+    ) {
+        $this->_authors = $authors_query_service->get_users_for_metabox();
+        $this->_days    = $general_service->get_days();
+        parent::__construct();
+        
+        
+    }
+    
     /**
      * Set plugin's configuration.
      */
@@ -117,11 +132,6 @@ class Rip_Programs_Plugin extends \Rip_General\Classes\Rip_Abstract_Plugin {
             ),
         );
 
-        // Retrieve all user
-        $dao = new \Rip_Programs\Daos\Rip_Programs_Dao();
-        $authors = $dao->get_all_users_for_metabox();
-        $days = $dao->get_days_for_metaboxes();
-
         $this->_metaboxes = array(
             array(
                 'args' => array(
@@ -158,7 +168,7 @@ class Rip_Programs_Plugin extends \Rip_General\Classes\Rip_Abstract_Plugin {
                         'default' => '',
                         'required' => '',
                         'placeholder' => '',
-                        'options' => $days
+                        'options' => $this->_days
                     ),
                     array(
                         'id' => 'reruns-schedule',
@@ -177,7 +187,7 @@ class Rip_Programs_Plugin extends \Rip_General\Classes\Rip_Abstract_Plugin {
                         'default' => '',
                         'required' => '',
                         'placeholder' => '',
-                        'options' => $days
+                        'options' => $this->_days
                     ),
                     array(
                         'id' => 'programs-authors',
@@ -186,7 +196,7 @@ class Rip_Programs_Plugin extends \Rip_General\Classes\Rip_Abstract_Plugin {
                         'description' => 'Conduttori del programma',
                         'default' => '',
                         'required' => '',
-                        'options' => $authors
+                        'options' => $this->_authors
                     ),
                     array(
                         'id' => 'programs-facebook',
@@ -224,10 +234,6 @@ class Rip_Programs_Plugin extends \Rip_General\Classes\Rip_Abstract_Plugin {
                 'class_name' => '\Rip_Programs\Controllers\Rip_Programs_Controller',
                 'method_name' => 'get_all_programs',
             ),
-            'rip_programs_get_all_programs_for_podcasts' => array(
-                'class_name' => '\Rip_Programs\Controllers\Rip_Programs_Controller',
-                'method_name' => 'get_all_programs_for_podcasts',
-            ),
             'rip_programs_get_program_by_slug' => array(
                 'class_name' => '\Rip_Programs\Controllers\Rip_Programs_Controller',
                 'method_name' => 'get_program_by_slug',
@@ -252,4 +258,5 @@ class Rip_Programs_Plugin extends \Rip_General\Classes\Rip_Abstract_Plugin {
 
 }
 
-$programs_plugin = new \Rip_Programs\Rip_Programs_Plugin();
+$container = \Rip_General\Classes\Rip_Di_Container::get_instance()->get_container();
+$programs_plugin = new \Rip_Programs\Rip_Programs_Plugin($container['authorsQueryService'], $container['generalService']);

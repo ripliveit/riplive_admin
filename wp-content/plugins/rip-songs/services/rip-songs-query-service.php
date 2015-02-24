@@ -13,21 +13,21 @@ class Rip_Songs_Query_Service extends \Rip_General\Classes\Rip_Abstract_Query_Se
      * 
      * @var Object 
      */
-    protected $_songs_dao;
+    private $_songs_dao;
 
     /**
      * Holds a reference to Post Dao.
      * 
      * @var Object 
      */
-    protected $_posts_dao;
+    private $_posts_dao;
 
     /**
      * Holds a reference to Rip_General_Service
      * 
      * @var Object 
      */
-    protected $_general_service;
+    private $_general_service;
 
     /**
      * Class constructor.

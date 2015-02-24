@@ -14,5 +14,5 @@ interface Rip_Factory_Mapper_Interface {
      * Factory method
      * used tocreate a mapper class.
      */
-    public static function create_mapper($class_name, $arguments);
+    public static function create_mapper($class_name);
 }

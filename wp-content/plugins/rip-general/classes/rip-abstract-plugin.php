@@ -207,11 +207,6 @@ abstract class Rip_Abstract_Plugin {
      * Registers the ajax calls
      */
     protected function _set_ajax() {
-//        echo '<pre>';
-//        print_r(\Rip_General\Classes\Rip_Di_Container::get_instance()->get_container());
-//        echo '</pre>';
-//        die(0);
-//        
         if (!empty($this->_ajax)) {
             foreach ($this->_ajax as $hook => $config) {
 

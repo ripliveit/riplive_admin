@@ -3,19 +3,31 @@
 namespace Rip_General\Dto;
 
 class Message implements \JsonSerializable {
-
+    
+    /**
+     *
+     * @var type 
+     */
     public $status;
+    
+    /**
+     *
+     * @var type 
+     */
     public $code;
+    
+    /**
+     *
+     * @var type 
+     */
     public $message;
-
-//    public function __get($name) {
-//        return isset($this->$name) ? $this->$name : null;
-//    }
-//
-//    public function __set($name, $value) {
-//        $this->$name = $value;
-//    }
-
+    
+    /**
+     * 
+     * @param type $name
+     * @param type $arguments
+     * @return \Rip_General\Dto\Message
+     */
     public function __call($name, $arguments) {
         $property = substr($name, 4);
 
@@ -28,11 +40,19 @@ class Message implements \JsonSerializable {
             return $this;
         }
     }
-
+    
+    /**
+     * 
+     * @return type
+     */
     public function get_status() {
         return $this->status;
     }
-
+    
+    /**
+     * 
+     * @return type
+     */
     public function get_code() {
         return $this->code;
     }
@@ -40,22 +60,41 @@ class Message implements \JsonSerializable {
     public function get_message() {
         return $this->message;
     }
-
+    
+    /**
+     * 
+     * @param type $status
+     * @return \Rip_General\Dto\Message
+     */
     public function set_status($status) {
         $this->status = $status;
         return $this;
     }
-
+    
+    /**
+     * 
+     * @param type $code
+     * @return \Rip_General\Dto\Message
+     */
     public function set_code($code) {
         $this->code = $code;
         return $this;
     }
-
+    
+    /**
+     * 
+     * @param type $message
+     * @return \Rip_General\Dto\Message
+     */
     public function set_message($message) {
         $this->message = $message;
         return $this;
     }
-
+    
+    /**
+     * 
+     * @return \Rip_General\Dto\Message
+     */
     public function jsonSerialize() {
         if ($this->status === 'error') {
             return array(

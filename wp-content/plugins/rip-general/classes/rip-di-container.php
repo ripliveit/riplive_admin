@@ -51,6 +51,10 @@ class Rip_Di_Container {
             return new \Rip_General\Daos\Rip_Posts_Dao();
         };
 
+        $this->_container['postsValidator'] = function($c) {
+            return new \Rip_General\Validators\Rip_Posts_Validator();
+        };
+
         $this->_container['attachmentsDao'] = function($c) {
             return new \Rip_General\Daos\Rip_Attachment_Dao();
         };
@@ -107,7 +111,6 @@ class Rip_Di_Container {
             );
         };
 
-
         //
         // Songs plugin's dependencies
         //
@@ -118,6 +121,28 @@ class Rip_Di_Container {
         $this->_container['highlightsQueryService'] = function($c) {
             return new \Rip_Highlights\Services\Rip_Highlights_Query_Service(
                     $c['highlightsDao'], $c['postsDao']
+            );
+        };
+
+
+        //
+        // Podcasts plugin's dependencies
+        //
+        $this->_container['podcastsDao'] = function($c) {
+            return new \Rip_Podcasts\Daos\Rip_Podcasts_Dao();
+        };
+
+
+        //
+        // Programs plugin's dependencies
+        //
+        $this->_container['programsDao'] = function($c) {
+            return new \Rip_Programs\Daos\Rip_Programs_Dao();
+        };
+
+        $this->_container['programsQueryService'] = function($c) {
+            return new \Rip_Programs\Services\Rip_Programs_Query_Service(
+                    $c['programsDao'], $c['podcastsDao'], $c['postsDao'], $c['postsValidator'], $c['authorsQueryService'], $c['generalService']
             );
         };
 

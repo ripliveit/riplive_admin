@@ -254,43 +254,32 @@ class Rip_Podcasts_Dao extends \Rip_General\Classes\Rip_Abstract_Dao {
      * @param array $data
      * @return array
      */
-    public function insert_podcast_attachment($data = array()) {
+    public function insert_podcast_attachment($id_podcast, $id_attachment) {
         $wpdb = $this->get_db();
 
-        $wpdb->query('START TRANSACTION');
+        $sql = "INSERT INTO wp_podcasts_attachments (
+                        id_podcast,
+                        id_attachment,
+                        upload_date
+                )
+                VALUES(%d, %d, %s)
+                ON DUPLICATE KEY UPDATE
+                        id_podcast = %d,
+                        id_attachment = %d,
+                        upload_date = %s";
 
-        try {
-            $sql = "INSERT INTO wp_podcasts_attachments (
-                            id_podcast,
-                            id_attachment,
-                            upload_date
-                    )
-                    VALUES(%d, %d, %s)
-                    ON DUPLICATE KEY UPDATE
-                            id_podcast = %d,
-                            id_attachment = %d,
-                            upload_date = %s";
+        $prepared = $wpdb->prepare($sql, array(
+            (int) $id_podcast,
+            (int) $id_attachment,
+            date('Y-m-d H:i:s', time()),
+            (int) $id_podcast,
+            (int) $id_attachment,
+            date('Y-m-d H:i:s', time()),
+        ));
 
-            $prepared = $wpdb->prepare($sql, array(
-                (int) $data['id_podcast'],
-                (int) $data['id_attachment'],
-                date('Y-m-d H:i:s', time()),
-                (int) $data['id_podcast'],
-                (int) $data['id_attachment'],
-                date('Y-m-d H:i:s', time()),
-            ));
-
-            $results = $wpdb->query($prepared);
-        } catch (Exception $exc) {
-            $wpdb->query('ROLLBACK');
-            echo $exc->getTraceAsString();
-        }
-
-        $wpdb->query('COMMIT');
-
-        $podcast = $this->get_podcast_by_id($data['id_podcast']);
-
-        return $podcast;
+        $result = $wpdb->query($prepared);
+       
+        return $result;
     }
 
     /**

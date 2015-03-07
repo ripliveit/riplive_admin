@@ -92,7 +92,7 @@ class Rip_Podcasts_Controller extends \Rip_General\Classes\Rip_Abstract_Controll
     /**
      * Delete a single podcast.
      */
-    public function delete_podcast($id_podcast) {
+    public function delete_podcast() {
         $id_podcast = $this->_request->query->get('id_podcast');
 
         $service = $this->_container['podcastsPersistService'];
@@ -107,36 +107,12 @@ class Rip_Podcasts_Controller extends \Rip_General\Classes\Rip_Abstract_Controll
      */
     public function upload_podcast_image() {
         $id_podcast = $this->_request->query->get('id_podcast');
+        
+        $service = $this->_container['podcastsPersistService'];
+        $result = $service->upload_podcast_image((int) $id_podcast, $_FILES);
 
-        if (empty($id_podcast)) {
-            return $this->_response->set_code(400)->to_json(array(
-                        'status' => 'error',
-                        'message' => 'Please specify a podcast id'
-            ));
-        }
-
-        if (empty($_FILES['file']) || $_FILES['file']['size'] <= 0) {
-            return $this->_response->set_code(400)->to_json(array(
-                        'status' => 'error',
-                        'message' => 'Please specify a file to upload'
-            ));
-        }
-
-        $uploader = new \Rip_Podcasts\Classes\Rip_Podcasts_Image_Uploader();
-        $uploaded = $uploader->upload((int) $id_podcast, $_FILES['file']);
-
-        if ($uploaded['status'] === 'error') {
-            return $this->_response->set_code(500)->to_json($uploaded);
-        }
-
-        $dao = new \Rip_Podcasts\Daos\Rip_Podcasts_Dao();
-
-        $results = $dao->insert_podcast_attachment(array(
-            'id_podcast' => (int) $id_podcast,
-            'id_attachment' => $uploaded['id_attachment'],
-        ));
-
-        $this->_response->to_json($results);
+        $this->_response->set_code($result->get_code())
+                ->to_json($result);
     }
 
     /**

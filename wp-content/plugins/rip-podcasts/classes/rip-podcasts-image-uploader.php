@@ -9,12 +9,14 @@ require_once(ABSPATH . 'wp-admin' . '/includes/image.php');
  */
 class Rip_Podcasts_Image_Uploader {
 
+    private $_message;
+
     /**
      * Allowed file type.
      * 
      * @var array 
      */
-    protected $_allowed_file_types = array(
+    private $_allowed_file_types = array(
         'image/jpg',
         'image/jpeg',
         'image/gif',
@@ -26,9 +28,13 @@ class Rip_Podcasts_Image_Uploader {
      * 
      * @var array 
      */
-    protected $_upload_overrides = array(
+    private $_upload_overrides = array(
         'test_form' => false
     );
+
+    public function __construct(\Rip_General\Dto\Message $message) {
+        $this->_message = $message;
+    }
 
     /**
      * Create an attachment, moving
@@ -38,10 +44,10 @@ class Rip_Podcasts_Image_Uploader {
      * @param array $uploaded_file
      * @return array
      */
-    protected function move_to_media_library($id, array $uploaded_file = array()) {
+    private function move_to_media_library($id, array $uploaded_file = array()) {
         $title = 'podcast_image_' . $id . '_' . date('Y-m-d', time());
 
-        // Set up options array to add this file as an attachment
+        // Set up options array to add the file as an attachment
         $attachment = array(
             'post_mime_type' => $uploaded_file['type'],
             'post_title' => $title,
@@ -54,20 +60,26 @@ class Rip_Podcasts_Image_Uploader {
         $attach_id = wp_insert_attachment($attachment, $uploaded_file['file']);
 
         if (!$attach_id) {
-            return array(
-                'status' => 'error',
-                'message' => 'Error in inserting the attachment'
-            );
-        }
+            $this->_message
+                    ->set_code(400)
+                    ->set_status('error')
+                    ->set_message('Error in inserting the attachment');
 
+            return $this->_message;
+        }
+        
+        // Generate all thumbnails.
         $attach_data = wp_generate_attachment_metadata($attach_id, $uploaded_file['file']);
         wp_update_attachment_metadata($attach_id, $attach_data);
+        
+        $this->_message
+                    ->set_code(200)
+                    ->set_status('ok')
+                    ->set_message('Attachment succesfully created')
+                    ->set_id_attachment($attach_id);
+        
 
-        return array(
-            'status' => 'ok',
-            'id_attachment' => $attach_id,
-            'message' => 'Attachment succesfully created'
-        );
+        return $this->_message;
     }
 
     /**
@@ -79,24 +91,30 @@ class Rip_Podcasts_Image_Uploader {
      */
     public function upload($id, array $file = array()) {
         if (empty($id) || !is_int($id)) {
-            return array(
-                'status' => 'error',
-                'message' => 'Please specify a unique id'
-            );
+            $this->_message
+                    ->set_code(400)
+                    ->set_status('error')
+                    ->set_message('Please specify a unique id');
+
+            return $this->_message;
         }
 
         if (empty($file)) {
-            return array(
-                'status' => 'error',
-                'message' => 'File is empty'
-            );
+            $this->_message
+                    ->set_code(400)
+                    ->set_status('error')
+                    ->set_message('File is empty');
+
+            return $this->_message;
         }
 
         if (!in_array($file['type'], $this->_allowed_file_types)) {
-            return array(
-                'status' => 'error',
-                'message' => 'File type not allowed'
-            );
+            $this->_message
+                    ->set_code(400)
+                    ->set_status('error')
+                    ->set_message('File type not allowed');
+
+            return $this->_message;
         }
 
         // Handle 
@@ -104,10 +122,12 @@ class Rip_Podcasts_Image_Uploader {
         $uploaded_file = wp_handle_upload($file, $this->_upload_overrides);
 
         if (empty($uploaded_file['file'])) {
-            return array(
-                'status' => 'error',
-                'message' => 'Error in uploading the image'
-            );
+            $this->_message
+                    ->set_code(500)
+                    ->set_status('error')
+                    ->set_message('Error in uploading the image');
+
+            return $this->_message;
         }
 
         $result = $this->move_to_media_library($id, $uploaded_file);

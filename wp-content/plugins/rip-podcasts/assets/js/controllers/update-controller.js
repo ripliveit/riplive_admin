@@ -27,7 +27,12 @@ app.controller('UpdateCtrl', function ($scope, $routeParams, $timeout, $location
 
         for (var i = 0; i < $files.length; i++) {
             if ($files[i].type !== 'image/jpeg') {
-                continue;
+                $rootScope.$broadcast('alert:message', {
+                    type: 'error',
+                    message: 'Puoi caricare solamente immagini di formato jpg'
+                });
+                
+                return false;
             }
 
             $files[i].progress = 0;
@@ -37,6 +42,15 @@ app.controller('UpdateCtrl', function ($scope, $routeParams, $timeout, $location
     };
 
     $scope.uploadImage = function (podcast, index, event) {
+        if ($scope.file) {
+            $rootScope.$broadcast('alert:message', {
+                type: 'error',
+                message: 'Modifica il podcast prima di salvare'
+            });
+            
+            return false;
+        }
+       
         $scope.podcast.computing = true;
 
         dataService.uploadFile({

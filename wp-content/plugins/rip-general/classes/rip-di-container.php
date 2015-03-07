@@ -94,6 +94,10 @@ class Rip_Di_Container {
         $this->_container['transaction'] = function($c) {
             return new \Rip_General\Classes\Rip_Transaction();
         };
+        
+        $this->_container['message'] = function($c) {
+            return new \Rip_General\Dto\Message();
+        };
 
         //
         // Author plugin's dependencies
@@ -154,6 +158,10 @@ class Rip_Di_Container {
             return new \Rip_Podcasts\Daos\Rip_Podcasts_Dao();
         };
         
+        $this->_container['podcastsImageUploader'] = function($c) {
+            return new \Rip_Podcasts\Classes\Rip_Podcasts_Image_Uploader($c['message']);
+        };
+        
         $this->_container['podcastsQueryService'] = function($c) {
             return new \Rip_Podcasts\Services\Rip_Podcasts_Query_Service(
                     $c['podcastsDao'], 
@@ -166,7 +174,8 @@ class Rip_Di_Container {
                     $c['podcastsDao'], 
                     $c['postsDao'], 
                     $c['podcastsQueryService'], 
-                    $c['transaction']
+                    $c['transaction'],
+                    $c['podcastsImageUploader']
             );
         };
 

@@ -19,12 +19,12 @@ class Rip_Admin_Podcasts_View_Helper extends \Rip_General\Classes\Rip_Abstract_V
      * Enqueque all needed assets.
      */
     public function enqueque() {
-        wp_enqueue_script('angular-shim', '/wp-content/plugins/rip-podcasts/assets/js/vendor/angular-file-upload-shim.min.js');
         wp_enqueue_script('tinymce', '/wp-content/plugins/rip-podcasts/assets/js/vendor/tinymce/tinymce.min.js');
 
         wp_enqueue_script('angular', 'https://ajax.googleapis.com/ajax/libs/angularjs/1.3.11/angular.min.js');
         wp_enqueue_script('angular-route', 'https://ajax.googleapis.com/ajax/libs/angularjs/1.3.11/angular-route.min.js');
-        wp_enqueue_script('angular-upload', '/wp-content/plugins/rip-podcasts/assets/js/vendor/angular-file-upload.min.js');
+        wp_enqueue_script('angular-upload-shim', '/wp-content/plugins/rip-podcasts/assets/js/vendor/angular-file-upload-shim.js');
+        wp_enqueue_script('angular-upload', '/wp-content/plugins/rip-podcasts/assets/js/vendor/angular-file-upload.js');
         wp_enqueue_script('angular-ui', '/wp-content/plugins/rip-podcasts/assets/js/vendor/angular-ui-tinymce/src/tinymce.js');
 
         wp_enqueue_script('aws', 'https://sdk.amazonaws.com/js/aws-sdk-2.0.0-rc5.min.js');

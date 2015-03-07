@@ -14,74 +14,13 @@ class Rip_Podcasts_Dao extends \Rip_General\Classes\Rip_Abstract_Dao {
     protected $_items_per_page = 24;
 
     /**
-     * A method that set the Podcast data.
-     * 
-     * @param array $podcasts
-     * @return boolean|array
-     */
-    protected function _set_podcasts_data(array $podcasts) {
-        if (empty($podcasts)) {
-            return array();
-        }
-
-        $authors_dao = new \Rip_Authors\Daos\Rip_Authors_Dao();
-
-        $out = array();
-
-        foreach ($podcasts as $podcast) {
-            $authors = array();
-            $authors_id = get_post_meta($podcast['id_program'], 'programs-authors');
-
-            // Set the author's data.
-            if (!empty($authors_id)) {
-                foreach ($authors_id[0] as $author_id) {
-                    $wp_author = get_user_by('id', $author_id);
-                    $author = $authors_dao->get_author_by_slug($wp_author->user_nicename);
-
-                    array_push($authors, $author);
-                }
-
-                $podcast['authors'] = $authors;
-            } else {
-                $podcast['authors'] = '';
-            }
-
-            // Set podcast's images.
-            // Use program's images if no images are presents.
-            if (!empty($podcast['id_attachment'])) {
-                $podcast['podcast_images'] = array(
-                    'thumbnail' => $this->get_attachment_images($podcast['id_attachment'], 'thumbnail'),
-                    'image_medium' => $this->get_attachment_images($podcast['id_attachment'], 'medium'),
-                    'image_large' => $this->get_attachment_images($podcast['id_attachment'], 'large'),
-                    'image_full' => $this->get_attachment_images($podcast['id_attachment'], 'full'),
-                    'landscape_medium' => $this->get_post_images($podcast['id_attachment'], 'medium-landscape'),
-                    'landscape_large' => $this->get_post_images($podcast['id_attachment'], 'large-landscape'),
-                );
-            } else {
-                $podcast['podcast_images'] = array(
-                    'thumbnail' => $this->get_post_images($podcast['id_program'], 'thumbnail'),
-                    'image_medium' => $this->get_post_images($podcast['id_program'], 'medium'),
-                    'image_large' => $this->get_post_images($podcast['id_program'], 'large'),
-                    'image_full' => $this->get_post_images($podcast['id_program'], 'full'),
-                    'landscape_medium' => $this->get_post_images($podcast['id_program'], 'medium-landscape'),
-                    'landscape_large' => $this->get_post_images($podcast['id_program'], 'large-landscape'),
-                );
-            }
-
-            array_push($out, $podcast);
-        }
-
-        return $out;
-    }
-
-    /**
      * Return number of pages.
      * 
      * @global object $wpdb
      * @param int $id_program
      * @return array
      */
-    public function get_podcasts_number_of_pages($slug = null) {
+    public function get_podcasts_number_of_pages($slug = null, $count) {
         $wpdb = $this->get_db();
 
         $sql = "SELECT COUNT(p.id) AS total_items
@@ -103,10 +42,10 @@ class Rip_Podcasts_Dao extends \Rip_General\Classes\Rip_Abstract_Dao {
             return false;
         }
 
-        if ($this->_items_per_page === null) {
+        if ($count === null) {
             $number_of_pages = 1;
         } else {
-            $number_of_pages = ceil($results['total_items'] / $this->_items_per_page);
+            $number_of_pages = ceil($results['total_items'] / $count);
         }
 
         return array(
@@ -122,7 +61,7 @@ class Rip_Podcasts_Dao extends \Rip_General\Classes\Rip_Abstract_Dao {
      * @param int $page
      * @return array
      */
-    public function get_all_podcasts($page = null) {
+    public function get_all_podcasts($count = null, $page = null) {
         $wpdb = $this->get_db();
 
         $sql = "SELECT p.*, pa.id_attachment, ps.post_name AS program_slug, 
@@ -135,17 +74,15 @@ class Rip_Podcasts_Dao extends \Rip_General\Classes\Rip_Abstract_Dao {
 		ORDER BY p.date DESC";
 
         if ($page) {
-            $offset = ($page * $this->_items_per_page) - $this->_items_per_page;
-            $sql .= ' LIMIT ' . $offset . ', ' . $this->_items_per_page;
+            $offset = ($page * $count) - $count;
+            $sql .= ' LIMIT ' . $offset . ', ' . $count;
         } else {
-            $sql .= ' LIMIT ' . (int) $this->_items_per_page;
+            $sql .= ' LIMIT ' . (int) $count;
         }
 
         $results = $wpdb->get_results($sql, ARRAY_A);
 
-        $podcasts_data = $this->_set_podcasts_data($results);
-
-        return $podcasts_data;
+        return $results;
     }
 
     /**
@@ -156,7 +93,7 @@ class Rip_Podcasts_Dao extends \Rip_General\Classes\Rip_Abstract_Dao {
      * @param int $page
      * @return array
      */
-    public function get_all_podcasts_by_program_slug($slug, $page = null) {
+    public function get_all_podcasts_by_program_slug($slug, $count = null, $page = null) {
         $wpdb = $this->get_db();
 
         $sql = "SELECT p.*, pa.id_attachment, 
@@ -171,10 +108,10 @@ class Rip_Podcasts_Dao extends \Rip_General\Classes\Rip_Abstract_Dao {
 
 
         if ($page) {
-            $offset = ($page * $this->_items_per_page) - $this->_items_per_page;
-            $sql .= ' LIMIT ' . $offset . ', ' . $this->_items_per_page;
+            $offset = ($page * $count) - $count;
+            $sql .= ' LIMIT ' . $offset . ', ' . $count;
         } else {
-            $sql .= ' LIMIT ' . (int) $this->_items_per_page;
+            $sql .= ' LIMIT ' . (int) $count;
         }
 
         $prepared = $wpdb->prepare($sql, array(
@@ -183,9 +120,7 @@ class Rip_Podcasts_Dao extends \Rip_General\Classes\Rip_Abstract_Dao {
 
         $results = $wpdb->get_results($prepared, ARRAY_A);
 
-        $podcasts_data = $this->_set_podcasts_data($results);
-
-        return $podcasts_data;
+        return $results;
     }
 
     /**
@@ -212,11 +147,9 @@ class Rip_Podcasts_Dao extends \Rip_General\Classes\Rip_Abstract_Dao {
             (int) $id_podcast
         ));
 
-        $results = $wpdb->get_row($prepared, ARRAY_A);
+        $result = $wpdb->get_row($prepared, ARRAY_A);
 
-        $podcasts_data = $this->_set_podcasts_data(empty($results) ? array() : array($results));
-
-        return empty($podcasts_data) ? false : current($podcasts_data);
+        return $result;
     }
 
     /**
@@ -236,9 +169,9 @@ class Rip_Podcasts_Dao extends \Rip_General\Classes\Rip_Abstract_Dao {
             $slug
         ));
 
-        $results = $wpdb->get_row($prepared, ARRAY_A);
+        $result = $wpdb->get_row($prepared, ARRAY_A);
 
-        return $results;
+        return $result;
     }
 
     /**
@@ -253,10 +186,7 @@ class Rip_Podcasts_Dao extends \Rip_General\Classes\Rip_Abstract_Dao {
     public function insert_podcast($data = array()) {
         $wpdb = $this->get_db();
 
-        $wpdb->query('START TRANSACTION');
-
-        try {
-            $sql = "INSERT INTO wp_podcasts (
+        $sql = "INSERT INTO wp_podcasts (
                             id_program,
                             title,
                             summary,
@@ -285,46 +215,36 @@ class Rip_Podcasts_Dao extends \Rip_General\Classes\Rip_Abstract_Dao {
                             upload_date = %s,
                             url = %s";
 
-            $prepared = $wpdb->prepare($sql, array(
-                (int) $data['id_program'],
-                $data['title'],
-                $data['summary'],
-                $data['genre'],
-                $data['authors'],
-                $data['file_name'],
-                (int) $data['file_length'],
-                $data['duration'],
-                $data['year'],
-                date('Y-m-d', strtotime($data['date'])),
-                date('Y-m-d H:i:s', time()),
-                $data['url'],
-                (int) $data['id_program'],
-                $data['title'],
-                $data['summary'],
-                $data['genre'],
-                $data['authors'],
-                $data['file_name'],
-                (int) $data['file_length'],
-                $data['duration'],
-                $data['year'],
-                date('Y-m-d', strtotime($data['date'])),
-                date('Y-m-d H:i:s', time()),
-                $data['url'],
-            ));
+        $prepared = $wpdb->prepare($sql, array(
+            (int) $data['id_program'],
+            $data['title'],
+            $data['summary'],
+            $data['genre'],
+            $data['authors'],
+            $data['file_name'],
+            (int) $data['file_length'],
+            $data['duration'],
+            $data['year'],
+            date('Y-m-d', strtotime($data['date'])),
+            date('Y-m-d H:i:s', time()),
+            $data['url'],
+            (int) $data['id_program'],
+            $data['title'],
+            $data['summary'],
+            $data['genre'],
+            $data['authors'],
+            $data['file_name'],
+            (int) $data['file_length'],
+            $data['duration'],
+            $data['year'],
+            date('Y-m-d', strtotime($data['date'])),
+            date('Y-m-d H:i:s', time()),
+            $data['url'],
+        ));
 
-            $results = $wpdb->query($prepared);
-        } catch (Exception $exc) {
-            $wpdb->query('ROLLBACK');
-            echo $exc->getTraceAsString();
-        }
-
-        $wpdb->query('COMMIT');
-
-        $last_id = $wpdb->insert_id;
-
-        $podcast = $this->get_podcast_by_id($last_id);
-
-        return $podcast;
+        $result = $wpdb->query($prepared);
+        
+        return $result;
     }
 
     /**
@@ -385,29 +305,20 @@ class Rip_Podcasts_Dao extends \Rip_General\Classes\Rip_Abstract_Dao {
     public function update_podcast($id_podcast, $data = array()) {
         $wpdb = $this->get_db();
 
-        $wpdb->query('START TRANSACTION');
-
-        try {
-            $sql = "UPDATE wp_podcasts 
-                        SET title = %s, 
-                        summary = %s
-                        WHERE id = %d";
-
-            $prepared = $wpdb->prepare($sql, array(
-                $data['title'],
-                $data['summary'],
-                (int) $id_podcast,
-            ));
-
-            $results = $wpdb->query($prepared);
-        } catch (Exception $exc) {
-            $wpdb->query('ROLLBACK');
-            echo $exc->getTraceAsString();
-        }
-
-        $affected_rows = $wpdb->rows_affected;
-
-        $wpdb->query('COMMIT');
+        $sql = "UPDATE wp_podcasts 
+                    SET title = %s, 
+                    summary = %s
+                    WHERE id = %d";
+        
+        $prepared = $wpdb->prepare($sql, array(
+            $data['title'],
+            $data['summary'],
+            (int) $id_podcast,
+        ));
+        
+        $result = $wpdb->query($prepared);
+        
+        $affected_rows = $wpdb->rows_affected;      
 
         return $affected_rows;
     }
@@ -427,9 +338,9 @@ class Rip_Podcasts_Dao extends \Rip_General\Classes\Rip_Abstract_Dao {
                  WHERE id = %d", array($id_podcast)
         );
 
-        $results = $wpdb->query($sql);
+        $result = $wpdb->query($sql);
 
-        return $results;
+        return $result;
     }
 
 }

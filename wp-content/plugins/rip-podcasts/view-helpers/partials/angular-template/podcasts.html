@@ -39,6 +39,7 @@
             <h2>
                 {{podcast.title}}
             </h2>
+            
             <div class="info">
                 <span class="btn primary">
                     Nome file
@@ -46,33 +47,40 @@
 
                 {{podcast.file_name}} 
             </div>
+            
             <div class="info">
                 <span class="btn primary">
-                    Data di caricamento
+                    Data caricamento
                 </span> 
 
                 {{podcast.upload_date}}
             </div>
+            
             <div class="info">
                 <span class="btn primary">
                     Anno
-                </span> 
+                </span>
+                
                 <strong>
                     {{podcast.year}}
                 </strong>
             </div>
+            
             <div class="info">
                 <span class="btn primary">
                     Autori
-                </span> 
+                </span>
+                
                 <span ng-repeat="a in podcast.authors">
                     {{a.nickname}}{{$last ? '' : ', '}}
                 </span>
             </div>
+            
             <div class="info">
                 <span class="btn primary">
                     Link
-                </span> 
+                </span>
+                
                 <a href="{{podcast.url}}" target="_blank">
                     {{podcast.url}}
                 </a>

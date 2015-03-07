@@ -25,6 +25,10 @@ class Rip_Transaction {
         $this->_db = $wpdb;
     }
     
+    public function get_db() {
+        return $this->_db;
+    }
+    
     /**
      * Start the transtaction.
      * 

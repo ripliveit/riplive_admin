@@ -8,8 +8,20 @@ namespace Rip_General\Classes;
  * @author Gabriele
  */
 class Rip_Di_Container {
-
+    
+    /**
+     * Holds a reference
+     * to Pimple container.
+     * 
+     * @var Object 
+     */
     private $_container;
+    
+    /**
+     * The singleton instance.
+     * 
+     * @var Object 
+     */
     private static $_instance = null;
 
     /**
@@ -19,7 +31,12 @@ class Rip_Di_Container {
     private function __construct() {
         $this->_set_dependencies();
     }
-
+    
+    /**
+     * Return the singleton instace.
+     * 
+     * @return Object
+     */
     public static function get_instance() {
         if (self::$_instance === null) {
             self::$_instance = new self();
@@ -27,7 +44,12 @@ class Rip_Di_Container {
 
         return self::$_instance;
     }
-
+    
+    /**
+     * Return the container.
+     * 
+     * @return Object
+     */
     public function get_container() {
         return $this->_container;
     }
@@ -130,6 +152,22 @@ class Rip_Di_Container {
         //
         $this->_container['podcastsDao'] = function($c) {
             return new \Rip_Podcasts\Daos\Rip_Podcasts_Dao();
+        };
+        
+        $this->_container['podcastsQueryService'] = function($c) {
+            return new \Rip_Podcasts\Services\Rip_Podcasts_Query_Service(
+                    $c['podcastsDao'], 
+                    $c['postsDao'], 
+                    $c['authorsQueryService']);
+        };
+        
+        $this->_container['podcastsPersistService'] = function($c) {
+            return new \Rip_Podcasts\Services\Rip_Podcasts_Persist_Service(
+                    $c['podcastsDao'], 
+                    $c['postsDao'], 
+                    $c['podcastsQueryService'], 
+                    $c['transaction']
+            );
         };
 
 

@@ -110,6 +110,7 @@ class Rip_Artists_Query_Service extends \Rip_General\Classes\Rip_Abstract_Query_
                 ->set_count(count($data))
                 ->set_count_total((int) $pages['count_total'])
                 ->set_pages($pages['pages'])
+                ->set_genre(get_term_by('slug', $slug, 'artist-genre'))
                 ->set_artists(empty($data) ? array() : $data);
 
         return $message;
@@ -157,6 +158,7 @@ class Rip_Artists_Query_Service extends \Rip_General\Classes\Rip_Abstract_Query_
                 ->set_count(count($data))
                 ->set_count_total((int) $pages['count_total'])
                 ->set_pages($pages['pages'])
+                ->set_tag(get_term_by('slug', $slug, 'artist-tag'))
                 ->set_artists(empty($data) ? array() : $data);
 
         return $message;
@@ -192,7 +194,7 @@ class Rip_Artists_Query_Service extends \Rip_General\Classes\Rip_Abstract_Query_
 
         $message->set_code(200)
                 ->set_status('ok')
-                ->set_song(current($data));
+                ->set_artist(current($data));
 
         return $message;
     }

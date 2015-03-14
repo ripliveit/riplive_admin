@@ -42,6 +42,8 @@ class Rip_Posts_Dao extends \Rip_General\Classes\Rip_Abstract_Dao {
         $content = $post->post_content;
         $content = apply_filters('the_content', $content);
         $content = str_replace(']]>', ']]&gt;', $content);
+        
+        return $content;               
     }
 
     /**

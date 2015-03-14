@@ -98,7 +98,24 @@ class Rip_Di_Container {
         $this->_container['message'] = function($c) {
             return new \Rip_General\Dto\Message();
         };
+        
+        
+        //
+        // Artist plugin's dependencies
+        //
+        $this->_container['artistsDao'] = function($c) {
+            return new \Rip_Artists\Daos\Rip_Artists_Dao();
+        };
 
+        $this->_container['artistsQueryService'] = function($c) {
+            return new \Rip_Artists\Services\Rip_Artists_Query_Service(
+                    $c['artistsDao'], 
+                    $c['postsDao'], 
+                    $c['generalService']
+            );
+        };
+        
+        
         //
         // Author plugin's dependencies
         //
@@ -110,6 +127,7 @@ class Rip_Di_Container {
             return new \Rip_Authors\Services\Rip_Authors_Query_Service($c['authorsDao']);
         };
 
+        
         //
         // Charts plugin's dependencies
         //
@@ -127,16 +145,22 @@ class Rip_Di_Container {
 
         $this->_container['chartsQueryService'] = function($c) {
             return new \Rip_Charts\Services\Rip_Charts_Query_Service(
-                    $c['chartsDao'], $c['completeChartsDao'], $c['postsDao']
+                    $c['chartsDao'], 
+                    $c['completeChartsDao'], 
+                    $c['postsDao']
             );
         };
 
         $this->_container['chartsPersistsService'] = function($c) {
             return new \Rip_Charts\Services\Rip_Charts_Persist_Service(
-                    $c['completeChartsDao'], $c['chartsQueryService'], $c['chartsVoteValidator'], $c['transaction']
+                    $c['completeChartsDao'], 
+                    $c['chartsQueryService'], 
+                    $c['chartsVoteValidator'], 
+                    $c['transaction']
             );
         };
 
+        
         //
         // Songs plugin's dependencies
         //
@@ -146,7 +170,8 @@ class Rip_Di_Container {
 
         $this->_container['highlightsQueryService'] = function($c) {
             return new \Rip_Highlights\Services\Rip_Highlights_Query_Service(
-                    $c['highlightsDao'], $c['postsDao']
+                    $c['highlightsDao'], 
+                    $c['postsDao']
             );
         };
 
@@ -196,6 +221,7 @@ class Rip_Di_Container {
             );
         };
 
+        
         //
         // Programs plugin's dependencies
         //
@@ -214,6 +240,7 @@ class Rip_Di_Container {
             );
         };
 
+        
         //
         // Songs plugin's dependencies
         //
@@ -223,7 +250,9 @@ class Rip_Di_Container {
 
         $this->_container['songsQueryService'] = function($c) {
             return new \Rip_Songs\Services\Rip_Songs_Query_Service(
-                    $c['songsDao'], $c['postsDao'], $c['generalService']
+                    $c['songsDao'], 
+                    $c['postsDao'], 
+                    $c['generalService']
             );
         };
 

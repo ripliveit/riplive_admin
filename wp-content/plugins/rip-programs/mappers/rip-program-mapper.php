@@ -64,7 +64,7 @@ class Rip_Program_Mapper implements \Rip_General\Interfaces\Rip_Mapper_Wp_Query_
                 'modified' => $post->post_modified,
                 'status' => $post->post_status,
                 'program_title' => get_the_title(),
-                'program_content' => $this->_posts_dao->get_the_content(),
+                'program_content' => $this->_posts_dao->get_the_content_by_id($post->ID),
                 'program_excpert' => get_the_excerpt(),
                 'program_images' => array(
                     'thumbnail' => $this->_posts_dao->get_post_images($post->ID, 'thumbnail'),

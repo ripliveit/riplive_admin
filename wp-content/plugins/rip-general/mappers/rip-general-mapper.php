@@ -9,6 +9,11 @@ namespace Rip_General\Mappers;
  */
 class Rip_General_Mapper implements \Rip_General\Interfaces\Rip_Mapper_Array_Interface {
     
+    public function __construct() {
+        
+    }
+
+
     /**
      * Map geographic data 
      * into a more coheren structure.

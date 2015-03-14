@@ -2,7 +2,6 @@
 
 namespace Rip_General\Mappers;
 
-
 /**
  * Map raw data from the database
  * into a more coherent structure.
@@ -10,7 +9,11 @@ namespace Rip_General\Mappers;
  * @author Gabriele
  */
 class Rip_Genre_Mapper implements \Rip_General\Interfaces\Rip_Mapper_Array_Interface {
-    
+
+    public function __construct() {
+        
+    }
+
     /**
      * Map an array of genre's data
      * into a more coherent structure.
@@ -36,4 +39,5 @@ class Rip_Genre_Mapper implements \Rip_General\Interfaces\Rip_Mapper_Array_Inter
 
         return $accumulator;
     }
+
 }

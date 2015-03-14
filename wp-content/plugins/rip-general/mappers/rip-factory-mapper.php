@@ -44,7 +44,7 @@ class Rip_Factory_Mapper implements \Rip_General\Interfaces\Rip_Factory_Mapper_I
             return $mapper;
         } else {
             throw new \Exception('Mapper ' . $class_name . ' was not found and cannot be created');
-        };
+        }
     }
 
 }

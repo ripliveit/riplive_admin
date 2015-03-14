@@ -8,17 +8,11 @@ namespace Rip_Podcasts\Daos;
 class Rip_Podcasts_Dao extends \Rip_General\Classes\Rip_Abstract_Dao {
 
     /**
-     * Number of items per page.
-     * @var type 
-     */
-    protected $_items_per_page = 24;
-
-    /**
-     * Return number of pages.
+     * Return podcast's number of pages.
      * 
-     * @global object $wpdb
-     * @param int $id_program
-     * @return array
+     * @param string $slug
+     * @param int $count
+     * @return boolean | array
      */
     public function get_podcasts_number_of_pages($slug = null, $count) {
         $wpdb = $this->get_db();
@@ -55,9 +49,9 @@ class Rip_Podcasts_Dao extends \Rip_General\Classes\Rip_Abstract_Dao {
     }
 
     /**
-     * Retrieve all podcasts
+     * Retrieve all podcasts.
      * 
-     * @global object $wpdb
+     * @param int $count
      * @param int $page
      * @return array
      */
@@ -88,8 +82,8 @@ class Rip_Podcasts_Dao extends \Rip_General\Classes\Rip_Abstract_Dao {
     /**
      * Retrieve all podcasts with a specific program slug.
      * 
-     * @global object $wpdb
-     * @param int $id_program
+     * @param string $slug
+     * @param int $count
      * @param int $page
      * @return array
      */
@@ -106,7 +100,6 @@ class Rip_Podcasts_Dao extends \Rip_General\Classes\Rip_Abstract_Dao {
 		WHERE ps.post_name = %s
 		ORDER BY p.date DESC";
 
-
         if ($page) {
             $offset = ($page * $count) - $count;
             $sql .= ' LIMIT ' . $offset . ', ' . $count;
@@ -122,11 +115,10 @@ class Rip_Podcasts_Dao extends \Rip_General\Classes\Rip_Abstract_Dao {
 
         return $results;
     }
-
+    
     /**
      * Retrieve a podcast by its unique identifier.
      * 
-     * @global object $wpdb
      * @param int $id_podcast
      * @return array
      */
@@ -179,8 +171,7 @@ class Rip_Podcasts_Dao extends \Rip_General\Classes\Rip_Abstract_Dao {
      * If a record with UNIQUE KEY (file_name, year) is already present than
      * an upsert is performed.
      * 
-     * @global object $wpdb
-     * @param int $data
+     * @param array $data
      * @return array
      */
     public function insert_podcast($data = array()) {
@@ -283,13 +274,11 @@ class Rip_Podcasts_Dao extends \Rip_General\Classes\Rip_Abstract_Dao {
     }
 
     /**
-     * Update each row of a complete chart.
-     * A complete chart is made by 50 songs with the same chart_id and chart_date.
-     * Each row id must be specified to perform the update in a transaction.
+     * Update a single podcasts.
      * 
-     * @global object $wpdb
-     * @param type $data
-     * @return array
+     * @param int $id_podcast
+     * @param array $data
+     * @return int
      */
     public function update_podcast($id_podcast, $data = array()) {
         $wpdb = $this->get_db();
@@ -306,7 +295,7 @@ class Rip_Podcasts_Dao extends \Rip_General\Classes\Rip_Abstract_Dao {
         ));
         
         $result = $wpdb->query($prepared);
-        
+       
         $affected_rows = $wpdb->rows_affected;      
 
         return $affected_rows;
@@ -315,7 +304,6 @@ class Rip_Podcasts_Dao extends \Rip_General\Classes\Rip_Abstract_Dao {
     /**
      * Delete a single podcast.
      * 
-     * @global object $wpdb
      * @param int $id_podcast
      * @return array
      */

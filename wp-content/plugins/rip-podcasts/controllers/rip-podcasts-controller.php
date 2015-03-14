@@ -8,7 +8,10 @@ namespace Rip_Podcasts\Controllers;
  */
 class Rip_Podcasts_Controller extends \Rip_General\Classes\Rip_Abstract_Controller {
 
-
+    /**
+     * Return the total number of
+     * pages.
+     */
     public function get_podcasts_number_of_pages() {
         $slug = $this->_request->query->get('slug');
         $count = $this->_request->query->get('count');
@@ -120,33 +123,11 @@ class Rip_Podcasts_Controller extends \Rip_General\Classes\Rip_Abstract_Controll
      */
     public function generate_podcasts_xml() {
         $slug = $this->_request->query->get('slug');
+        $service = $this->_container['podcastsXmlService'];
+        $result = $service->generate($slug);
 
-        if (empty($slug)) {
-            return $this->_response->set_code(400)->to_json(array(
-                        'status' => 'error',
-                        'message' => 'Please specify a program slug'
-            ));
-        }
-
-        $podcasts_dao  = new \Rip_Podcasts\Daos\Rip_Podcasts_Dao();
-        $programs_dao  = new \Rip_Programs\Daos\Rip_Programs_Dao();
-        $S3            = new \Rip_Podcasts\Services\Rip_Podcasts_S3_Service();
-        $xml_generator = new \Rip_Podcasts\Classes\Rip_Podcasts_Xml_Generator();
-
-        $xml_service = new \Rip_Podcasts\Services\Rip_Podcasts_Xml_Service(
-                $podcasts_dao, $programs_dao, $S3, $xml_generator
-        );
-
-        $results = $xml_service->generate($slug);
-
-        if (empty($results)) {
-            return $this->_response->set_code(500)->to_json(array(
-                        'status' => 'error',
-                        'message' => 'Error in generating the XML feed'
-            ));
-        }
-
-        $this->_response->to_json($results);
+        $this->_response->set_code($result->get_code())
+                ->to_json($result);
     }
 
 }

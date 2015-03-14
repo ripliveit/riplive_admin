@@ -53,9 +53,9 @@
                             Upload immagine podcast
                         </h3>
 
-                        <input type="file" ng-file-select="onFileSelect($files)" >
+                        <input type="file" ng-file-select="onFileSelect($files)" ng-model="file.name">
 
-                        <a ng-click="uploadImage(podcast, $index, $event)" ng-hide="file.uploading" class="btn informative">
+                        <a ng-click="uploadImage(podcast)" ng-hide="file.uploading" class="btn informative">
                             Upload
                         </a>
                     </div>

@@ -16,26 +16,36 @@ class Rip_Podcasts_S3_Service {
      * 
      * @var string 
      */
-    protected $_key = 'AKIAJMWTVZGFOYVC6FRA';
+    private $_key = 'AKIAJMWTVZGFOYVC6FRA';
 
     /**
      * Secret Key.
      * 
      * @var string 
      */
-    protected $_secret = 'ls17Ciiw4qHY5D3R+ZVquSx+8dCCib4hbHf6G8d/';
+    private $_secret = 'ls17Ciiw4qHY5D3R+ZVquSx+8dCCib4hbHf6G8d/';
 
     /**
      * Holds the constructed S3 object from official S3 API.
      * 
      * @var string 
      */
-    protected $_client;
+    private $_client;
+
+    /**
+     * Holds a reference 
+     * to the Dto Objects
+     * 
+     * @var type 
+     */
+    private $_message;
 
     /**
      * Class constructor.
      */
-    public function __construct() {
+    public function __construct(\Rip_General\Dto\Message $message) {
+        $this->_message = $message;
+
         // Instantiate the S3 client with your AWS credentials and desired AWS region
         $this->_client = S3Client::factory(array(
                     'key' => $this->_key,
@@ -96,11 +106,19 @@ class Rip_Podcasts_S3_Service {
      */
     public function put_objects($remote_path, $local_path) {
         if (!$remote_path) {
-            throw new Error('Please specify a remote path (key) to upload the file');
+            $this->_message->set_code(500)
+                    ->set_status('error')
+                    ->set_message('Please specify a remote path (key) to upload the file');
+
+            return $this->_message;
         }
 
         if (!$local_path) {
-            throw new Error('Please specify the local path of the file to send');
+            $this->_message->set_code(500)
+                    ->set_status('error')
+                    ->set_message('Please specify the local path of the file to send');
+
+            return $this->_message;
         }
 
         $bucket = $this->get_bucket();
@@ -112,18 +130,22 @@ class Rip_Podcasts_S3_Service {
             'ACL' => 'public-read'
         ));
 
-        if ($result['ObjectURL']) {
+        if (!$result) {
+            $this->_message->set_code(500)
+                    ->set_status('error')
+                    ->set_message('Error during upload to bucket');
 
-            @unlink($local_path);
-
-            return array(
-                'status' => 'ok',
-                'message' => 'Xml was successfully uploaded to ' . $result['ObjectURL'],
-                'remote_path' => $result['ObjectURL']
-            );
-        } else {
-            return false;
+            return $this->_message;
         }
+
+        @unlink($local_path);
+
+        $this->_message->set_code(200)
+                ->set_status('ok')
+                ->set_message('Xml was successfully uploaded to ' . $result['ObjectURL'])
+                ->set_remote_path($result['ObjectURL']);
+
+        return $this->_message;
     }
 
 }

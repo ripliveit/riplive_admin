@@ -178,7 +178,23 @@ class Rip_Di_Container {
                     $c['podcastsImageUploader']
             );
         };
-
+        
+        $this->_container['podcastsS3Service'] = function($c) {
+            return new \Rip_Podcasts\Services\Rip_Podcasts_S3_Service($c['message']);
+        };
+        
+        $this->_container['podcastsXmlGenerator'] = function($c) {
+          return new \Rip_Podcasts\Classes\Rip_Podcasts_Xml_Generator($c['message']);  
+        };
+        
+        $this->_container['podcastsXmlService'] = function($c) {
+            return new \Rip_Podcasts\Services\Rip_Podcasts_Xml_Service(
+                    $c['podcastsQueryService'], 
+                    $c['programsQueryService'], 
+                    $c['podcastsS3Service'], 
+                    $c['podcastsXmlGenerator']
+            );
+        };
 
         //
         // Programs plugin's dependencies
@@ -189,7 +205,12 @@ class Rip_Di_Container {
 
         $this->_container['programsQueryService'] = function($c) {
             return new \Rip_Programs\Services\Rip_Programs_Query_Service(
-                    $c['programsDao'], $c['podcastsDao'], $c['postsDao'], $c['postsValidator'], $c['authorsQueryService'], $c['generalService']
+                    $c['programsDao'], 
+                    $c['podcastsDao'], 
+                    $c['postsDao'], 
+                    $c['postsValidator'], 
+                    $c['authorsQueryService'], 
+                    $c['generalService']
             );
         };
 

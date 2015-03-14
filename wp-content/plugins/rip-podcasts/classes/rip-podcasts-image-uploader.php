@@ -8,7 +8,12 @@ require_once(ABSPATH . 'wp-admin' . '/includes/image.php');
  * A Service used to upload podcast's images.
  */
 class Rip_Podcasts_Image_Uploader {
-
+    
+    /**
+     * A generic Dto Object.
+     * 
+     * @var type 
+     */
     private $_message;
 
     /**
@@ -31,7 +36,12 @@ class Rip_Podcasts_Image_Uploader {
     private $_upload_overrides = array(
         'test_form' => false
     );
-
+    
+    /**
+     * On construction set the dependency.
+     * 
+     * @param \Rip_General\Dto\Message $message
+     */
     public function __construct(\Rip_General\Dto\Message $message) {
         $this->_message = $message;
     }

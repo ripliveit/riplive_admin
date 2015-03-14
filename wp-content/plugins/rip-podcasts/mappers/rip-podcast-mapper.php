@@ -3,7 +3,8 @@
 namespace Rip_Podcasts\Mappers;
 
 /**
- * 
+ * Map podcasts db data
+ * to a coherent data structure.
  *
  * @author Gabriele
  */
@@ -17,10 +18,22 @@ class Rip_Podcast_Mapper implements \Rip_General\Interfaces\Rip_Mapper_Array_Int
      * @var Object 
      */
     protected $_posts_dao;
-   
+    
+    /**
+     * Holds a reference
+     * to Authors_Query_service.
+     * 
+     * @var Object 
+     */
     protected $_authors_query_service;
-
-   
+    
+    /**
+     * On construction set the
+     * dependencies.
+     * 
+     * @param \Rip_General\Classes\Rip_Abstract_Dao $posts_dao
+     * @param \Rip_General\Classes\Rip_Abstract_Query_Service $authors_query_service
+     */
     public function __construct(
             \Rip_General\Classes\Rip_Abstract_Dao $posts_dao,
             \Rip_General\Classes\Rip_Abstract_Query_Service $authors_query_service
@@ -28,7 +41,13 @@ class Rip_Podcast_Mapper implements \Rip_General\Interfaces\Rip_Mapper_Array_Int
         $this->_posts_dao = $posts_dao;
         $this->_authors_query_service = $authors_query_service;
     }
-
+    
+    /**
+     * Map podcast data.
+     * 
+     * @param array $podcasts
+     * @return array
+     */
     public function map(array $podcasts = array()) {
         if (empty($podcasts)) {
             return array();
@@ -40,14 +59,12 @@ class Rip_Podcast_Mapper implements \Rip_General\Interfaces\Rip_Mapper_Array_Int
             $authors = array();
             $authors_ids = get_post_meta($podcast['id_program'], 'programs-authors', true);
             
-
             // Set the author's data.
             if (!empty($authors_ids)) {
                 foreach ($authors_ids as $author_id) {
                     $wp_author = get_user_by('id', $author_id);
                     $author_dto = $this->_authors_query_service->get_author_by_slug($wp_author->user_nicename);
-    
-                    
+                        
                     array_push($authors, $author_dto->get_author());
                 }
 

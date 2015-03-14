@@ -31,39 +31,47 @@ app.controller('UpdateCtrl', function ($scope, $routeParams, $timeout, $location
                     type: 'error',
                     message: 'Puoi caricare solamente immagini di formato jpg'
                 });
-                
+
+                $scope.file = null;
+
                 return false;
             }
 
             $files[i].progress = 0;
-
             $scope.file = $files[i];
         }
     };
 
-    $scope.uploadImage = function (podcast, index, event) {
-        if ($scope.file) {
+    $scope.uploadImage = function (podcast) {
+        if (!$scope.file) {
             $rootScope.$broadcast('alert:message', {
                 type: 'error',
-                message: 'Modifica il podcast prima di salvare'
+                message: 'Carica un\'immagine di formato jpg'
             });
-            
+
             return false;
         }
-       
+
         $scope.podcast.computing = true;
 
         dataService.uploadFile({
             id_podcast: podcast.id
-        }, $scope.file).success(function (data, status, headers, config) {
-            if (data.status === 'error') {
-                alert(data.message);
-                return false;
-            }
-            alert('File caricato con successo!');
-            $scope.podcast.podcast_images.thumbnail = data.podcast_images.thumbnail;
+        }, $scope.file).then(function (res) {
+            $rootScope.$broadcast('alert:message', {
+                type: 'success',
+                message: 'Immagine caricata con successo'
+            });
+
             $scope.podcast.uploading = false;
             $scope.podcast.computing = false;
+            $scope.podcast.podcast_images.thumbnail = res.data.podcast.podcast_images.thumbnail;
+        }, function (error) {
+            $rootScope.$broadcast('alert:message', {
+                type: 'error',
+                message: error.data.message
+            });
+
+            return false;
         });
     };
 
@@ -78,7 +86,7 @@ app.controller('UpdateCtrl', function ($scope, $routeParams, $timeout, $location
                 type: 'success',
                 message: 'Podcast modificato correttamente!'
             });
-            
+
             $scope.goToIndex();
         }, function (err) {
             $rootScope.$broadcast('alert:message', {

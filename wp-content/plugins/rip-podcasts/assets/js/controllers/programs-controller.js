@@ -10,16 +10,18 @@ app.controller('ProgramsCtrl', function ($scope, $routeParams, dataService) {
     });
 
     $scope.generateXML = function (program, index) {
+        $scope.programs[index].computing = true;
+
         dataService.loadData({
             action: 'rip_podcasts_generate_podcasts_xml',
             slug: program.slug
         }).then(function (res) {
-            if (res.data.status === 'ok') {
-                $scope.programs[index].message = 'Feed XML correttamente generato';
-                $scope.programs[index].remoteFeed = res.data.remote_path;
-            } else {
-                $scope.programs[index].message = res.data.message;
-            }
+            $scope.programs[index].message = 'Feed XML correttamente generato';
+            $scope.programs[index].remoteFeed = res.data.remote_path;
+        }, function (err) {
+            $scope.programs[index].message = err.data.message;
+        }).finally(function () {
+            $scope.programs[index].computing = false;
         });
     };
 });

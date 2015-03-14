@@ -8,49 +8,49 @@ namespace Rip_Podcasts\Classes;
 class Rip_Podcasts_Xml_Generator {
 
     /**
-     * Holds a reference to an object used to perform
-     * string filtering.
-     * 
-     * @see rip_general_output_filter
-     * @var object 
-     */
-    protected $_filter;
-
-    /**
      * Default folder value.
      * 
      * @var string 
      */
-    protected $_folder = '.';
+    private $_folder = '.';
 
     /**
      * Default filename value.
      * 
      * @var string 
      */
-    protected $_filename = 'feed.xml';
+    private $_filename = 'feed.xml';
+
+    /**
+     * A Dto object
+     * 
+     * @var Object 
+     */
+    private $_message;
 
     /**
      * Class constructor.
-     * Accept a class the perform string filtering as a dependency.
      * 
-     * @param object $filter
+     * @param \Rip_General\Dto\Message $message
      */
-    public function __construct($filter = null) {
-        $this->_filter = $filter;
+    public function __construct(\Rip_General\Dto\Message $message) {
+        $this->_message = $message;
     }
 
     /**
-     * Folder where xml feed must be saved.
+     * Set the 
+     * folder where xml feed will be saved.
      * 
      * @param string $folder
      */
     public function set_folder($folder) {
         $this->_folder = $folder;
+
+        return $this;
     }
 
     /**
-     * File name.
+     * Set the filename of the xml file.
      * 
      * @param string $filename
      */
@@ -60,6 +60,8 @@ class Rip_Podcasts_Xml_Generator {
         }
 
         $this->_filename = $filename;
+
+        return $this;
     }
 
     /**
@@ -68,7 +70,7 @@ class Rip_Podcasts_Xml_Generator {
      * @param array $authors
      * @return string
      */
-    protected function _set_authors_data(array $authors = array()) {
+    private function _set_authors_data(array $authors = array()) {
         $out = array();
 
         if (is_array($authors)) {
@@ -90,20 +92,20 @@ class Rip_Podcasts_Xml_Generator {
      */
     public function generate($channel_data = array(), $items_data = array()) {
         if (!is_array($channel_data) || empty($channel_data)) {
-            return array(
-                'status' => 'error',
-                'message' => 'Programs data are missing. Cannot generate the XML',
-            );
+            $this->_message->set_code(500)
+                    ->set_status('error')
+                    ->set_message('Programs data are missing. Cannot generate the XML');
+
+            return $this->_message;
         }
 
         if (!is_array($items_data) || empty($items_data)) {
-            return array(
-                'status' => 'error',
-                'message' => 'Podcast data are missing. Probably there are no uploaded podcast. Cannot generate the XML'
-            );
-        }
+            $this->_message->set_code(500)
+                    ->set_status('error')
+                    ->set_message('Podcast data are missing. Probably there are no uploaded podcast. Cannot generate the XML');
 
-        $filter = new \Rip_General\Filters\Rip_Output_Filter();
+            return $this->_message;
+        }
 
         $xml = new \DOMDocument('1.0', 'UTF-8');
         $xml->preserveWhiteSpace = false;
@@ -130,13 +132,13 @@ class Rip_Podcasts_Xml_Generator {
         $channel->appendChild($xml->createElement('itunes:subtitle', 'I podcast di Riplive.it - Radio Illusioni Parallele'));
 
         $author = $channel->appendChild($xml->createElement('itunes:author'));
-        $author->appendChild($xml->createCDATASection('Riplive.it - ' . $filter::strip_content($channel_data['program_title'])));
+        $author->appendChild($xml->createCDATASection('Riplive.it - ' . \Rip_General\Filters\Rip_Output_Filter::strip_content($channel_data['program_title'])));
 
         $summary = $channel->appendChild($xml->createElement('itunes:summary'));
         $summary->appendChild($xml->createCDATASection('Radio Illusioni Parallele è una webradio dell\'hinterland milanese, su Riplive.it puoi trovare musica di ogni genere e un sacco di programmi. Cerca il nostro podcast nell\'iTunes Store'));
 
         $description = $channel->appendChild($xml->createElement('description'));
-        $description->appendChild($xml->createCDATASection($filter::strip_content($channel_data['program_content'])));
+        $description->appendChild($xml->createCDATASection(\Rip_General\Filters\Rip_Output_Filter::strip_content($channel_data['program_content'])));
 
         $owner = $channel->appendChild($xml->createElement('itunes:owner'));
         $owner->appendChild($xml->createElement('itunes:name', 'Riplive.it'));
@@ -154,16 +156,16 @@ class Rip_Podcasts_Xml_Generator {
             $item = $channel->appendChild($xml->createElement('item'));
 
             $item_title = $item->appendChild($xml->createElement('title'));
-            $item_title->appendChild($xml->createCDATASection($filter::strip_content($item_data['title'])));
+            $item_title->appendChild($xml->createCDATASection(\Rip_General\Filters\Rip_Output_Filter::strip_content($item_data['title'])));
 
             $item_authors = $item->appendChild($xml->createElement('itunes:author'));
-            $item_authors->appendChild($xml->createCDATASection($filter::strip_content($this->_set_authors_data($item_data['authors']))));
+            $item_authors->appendChild($xml->createCDATASection(\Rip_General\Filters\Rip_Output_Filter::strip_content($this->_set_authors_data($item_data['authors']))));
 
             $item_subtitle = $item->appendChild($xml->createElement('itunes:subtitle'));
-            $item_subtitle->appendChild($xml->createCDATASection(substr($filter::strip_content($item_data['program_content']), 0, 255)));
+            $item_subtitle->appendChild($xml->createCDATASection(substr(\Rip_General\Filters\Rip_Output_Filter::strip_content($item_data['program_content']), 0, 255)));
 
             $item_summary = $item->appendChild($xml->createElement('itunes:summary'));
-            $item_summary->appendChild($xml->createCDATASection($filter::strip_content($item_data['summary'])));
+            $item_summary->appendChild($xml->createCDATASection(\Rip_General\Filters\Rip_Output_Filter::strip_content($item_data['summary'])));
 
             $item_image = $item->appendChild($xml->createElement('itunes:image'));
             $item_image->setAttribute('href', $item_data['podcast_images']['image_large']);
@@ -176,23 +178,28 @@ class Rip_Podcasts_Xml_Generator {
             $item->appendChild($xml->createElement('link', 'http://www.riplive.it/podcasts/' . $item_data['program_slug'] . '/' . $item_data['id']));
             $item->appendChild($xml->createElement('guid', 'http://www.riplive.it/podcasts/' . $item_data['program_slug'] . '/' . $item_data['id']));
             $item->appendChild($xml->createElement('pubDate', date('r', strtotime($item_data['date']))));
-            $item->appendChild($xml->createElement('itunes:duration', $filter::strip_content($item_data['duration'])));
+            $item->appendChild($xml->createElement('itunes:duration', \Rip_General\Filters\Rip_Output_Filter::strip_content($item_data['duration'])));
         }
 
         //Save the XML to the specified folder.
         $result = $xml->save($this->_folder . $this->_filename);
 
-        if ($result) {
-            return array(
-                'status' => 'ok',
-                'filename' => $this->_filename,
-                'folder' => $this->_folder,
-                'path' => $this->_folder . $this->_filename,
-                'message' => $this->_folder . $this->_filename . ' was succesfull generated on ' . date('d-m-Y, H:i:s'),
-            );
-        } else {
-            return false;
+        if (!$result) {
+            $this->_message->set_code(500)
+                    ->set_status('error')
+                    ->set_message('Error during XML generation');
+
+            return $this->_message;
         }
+
+        $this->_message->set_code(200)
+                ->set_status('ok')
+                ->set_filename($this->_filename)
+                ->set_folder($this->_folder)
+                ->set_path($this->_folder . $this->_filename)
+                ->set_message($this->_folder . $this->_filename . ' was succesfull generated on ' . date('d-m-Y, H:i:s'));
+
+        return $this->_message;
     }
 
 }

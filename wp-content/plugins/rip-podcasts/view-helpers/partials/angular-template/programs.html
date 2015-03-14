@@ -11,6 +11,7 @@
                 <img ng-src="{{p.program_images.thumbnail}}" width="100" height="100"/>
             </a>
         </figure>
+        
         <div>
             <h2>
                 <a href="#/podcasts/{{p.slug}}/page/1">
@@ -26,9 +27,12 @@
                 Carica Podcast
             </a>
             
-            <a ng-click="generateXML(p, $index)" class="btn success">
+            <a ng-click="generateXML(p, $index)" class="btn success" ng-hide="p.computing">
                 Genera Feed XML
             </a>
+            
+            <img src="/wp-content/plugins/rip-podcasts/assets/loading.gif" 
+                 title="Elaborazione in corso" alt="Elaborazione in corso" class="loader" ng-show="p.computing"/>
 
             <p ng-show="p.message">
                 <strong>

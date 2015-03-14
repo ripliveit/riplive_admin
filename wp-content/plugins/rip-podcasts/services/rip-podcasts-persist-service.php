@@ -3,28 +3,39 @@
 namespace Rip_Podcasts\Services;
 
 /**
- *
+ * A service used
+ * to persist podcast's data.
  *
  * @author Gabriele
  */
 class Rip_Podcasts_Persist_Service {
-
+    
+    /**
+     * Holds a reference to Podcasts_Dao
+     * 
+     * @var Object 
+     */
     private $_podcasts_dao;
+    
+    /**
+     * Holds a reference to Posts_Dao.
+     * 
+     * @var Object 
+     */
     private $_posts_dao;
 
     /**
-     * Holds a Podcasts Query Service.
+     * Holds a reference to Podcasts Query Service.
      * 
      * @var Object 
      */
     private $_query_service;
-
+    
     /**
-     * 
+     * An object used to upload podcast's images.
      * 
      * @var Object 
      */
-    private $_validator;
     private $_uploader;
 
     /**
@@ -34,9 +45,23 @@ class Rip_Podcasts_Persist_Service {
      * @var Object 
      */
     private $_transaction;
-
+    
+    /**
+     * On construction set all
+     * service dependencies.
+     * 
+     * @param \Rip_General\Classes\Rip_Abstract_Dao $podcasts_dao
+     * @param \Rip_General\Classes\Rip_Abstract_Dao $posts_dao
+     * @param \Rip_General\Classes\Rip_Abstract_Query_Service $query_service
+     * @param \Rip_General\Classes\Rip_Transaction $transaction
+     * @param \Rip_Podcasts\Classes\Rip_Podcasts_Image_Uploader $uploader
+     */
     public function __construct(
-    \Rip_General\Classes\Rip_Abstract_Dao $podcasts_dao, \Rip_General\Classes\Rip_Abstract_Dao $posts_dao, \Rip_General\Classes\Rip_Abstract_Query_Service $query_service, \Rip_General\Classes\Rip_Transaction $transaction, \Rip_Podcasts\Classes\Rip_Podcasts_Image_Uploader $uploader
+        \Rip_General\Classes\Rip_Abstract_Dao $podcasts_dao, 
+        \Rip_General\Classes\Rip_Abstract_Dao $posts_dao, 
+        \Rip_General\Classes\Rip_Abstract_Query_Service $query_service, 
+        \Rip_General\Classes\Rip_Transaction $transaction, 
+        \Rip_Podcasts\Classes\Rip_Podcasts_Image_Uploader $uploader
     ) {
         $this->_podcasts_dao = $podcasts_dao;
         $this->_posts_dao = $posts_dao;
@@ -44,7 +69,13 @@ class Rip_Podcasts_Persist_Service {
         $this->_transaction = $transaction;
         $this->_uploader = $uploader;
     }
-
+    
+    /**
+     * Attempt to persist a podcast.
+     * 
+     * @param array $podcast
+     * @return \Rip_General\Dto\Message
+     */
     public function insert_podcast(array $podcast = array()) {
         $podcast = stripslashes_deep($podcast);
         $message = new \Rip_General\Dto\Message();
@@ -79,7 +110,14 @@ class Rip_Podcasts_Persist_Service {
 
         return $podcast;
     }
-
+    
+    /**
+     * Update a single podcast.
+     * 
+     * @param int $id_podcast
+     * @param array $podcast
+     * @return \Rip_General\Dto\Message
+     */
     public function update_podcast($id_podcast = null, array $podcast = array()) {
         $message = new \Rip_General\Dto\Message();
         $podcast = stripslashes_deep($podcast);
@@ -120,10 +158,13 @@ class Rip_Podcasts_Persist_Service {
 
         return $podcast;
     }
-
+    
     /**
      * Delete a single podcast.
-     */
+     * 
+     * @param int $id_podcast
+     * @return \Rip_General\Dto\Message
+     */      
     public function delete_podcast($id_podcast) {
         $message = new \Rip_General\Dto\Message();
 
@@ -155,8 +196,14 @@ class Rip_Podcasts_Persist_Service {
 
     /**
      * Upload a podcast image.
+     * 
+     * @param int $id_podcast
+     * @param array $files
+     * @return \Rip_General\Dto\Message
      */
-    public function upload_podcast_image($id_podcast, $files) {
+    public function upload_podcast_image($id_podcast, array $files = array()) {
+        $message = new \Rip_General\Dto\Message();
+        
         if (empty($id_podcast)) {
             $message->set_code(400)
                     ->set_status('error')
@@ -176,7 +223,7 @@ class Rip_Podcasts_Persist_Service {
         $uploaded = $this->_uploader->upload((int) $id_podcast, $files['file']);
 
         if ($uploaded->get_status() === 'error') {
-            $uploaded;
+            return $uploaded;
         }
        
         $result = $this->_podcasts_dao->insert_podcast_attachment(

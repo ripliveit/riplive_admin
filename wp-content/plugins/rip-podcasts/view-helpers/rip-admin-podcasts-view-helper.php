@@ -19,7 +19,11 @@ class Rip_Admin_Podcasts_View_Helper extends \Rip_General\Classes\Rip_Abstract_V
      * Enqueque all needed assets.
      */
     public function enqueque() {
-        wp_enqueue_script('tinymce', '/wp-content/plugins/rip-podcasts/assets/js/vendor/tinymce/tinymce.min.js');
+        $screen = get_current_screen();
+        
+        if (in_array($screen->id, array('toplevel_page_rip-podcasts/rip-podcasts-plugin'))) {
+            wp_enqueue_script('tinymce', '/wp-content/plugins/rip-podcasts/assets/js/vendor/tinymce/tinymce.min.js');
+        }
 
         wp_enqueue_script('angular', 'https://ajax.googleapis.com/ajax/libs/angularjs/1.3.11/angular.min.js');
         wp_enqueue_script('angular-route', 'https://ajax.googleapis.com/ajax/libs/angularjs/1.3.11/angular-route.min.js');

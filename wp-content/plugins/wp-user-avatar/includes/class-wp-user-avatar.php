@@ -152,18 +152,20 @@ class WP_User_Avatar {
    */
   public static function wpua_action_show_user_profile($user) {
     global $blog_id, $current_user, $show_avatars, $wpdb, $wp_user_avatar, $wpua_allow_upload, $wpua_edit_avatar, $wpua_functions, $wpua_upload_size_limit_with_units;
-	// Get WPUA attachment ID
-    $wpua = get_user_meta($user->ID, $wpdb->get_blog_prefix($blog_id).'user_avatar', true);
+	  
+    $has_wp_user_avatar = has_wp_user_avatar(@$user->ID);
+    // Get WPUA attachment ID
+    $wpua = get_user_meta(@$user->ID, $wpdb->get_blog_prefix($blog_id).'user_avatar', true);
     // Show remove button if WPUA is set
-    $hide_remove = !has_wp_user_avatar($user->ID) ? 'wpua-hide' : "";
+    $hide_remove = !$has_wp_user_avatar ? 'wpua-hide' : "";
     // Hide image tags if show avatars is off
-    $hide_images = !has_wp_user_avatar($user->ID) && (bool) $show_avatars == 0 ? 'wpua-no-avatars' : "";
+    $hide_images = !$has_wp_user_avatar && (bool) $show_avatars == 0 ? 'wpua-no-avatars' : "";
     // If avatars are enabled, get original avatar image or show blank
-    $avatar_medium_src = (bool) $show_avatars == 1 ? $wpua_functions->wpua_get_avatar_original($user->user_email, 'medium') : includes_url().'images/blank.gif';
+    $avatar_medium_src = (bool) $show_avatars == 1 ? $wpua_functions->wpua_get_avatar_original(@$user->user_email, 'medium') : includes_url().'images/blank.gif';
     // Check if user has wp_user_avatar, if not show image from above
-    $avatar_medium = has_wp_user_avatar($user->ID) ? get_wp_user_avatar_src($user->ID, 'medium') : $avatar_medium_src;
+    $avatar_medium = $has_wp_user_avatar ? get_wp_user_avatar_src($user->ID, 'medium') : $avatar_medium_src;
     // Check if user has wp_user_avatar, if not show image from above
-    $avatar_thumbnail = has_wp_user_avatar($user->ID) ? get_wp_user_avatar_src($user->ID, 96) : $avatar_medium_src;
+    $avatar_thumbnail = $has_wp_user_avatar ? get_wp_user_avatar_src($user->ID, 96) : $avatar_medium_src;
     $edit_attachment_link = add_query_arg(array('post' => $wpua, 'action' => 'edit'), admin_url('post.php'));
     // Chck if admin page
     $is_admin = is_admin() ? '_admin' : "";
@@ -406,8 +408,7 @@ class WP_User_Avatar {
         }
       }
     }
-	// Check whether User as Gravatar-hosted image and update usermeta
-	$wpua_admin->set_wpua_has_gravatar($user_id);
+	
   }
 
   /**

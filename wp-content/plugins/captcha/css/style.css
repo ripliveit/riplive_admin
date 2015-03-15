@@ -17,6 +17,9 @@
 .cptch_block {
 	direction: ltr;
 }
+input.cptch_settings_input {
+    width: 252px;
+}
 /*
 * styles help tooltips
 */

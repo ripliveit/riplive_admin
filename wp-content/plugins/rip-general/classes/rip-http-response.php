@@ -77,7 +77,8 @@ class Rip_Http_Response implements \Rip_General\Interfaces\Rip_Json_Interface {
      */
     protected $_type = array(
         'application/json',
-        'text/javascript'
+        'text/javascript',
+        'text/xml'
     );
 
     /**
@@ -132,6 +133,12 @@ class Rip_Http_Response implements \Rip_General\Interfaces\Rip_Json_Interface {
             echo '(' . json_encode($data) . ')';
             exit(0);
         }
+    }
+    
+    public function to_xml($data) {
+        $this->_set_header('text/xml');
+        echo $data;
+        exit(0);
     }
 
 }

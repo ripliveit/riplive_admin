@@ -57,4 +57,15 @@ class Rip_General_Controller extends \Rip_General\Classes\Rip_Abstract_Controlle
                 ->to_json($result);
     }
 
+    /**
+     * Return all posts
+     */
+    public function get_all_posts() {
+        $service = $this->_container['postsQueryService'];
+        $result = $service->get_all_posts();
+
+        $this->_response->set_code($result->get_code())
+                ->to_json($result);
+    }
+
 }

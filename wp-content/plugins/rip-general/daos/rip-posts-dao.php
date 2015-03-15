@@ -8,6 +8,29 @@ namespace Rip_General\Daos;
  * @author Gabriele
  */
 class Rip_Posts_Dao extends \Rip_General\Classes\Rip_Abstract_Dao {
+    
+    /**
+     * Return all posts.
+     * 
+     * @param array $page_args
+     * @return \WP_Query
+     */
+    public function get_all_posts(array $page_args = array()) {
+        $args = array(
+            'post_type' => 'post',
+            'post_status' => 'publish',
+            'orderby' => 'date',
+            'order' => 'DESC'
+        );
+
+        if (!empty($page_args)) {
+            $args = array_merge($args, $page_args);
+        }
+
+        $query = new \WP_Query($args);
+
+        return $query;
+    }
 
     /**
      * Return all post's images, giving a proper post id.

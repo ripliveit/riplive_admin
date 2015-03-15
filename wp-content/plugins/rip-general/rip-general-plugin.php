@@ -76,6 +76,10 @@ class Rip_General_Plugin extends \Rip_General\Classes\Rip_Abstract_Plugin {
                 'class_name' => '\Rip_General\Controllers\Rip_General_Controller',
                 'method_name' => 'get_nazioni',
             ),
+            'rip_general_get_all_posts' => array(
+                'class_name' => '\Rip_General\Controllers\Rip_General_Controller',
+                'method_name' => 'get_all_posts',
+            ),
         );
                    
         $this->_filters_to_add = array(

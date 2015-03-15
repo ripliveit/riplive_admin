@@ -80,7 +80,13 @@ class Rip_Di_Container {
         $this->_container['attachmentsDao'] = function($c) {
             return new \Rip_General\Daos\Rip_Attachment_Dao();
         };
-
+        
+        $this->_container['postsQueryService'] = function($c) {
+            return new \Rip_General\Services\Rip_Posts_Query_Service(
+                    $c['postsDao']
+            );
+        };
+        
         $this->_container['generalService'] = function($c) {
             return new \Rip_General\Services\Rip_General_Service();
         };
@@ -239,8 +245,27 @@ class Rip_Di_Container {
                     $c['generalService']
             );
         };
-
         
+        
+        //
+        // SEO plugin's dependencies
+        //
+        $this->_container['sitemapGenerator'] = function($c) {
+            return new \Rip_Seo\Classes\Rip_Sitemap_Generator($c['message']);
+        };
+        
+        $this->_container['sitemapService'] = function($c) {
+            return new \Rip_Seo\Services\Rip_Sitemap_Service(
+                    $c['sitemapGenerator'],
+                    $c['artistsQueryService'], 
+                    $c['authorsQueryService'], 
+                    $c['chartsQueryService'], 
+                    $c['podcastsQueryService'], 
+                    $c['postsQueryService'],
+                    $c['programsQueryService'], 
+                    $c['songsQueryService']);
+        };
+              
         //
         // Songs plugin's dependencies
         //

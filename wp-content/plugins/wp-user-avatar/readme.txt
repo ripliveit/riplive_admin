@@ -3,8 +3,8 @@
 Contributors: flippercode
 Tags: author image, author photo, author avatar, avatar, bbPress, profile avatar, profile image, user avatar, user image, user photo, widget
 Requires at least: 3.6
-Tested up to: 4.0.1
-Stable tag: 1.9.16
+Tested up to: 4.1
+Stable tag: 1.9.18
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -24,6 +24,10 @@ WordPress currently only allows you to use custom avatars that are uploaded thro
 * Use the <code>[avatar]</code> shortcode in your posts. These shortcodes will work with any theme, whether it has avatar support or not.
 * Allow Contributors and Subscribers to upload their own avatars.
 * Limit upload file size and image dimensions for Contributors and Subscribers.
+
+**Introducing Support Desk**
+
+We're at [FlipperCode](http://www.flippercode.com/), committed to excellent support to make every download worth for the user. Happily announcing [Support Desk](http://www.flippercode.com/forums/) for our valuable users to engaged with multiple support desk person for fast turnout.
 
 
 == Installation ==
@@ -379,6 +383,16 @@ This would output:
 4. After you've chosen a WP User Avatar image, you will see the option to remove it.
 
 == Changelog ==
+
+= 1.9.18 =
+* Bug Fix: Removed cron job dependency for excellent performance.
+* Bug Fix: Resolved gravatar was not showing on some special cases.
+* Bug Fix: Resolved speed problem in case of large number of users for multisite, bbpress and buddy press.
+* Bug Fix: Resolved display custom avatar problem when default and customer avatar is same choosen.
+
+
+= 1.9.17 =
+* Bug Fix: Removed the looping through all users on admin_init action.
 
 = 1.9.16 =
 * Bug Fix: lots of entries in wp_options table resolved.

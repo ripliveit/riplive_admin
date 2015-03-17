@@ -250,6 +250,10 @@ class Rip_Di_Container {
         //
         // SEO plugin's dependencies
         //
+        $this->_container['seoDao'] = function($c) {
+            return new \Rip_Seo\Daos\Rip_Seo_Dao();
+        };
+        
         $this->_container['sitemapGenerator'] = function($c) {
             return new \Rip_Seo\Classes\Rip_Sitemap_Generator($c['message']);
         };
@@ -257,13 +261,8 @@ class Rip_Di_Container {
         $this->_container['sitemapService'] = function($c) {
             return new \Rip_Seo\Services\Rip_Sitemap_Service(
                     $c['sitemapGenerator'],
-                    $c['artistsQueryService'], 
-                    $c['authorsQueryService'], 
-                    $c['chartsQueryService'], 
-                    $c['podcastsQueryService'], 
-                    $c['postsQueryService'],
-                    $c['programsQueryService'], 
-                    $c['songsQueryService']);
+                    $c['seoDao']
+            );
         };
               
         //

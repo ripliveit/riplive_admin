@@ -35,7 +35,7 @@ class Rip_Sitemap_Service {
     
     /**
      * On construction set
-     * all query service to retrieve data for the sitemap generator.
+     * service dependency.
      * 
      * @param type $sitemap_generator
      * @param \Rip_General\Classes\Rip_Abstract_Dao $seo_dao

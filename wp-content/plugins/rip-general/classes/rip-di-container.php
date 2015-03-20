@@ -264,6 +264,12 @@ class Rip_Di_Container {
                     $c['seoDao']
             );
         };
+                
+        $this->_container['seoQueryService'] = function($c) {
+            return new \Rip_Seo\Services\Rip_Seo_Query_Service(
+                    $c['seoDao']
+            );
+        };
               
         //
         // Songs plugin's dependencies

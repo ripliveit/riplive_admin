@@ -19,11 +19,23 @@ class Rip_Seo_Controller extends \Rip_General\Classes\Rip_Abstract_Controller {
     }
 
     /**
-     * Generator the sitemap generator.
+     * Generate the xml sitemap
      */
     public function generate_xml_sitemap() {
         $service = $this->_container['sitemapService'];
         $result = $service->generate_xml_sitemap();
+
+        $this->_response->set_code($result->get_code())
+                ->to_json($result);
+    }
+    
+    /**
+     * 
+     */
+    public function get_meta_by_path() {
+        $path = $this->_request->query->get('path');
+        $service = $this->_container['seoQueryService'];
+        $result = $service->get_meta_by_path($path);
 
         $this->_response->set_code($result->get_code())
                 ->to_json($result);

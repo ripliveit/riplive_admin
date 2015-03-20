@@ -32,6 +32,10 @@ class Rip_Seo_Plugin extends \Rip_General\Classes\Rip_Abstract_Plugin {
             'rip_seo_generate_xml_sitemap' => array(
                 'class_name' => '\Rip_Seo\Controllers\Rip_Seo_Controller',
                 'method_name' => 'generate_xml_sitemap',
+            ),
+            'rip_seo_get_meta_by_path' => array(
+                'class_name' => '\Rip_Seo\Controllers\Rip_Seo_Controller',
+                'method_name' => 'get_meta_by_path',
             )
         );
         

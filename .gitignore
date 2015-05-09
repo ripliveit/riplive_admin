@@ -1,6 +1,7 @@
 .DS_Store
 *.njsproj
 .tmp
+.idea
 nbproject
 
 node_modules

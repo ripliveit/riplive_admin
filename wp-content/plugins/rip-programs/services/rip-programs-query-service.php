@@ -127,7 +127,6 @@ class Rip_Programs_Query_Service extends \Rip_General\Classes\Rip_Abstract_Query
         );
 
         $data = current($mapper->map($this->_programs_dao->get_program_by_slug($slug)));
-        $data['program_information'] = $this->get_program_information($data['id_program'])->get_program_information();
 
         if (empty($data)) {
             $message->set_code(404)
@@ -136,7 +135,9 @@ class Rip_Programs_Query_Service extends \Rip_General\Classes\Rip_Abstract_Query
 
             return $message;
         }
-
+        
+        $data['program_information'] = $this->get_program_information($data['id_program'])->get_program_information();
+        
         $message->set_code(200)
                 ->set_status('ok')
                 ->set_program($data);

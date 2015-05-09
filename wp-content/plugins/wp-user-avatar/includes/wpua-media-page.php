@@ -74,7 +74,7 @@
             wp_die(__('Error in deleting.'));
           }
         }
-      $location = add_query_arg('deleted', count($post_ids), $location);
+      $location = esc_url_raw(add_query_arg('deleted', count($post_ids), $location));
       break;
     }
     wp_redirect($location);

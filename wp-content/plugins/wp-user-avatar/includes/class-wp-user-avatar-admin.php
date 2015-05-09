@@ -295,7 +295,7 @@ class WP_User_Avatar_Admin {
    */
   public function wpua_action_links($links, $file) { 
     if(basename(dirname($file)) == 'wp-user-avatar') {
-      $links[] = '<a href="'.add_query_arg(array('page' => 'wp-user-avatar'), admin_url('admin.php')).'">'.__('Settings').'</a>';
+      $links[] = '<a href="'.esc_url(add_query_arg(array('page' => 'wp-user-avatar'), admin_url('admin.php'))).'">'.__('Settings').'</a>';
     }
     return $links;
   }

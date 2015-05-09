@@ -146,7 +146,7 @@ class WP_User_Avatar_Shortcode {
     }
     if($update) {
       // Redirect with updated variable
-      $redirect_url = add_query_arg(array('updated' => '1'), wp_get_referer());
+      $redirect_url = esc_url_raw(add_query_arg(array('updated' => '1'), wp_get_referer()));
       /**
        * Filter redirect URL
        * @since 1.9.12

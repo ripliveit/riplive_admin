@@ -20,6 +20,10 @@
 input.cptch_settings_input {
     width: 252px;
 }
+.cptch_span {
+    color: #888888;
+    font-size: 10px;
+}
 /*
 * styles help tooltips
 */

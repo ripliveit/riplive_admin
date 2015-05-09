@@ -1,7 +1,7 @@
 <?php
 /**
  * @package WP User Avatar
- * @version 1.9.18
+ * @version 1.9.19
  */
 
 /*
@@ -10,7 +10,7 @@ Plugin URI: http://wordpress.org/plugins/wp-user-avatar/
 Description: Use any image from your WordPress Media Library as a custom user avatar. Add your own Default Avatar.
 Author: flippercode
 Author URI: http://www.flippercode.com/
-Version: 1.9.18
+Version: 2.0.0
 Text Domain: wp-user-avatar
 Domain Path: /lang/
 */
@@ -38,7 +38,7 @@ class WP_User_Avatar_Setup {
    * @since 1.9.2
    */
   private function _define_constants() {
-    define('WPUA_VERSION', '1.9.18');
+    define('WPUA_VERSION', '1.9.19');
     define('WPUA_FOLDER', basename(dirname(__FILE__)));
     define('WPUA_DIR', plugin_dir_path(__FILE__));
     define('WPUA_INC', WPUA_DIR.'includes'.'/');

@@ -186,7 +186,7 @@ function wpua_donation_message() {
  */
 function wpua_do_donation_message() { ?>
    <div class="updated">
-    <p><?php _e('Do you like WP User Avatar?', 'wp-user-avatar'); ?> <a href="http://wordpress.org/plugins/wp-google-map-plugin/" target="_blank"><?php _e('Try our Google Maps Plugin.', 'wp-user-avatar'); ?></a></p> 
+    <p><?php _e('Introducing WP USER AVATAR PRO for storage options and interactive upload avatar utility. ', 'wp-user-avatar'); ?> <a href="http://www.flippercode.com/product/wp-user-avatar/" target="_blank"><?php _e('Upgrade now', 'wp-user-avatar'); ?></a></p> 
   </div>
  <?php 
 }

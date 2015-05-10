@@ -1,4 +1,4 @@
-CREATE OR REPLACE DEFINER=`riplive_wp`@`localhost` VIEW wp_seo_view AS
+CREATE OR REPLACE DEFINER=`riplive_wp`@`%` VIEW wp_seo_view AS
 	SELECT CONCAT('/authors/', users.user_nicename) AS path, users.display_name AS title, 
 
 		(SELECT usermeta.meta_value 
@@ -28,7 +28,7 @@ CREATE OR REPLACE DEFINER=`riplive_wp`@`localhost` VIEW wp_seo_view AS
 	UNION
 
 	SELECT CONCAT('/artists/genre/', terms.slug) AS path, terms.name AS title,
-	 CONCAT('Tutti le artisti di riplive.it di genere ', terms.name) AS description, 'http://www.riplive.it/images/logo_medium.jpg' AS image,
+	 CONCAT('Tutti le artisti di riplive.it di genere ', terms.name) AS description, 'http://www.riplive.it/img/logo_medium.jpg' AS image,
 	 '0.5' AS priority, 'weekly' AS frequency
 	FROM wp_terms AS terms, wp_term_taxonomy AS term_taxonomy
 	WHERE term_taxonomy.term_id = terms.term_id
@@ -37,7 +37,7 @@ CREATE OR REPLACE DEFINER=`riplive_wp`@`localhost` VIEW wp_seo_view AS
 	UNION
 
 	SELECT CONCAT('/artists/tag/', terms.slug) AS path, terms.name AS title, 
-	CONCAT('Tutti gli artisti di riplive.it taggati con ', terms.name) AS description, 'http://www.riplive.it/images/logo_medium.jpg' AS image,
+	CONCAT('Tutti gli artisti di riplive.it taggati con ', terms.name) AS description, 'http://www.riplive.it/img/logo_medium.jpg' AS image,
 	'0.5' AS priority, 'weekly' AS frequency
 	FROM wp_terms AS terms, wp_term_taxonomy AS term_taxonomy
 	WHERE term_taxonomy.term_id = terms.term_id
@@ -46,7 +46,7 @@ CREATE OR REPLACE DEFINER=`riplive_wp`@`localhost` VIEW wp_seo_view AS
 	UNION
 
 	SELECT CONCAT('/categories/', terms.slug) AS path, terms.name AS title, 
-	CONCAT('Tutti gli articoli di riplive.it che hanno categoria ', terms.name) AS description, 'http://www.riplive.it/images/logo_medium.jpg' AS image,
+	CONCAT('Tutti gli articoli di riplive.it che hanno categoria ', terms.name) AS description, 'http://www.riplive.it/img/logo_medium.jpg' AS image,
 	'0.7' AS priority, 'daily' AS frequency
 	FROM wp_terms AS terms, wp_term_taxonomy AS term_taxonomy
 	WHERE term_taxonomy.term_id = terms.term_id
@@ -108,7 +108,7 @@ CREATE OR REPLACE DEFINER=`riplive_wp`@`localhost` VIEW wp_seo_view AS
 	UNION
 
 	SELECT CONCAT('/songs/genre/', terms.slug) AS path, terms.name AS title, 
-	CONCAT('Tutti le canzoni di riplive.it con genere ', terms.name) AS description, 'http://www.riplive.it/images/logo_medium.jpg' AS image,
+	CONCAT('Tutti le canzoni di riplive.it con genere ', terms.name) AS description, 'http://www.riplive.it/img/logo_medium.jpg' AS image,
 	'0.5' AS priority, 'weekly' AS frequency
 	FROM wp_terms AS terms, wp_term_taxonomy AS term_taxonomy
 	WHERE term_taxonomy.term_id = terms.term_id
@@ -117,7 +117,7 @@ CREATE OR REPLACE DEFINER=`riplive_wp`@`localhost` VIEW wp_seo_view AS
 	UNION
 
 	SELECT CONCAT('/songs/tag/', terms.slug) AS path, terms.name AS title, 
-	CONCAT('Tutti le canzoni di riplive.it che hanno tag ', terms.name) AS description, 'http://www.riplive.it/images/logo_medium.jpg' AS image, 
+	CONCAT('Tutti le canzoni di riplive.it che hanno tag ', terms.name) AS description, 'http://www.riplive.it/img/logo_medium.jpg' AS image, 
 	'0.5' AS priority, 'weekly' AS frequency
 	FROM wp_terms AS terms, wp_term_taxonomy AS term_taxonomy
 	WHERE term_taxonomy.term_id = terms.term_id
@@ -126,7 +126,7 @@ CREATE OR REPLACE DEFINER=`riplive_wp`@`localhost` VIEW wp_seo_view AS
 	UNION
 
 	SELECT CONCAT('/tags/', terms.slug) AS path, terms.name AS title, 
-	CONCAT('Tutti gli articoli di riplive.it che hanno tag ', terms.name) AS description, 'http://www.riplive.it/images/logo_medium.jpg' AS image,
+	CONCAT('Tutti gli articoli di riplive.it che hanno tag ', terms.name) AS description, 'http://www.riplive.it/img/logo_medium.jpg' AS image,
 	'0.7' AS priority, 'daily' AS frequency
 	FROM wp_terms AS terms, wp_term_taxonomy AS term_taxonomy
 	WHERE term_taxonomy.term_id = terms.term_id

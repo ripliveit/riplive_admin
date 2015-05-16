@@ -74,12 +74,7 @@ CREATE OR REPLACE DEFINER=`riplive_wp`@`%` VIEW wp_seo_view AS
 	UNION
 
 	SELECT CONCAT('/podcasts/', posts.post_name, '/', podcasts.id) AS path, podcasts.title, summary AS description, 
-
-		(SELECT posts.guid 
-		FROM wp_posts 
-		WHERE posts.ID = meta.meta_value) AS image, 
-		'1' AS priority, 'daily' AS frequency
-		
+  (SELECT guid FROM wp_posts WHERE ID = meta.meta_value) AS image, '1' AS priority, 'daily' AS frequency
 	FROM wp_podcasts AS podcasts, wp_posts AS posts, wp_postmeta AS meta
 	WHERE podcasts.id_program = posts.ID
 	AND posts.ID = meta.post_id

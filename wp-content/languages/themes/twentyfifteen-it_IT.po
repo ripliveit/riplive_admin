@@ -2,13 +2,18 @@
 # This file is distributed under the same license as the Twenty Fifteen package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2015-03-27 13:21:51+0000\n"
+"PO-Revision-Date: 2015-07-12 19:35:35+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: GlotPress/1.0-alpha-1000\n"
+"X-Generator: GlotPress/1.0-alpha-1100\n"
 "Project-Id-Version: Twenty Fifteen\n"
+
+#. translators: %s: post title
+#: inc/template-tags.php:123
+msgid "Leave a comment<span class=\"screen-reader-text\"> on %s</span>"
+msgstr "Lascia un commento<span class=\"screen-reader-text\"> su %s</span>"
 
 #. Theme URI of the plugin/theme
 msgid "https://wordpress.org/themes/twentyfifteen/"
@@ -24,7 +29,7 @@ msgstr "Articolo successivo:"
 
 #: inc/customizer.php:47 inc/customizer.php:63 inc/customizer.php:68
 msgid "Applied to the header on small screens and the sidebar on wide screens."
-msgstr "Applicato all'header su schermi piccoli ed alla sidebar su schermi ampi."
+msgstr "Applicato alla testata su schermi piccoli ed alla barra laterale su schermi grandi."
 
 #: single.php:36
 msgid "Previous"
@@ -49,18 +54,6 @@ msgstr "Immagine successiva"
 #: inc/template-tags.php:23
 msgid "Comment navigation"
 msgstr "Navigazione commenti"
-
-#: inc/template-tags.php:122
-msgid "Leave a comment"
-msgstr "Lascia un commento"
-
-#: inc/template-tags.php:122
-msgid "1 Comment"
-msgstr "1 commento"
-
-#: inc/template-tags.php:122
-msgid "% Comments"
-msgstr "% commenti"
 
 #: search.php:18
 msgid "Search Results for: %s"
@@ -219,14 +212,14 @@ msgstr "Area widget"
 msgid "Social Links Menu"
 msgstr "Menù social link"
 
-#. #-#-#-#-#  twentyfifteen.pot (Twenty Fifteen 1.2)  #-#-#-#-#
+#. #-#-#-#-#  twentyfifteen.pot (Twenty Fifteen 1.3)  #-#-#-#-#
 #. Author URI of the plugin/theme
 #: footer.php:25
 msgid "https://wordpress.org/"
 msgstr "https://wordpress.org/"
 
 #. translators: %s: Name of current post
-#: content-link.php:31 content.php:33 inc/template-tags.php:237
+#: content-link.php:31 content.php:33 inc/template-tags.php:238
 msgid "Continue reading %s"
 msgstr "Continua a leggere %s"
 

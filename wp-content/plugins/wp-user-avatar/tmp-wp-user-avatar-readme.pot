@@ -1,0 +1,1174 @@
+msgid ""
+msgstr "MIME-Version: 1.0\n"
+
+#. Name.
+msgid "WP User Avatar"
+msgstr ""
+
+#. Short description.
+msgid "Use any image from your WordPress Media Library as a custom user avatar. Add your own Default Avatar."
+msgstr ""
+
+#. Screenshot description.
+msgid "WP User Avatar admin settings."
+msgstr ""
+
+#. Screenshot description.
+msgid "WP User Avatar lets you upload your own Default Avatar."
+msgstr ""
+
+#. Screenshot description.
+msgid "WP User Avatar adds a field to your profile edit page."
+msgstr ""
+
+#. Screenshot description.
+msgid "After you've chosen a WP User Avatar image, you will see the option to remove it."
+msgstr ""
+
+#. Found in description list item.
+msgid "Upload your own Default Avatar in your WP User Avatar settings."
+msgstr ""
+
+#. Found in description list item.
+msgid "Show the user's <a href=\"http://gravatar.com/\">Gravatar</a> avatar or Default Avatar if the user doesn't have a WP User Avatar image."
+msgstr ""
+
+#. Found in description list item.
+msgid "Disable <a href=\"http://gravatar.com/\">Gravatar</a> avatars and use only local avatars."
+msgstr ""
+
+#. Found in description list item.
+msgid "Use the <code>[avatar_upload]</code> shortcode to add a standalone uploader to a front page or widget. This uploader is only visible to logged-in users."
+msgstr ""
+
+#. Found in description list item.
+msgid "Use the <code>[avatar]</code> shortcode in your posts. These shortcodes will work with any theme, whether it has avatar support or not."
+msgstr ""
+
+#. Found in description list item.
+msgid "Allow Contributors and Subscribers to upload their own avatars."
+msgstr ""
+
+#. Found in description list item.
+msgid "Limit upload file size and image dimensions for Contributors and Subscribers."
+msgstr ""
+
+#. Found in description list item.
+msgid "Easy Upload and Capture functionality with crop  avatar options."
+msgstr ""
+
+#. Found in description list item.
+msgid "Use Webcam to get Avatar instantly."
+msgstr ""
+
+#. Found in description list item.
+msgid "Allow user to upload avatar on Registration Page."
+msgstr ""
+
+#. Found in description list item.
+msgid "Easy to adjust avatar dimensions."
+msgstr ""
+
+#. Found in description list item.
+msgid "Enable to add or edit avatar while adding existing user to the blog in multi-site network."
+msgstr ""
+
+#. Found in description list item.
+msgid "Keep Avatars in Custom Folder instead of Media Manager."
+msgstr ""
+
+#. Found in description list item.
+msgid "Keep Avatars on Amazon S3 Storage"
+msgstr ""
+
+#. Found in description list item.
+msgid "Keep Avatars on Dropbox"
+msgstr ""
+
+#. Found in description list item.
+msgid "Keep Avatars in Media Manager"
+msgstr ""
+
+#. Found in description list item.
+msgid "Easy to use Settings to control every functionality."
+msgstr ""
+
+#. Found in description list item.
+msgid "Multi-lingual, Multi-Site, BBPRESS and Buddypress Supported."
+msgstr ""
+
+#. Found in description paragraph.
+msgid "WordPress currently only allows you to use custom avatars that are uploaded through <a href=\"http://gravatar.com/\">Gravatar</a>. <strong>WP User Avatar</strong> enables you to use any photo uploaded into your Media Library as an avatar. This means you use the same uploader and library as your posts. No extra folders or image editing functions are necessary."
+msgstr ""
+
+#. Found in description paragraph.
+msgid "<strong>WP User Avatar</strong> also lets you:"
+msgstr ""
+
+#. Found in description paragraph.
+msgid "<strong>Introducing Support Desk</strong>"
+msgstr ""
+
+#. Found in description paragraph.
+msgid "We're at <a href=\"http://www.flippercode.com/\">FlipperCode</a>, committed to excellent support to make every download worth for the user. Happily announcing <a href=\"http://www.flippercode.com/forums/\">Support Desk</a> for our valuable users to engaged with multiple support desk person for fast turnout."
+msgstr ""
+
+#. Found in description paragraph.
+msgid "<strong>Introducing Pro Version of WP USER AVATAR</strong>"
+msgstr ""
+
+#. Found in description paragraph.
+msgid "We have developed a <a href=\"http://www.flippercode.com/product/wp-user-avatar/\">Pro Version</a>  of WP USER AVATAR by getting valuable features request from thousands of users especially about Storage options and how user upload the avatar. Here is a quick highlight on the numerous customizable features offered by the <a href=\"http://www.flippercode.com/product/wp-user-avatar/\">WP USER AVATAR PRO</a> ."
+msgstr ""
+
+#. Found in installation header.
+msgid "Posts"
+msgstr ""
+
+#. Found in installation header.
+msgid "Author Page"
+msgstr ""
+
+#. Found in installation header.
+msgid "Comments"
+msgstr ""
+
+#. Found in installation header.
+msgid "[avatar_upload] shortcode"
+msgstr ""
+
+#. Found in installation header.
+msgid "[avatar] shortcode"
+msgstr ""
+
+#. Found in installation header.
+msgid "get_wp_user_avatar_src"
+msgstr ""
+
+#. Found in installation header.
+msgid "has_wp_user_avatar"
+msgstr ""
+
+#. Found in installation list item.
+msgid "Download, install, and activate the WP User Avatar plugin."
+msgstr ""
+
+#. Found in installation list item.
+msgid "On your profile edit page, click \"Edit Image\"."
+msgstr ""
+
+#. Found in installation list item.
+msgid "Choose an image, then click \"Select Image\"."
+msgstr ""
+
+#. Found in installation list item.
+msgid "Click \"Update Profile\"."
+msgstr ""
+
+#. Found in installation list item.
+msgid "Upload your own Default Avatar in your WP User Avatar settings (optional). You can also allow Contributors &amp; Subscribers to upload avatars and disable Gravatar."
+msgstr ""
+
+#. Found in installation list item.
+msgid "Choose a theme that has avatar support. In your theme, manually replace <code>get_avatar</code> with <code>get_wp_user_avatar</code> or leave <code>get_avatar</code> as-is. <a href=\"http://wordpress.org/extend/plugins/wp-user-avatar/faq/\">Read about the differences here</a>."
+msgstr ""
+
+#. Found in installation list item.
+msgid "You can also use the <code>[avatar_upload]</code> and <code>[avatar]</code> shortcodes in your posts. These shortcodes will work with any theme, whether it has avatar support or not."
+msgstr ""
+
+#. Found in installation paragraph, faq paragraph, remaining content paragraph.
+msgid "Visit <a href=\"http://wpuseravatar.com/\">WP User Avatar</a> for more information and documentation."
+msgstr ""
+
+#. Found in installation paragraph.
+msgid "<strong>Example Usage</strong>"
+msgstr ""
+
+#. Found in installation paragraph.
+msgid "Within <a href=\"http://codex.wordpress.org/The_Loop\">The Loop</a>, you may be using:"
+msgstr ""
+
+#. Found in installation paragraph.
+msgid "Replace this function with:"
+msgstr ""
+
+#. Found in installation paragraph.
+msgid "You can also use the values \"original\", \"large\", \"medium\", or \"thumbnail\" for your avatar size:"
+msgstr ""
+
+#. Found in installation paragraph.
+msgid "You can also add an alignment of \"left\", \"right\", or \"center\":"
+msgstr ""
+
+#. Found in installation paragraph.
+msgid "On an author page outside of <a href=\"http://codex.wordpress.org/The_Loop\">The Loop</a>, you may be using:"
+msgstr ""
+
+#. Found in installation paragraph.
+msgid "If you leave the options blank, WP User Avatar will detect whether you're inside <a href=\"http://codex.wordpress.org/The_Loop\">The Loop</a> or on an author page and return the correct avatar in the default 96x96 size:"
+msgstr ""
+
+#. Found in installation paragraph.
+msgid "The function <code>get_wp_user_avatar</code> can also fall back to <code>get_avatar</code> if there is no WP User Avatar image. For this to work, \"Show Avatars\" must be checked in your WP User Avatar settings. When this setting is enabled, you will see the user's <a href=\"http://gravatar.com/\">Gravatar</a> avatar or Default Avatar."
+msgstr ""
+
+#. Found in installation paragraph.
+msgid "For comments, you might have in your template:"
+msgstr ""
+
+#. Found in installation paragraph.
+msgid "For comments, you must specify the $comment variable."
+msgstr ""
+
+#. Found in installation paragraph.
+msgid "<strong>Other Available Functions</strong>"
+msgstr ""
+
+#. Found in installation paragraph.
+msgid "You can use the <code>[avatar_upload]</code> shortcode to add a standalone uploader to a front page or widget. This uploader is only visible to logged-in users. If you want to integrate the uploader into a profile edit page, see <a href=\"http://wordpress.org/plugins/wp-user-avatar/other_notes/\">Other Notes</a>."
+msgstr ""
+
+#. Found in installation paragraph.
+msgid "You can specify a user with the shortcode, but you must have <code>edit_user</code> capability for that particular user."
+msgstr ""
+
+#. Found in installation paragraph, faq paragraph.
+msgid "You can use the <code>[avatar]</code> shortcode in your posts. It will detect the author of the post or you can specify an author by username. You can specify a size, alignment, and link, but they are optional. For links, you can link to the original image file, attachment page, or a custom URL."
+msgstr ""
+
+#. Found in installation paragraph.
+msgid "You can also add a caption to the shortcode:"
+msgstr ""
+
+#. Found in installation paragraph, faq paragraph.
+msgid "<strong>Note:</strong> If you are using one shortcode without a caption and another shortcode with a caption on the same page, you must close the caption-less shortcode with a forward slash before the closing bracket: <code>[avatar /]</code> instead of <code>[avatar]</code>"
+msgstr ""
+
+#. Found in installation paragraph.
+msgid "Works just like <code>get_wp_user_avatar</code> but returns just the image src. This is useful if you would like to link a thumbnail-sized avatar to a larger version of the image:"
+msgstr ""
+
+#. Found in installation paragraph.
+msgid "Returns true if the user has a WP User Avatar image. You must specify the user ID:"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Improvement Fix: Added missing translation strings in English version of po file."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug Fix: Missing $user = $current_user is added in class-wp-user-avatar.php on line 156."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Improvement Fix: Fixed add_query_arg() and remove_query_arg() usage to avoid XSS Vulnerability."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug Fix: Removed cron job dependency for excellent performance."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug Fix: Resolved gravatar was not showing on some special cases."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug Fix: Resolved speed problem in case of large number of users for multisite, bbpress and buddy press."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug Fix: Resolved display custom avatar problem when default and customer avatar is same choosen."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug Fix: Removed the looping through all users on admin_init action."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug Fix: lots of entries in wp_options table resolved."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug Fix: Multiple Cron job added bug resolved."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug Fix: Speed Issues due to check many times if gravatar exist."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug Fix: Default gravatar issue for mustache and gravatar logo at front end and at buddypress pages"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug Fix: Avatar while adding for existing user."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug Fix: UI issue when Gravatar option is enable/disable."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug Fix: Load _load_wp_includes mostly only on front pages"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug Fix: Check for edit_posts capability before enabling filters for Subscribers"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Add: wpua_edit_user_redirect_url filter"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Add: wpua_edit_user_safe_redirect filter"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug Fix: Clean output buffer"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Update: Description field for widget"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Update: Disable resource manager until a better solution comes along"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug Fix: Check for TinyMCE version"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug Fix: TinyMCE not loaded"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug Fix: Check user permissions for displaying widget"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Update: Load resource manager only if NextGEN Gallery isn't installed"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug Fix: Remove resource manager"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug Fix: User ID in shortcode"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug Fix: Load resource manager on front pages only"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Update: [avatar_upload] user variable"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Update: Documentation"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Add: Start documentation of functions"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug Fix: [avatar_upload] permalink and redirect"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Add: Widget for [avatar_upload]"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Add: wpua_before_avatar_admin and wpua_after_avatar_admin for admin pages"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug Fix: Load functions class on plugins_loaded"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Update: Allow non-numeric WPUA value"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug Fix: Missing php"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Add: Setup class"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug Fix: Give wpua_attachment_is_image filter two variables"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug Fix: Return [avatar_upload] instead of echo"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Remove: Unneccessary filters"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Update: Allow upload to overwrite avatar for Contributors &amp; Subscribers"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Update: Move Edit Image link for Contributors &amp; Subscribers"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Update: Move text from localize script to data attribute"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Update: Shorten variable names"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Update: Wrap all classes in init"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug Fix: Double underscore for options page title"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug Fix: Remove TinyMCE language pack"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug Fix: Wrong variables in get_wp_user_avatar filter"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Add: Filters throughout plugin"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug Fix: Die messages"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Update: Move public functions to class"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Add: Search and screen option in Media Library view"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug Fix: Bulk delete in Media Library view"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug Fix: Hide captions if \"Show Avatars\" is off"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug Fix: Update avatar metadata on removal"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Update: Choose Image text"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Update: Show only images in Media Library modal"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Update: Show upload tab if no WP User Avatar image has been selected yet"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug Fix: Check for post object"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug Fix: Media upload scripts"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug Fix: Bad reference to wpua_is_author_or_above"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug Fix: Check for media upload scripts before setting post parent"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Add: Capability check in one function"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug Fix: Set avatar post parent to 0"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug Fix: Prevent attachment insert without image"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Update: Check for delete_posts capability instead of user role for Subscribers"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Update: Refactor and clean up"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug Fix: Edit avatar setting"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug Fix: Reattach scripts to profile action"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Add: Front page uploader"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Add: Media Library view of all avatars"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug Fix: Identify public static functions"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Update: Refactor code into separate classes"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Update: Translations"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug Fix: Files not committed properly in previous release"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Update: Error message handling for front pages"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Add: Caption for avatar"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Add: Polish translation"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Update: Error message handling"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug Fix: Shortcode without user"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Add: Undo button"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug Fix: Get original avatar"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Add: Donation message"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug Fix: Die page when image is too large"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug Fix: Resize images uploaded through plugin only"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Remove: Unused function"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Update: Refactor JavaScript"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug Fix: Use entire comment object instead of just e-mail address"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug Fix: Correct avatar not showing in widget"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Update: Check compatibility to 3.7.1"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug Fix: Checkbox value for \"Crop avatars to exact dimensions\""
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug Fix: Show Default Avatar if attachment doesn't exist"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug Fix: manage_users_custom_column not returning values"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug Fix: Profile not saving without an avatar for Contributors &amp; Subscribers"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Add: Filters to change profile HTML structure"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Add: Recognition of sizes registered with add_image_size"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Add: Resize image options for Contributors &amp; Subscribers"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug Fix: Rerrange CSS class names"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug Fix: Add function exists checks to prevent redeclare errors"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug Fix: Page die if file upload is too big"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug Fix: Upload file with submit"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug Fix: Separate out JavaScript for Contributors &amp; Subscribers"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug Fix: Subscriber uploader not finding error type"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Update: Use cache for wpua_has_gravatar"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug Fix: Hide \"Edit Image\" button if Contributors &amp; Subscribers can't edit avatar"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug Fix: Remove edit_posts capability if Subscribers can't edit avatar"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Add: Option to enable avatar editing privilege for Contributors &amp; Subscribers"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Add: Swedish translation"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Update: Move inline JavaScript to wp-user-avatar.js and wp-user-avatar-admin.js"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Update: Load JavaScript in footer"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Remove: Option to disable scripts in front pages"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Update: Load media upload scripts only on profile and avatar admin pages"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug Fix: Ability to disable scripts in front pages"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Add: Ability to disable scripts in front pages"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Update: Uninstall options"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Add: Ability to disable Gravatar avatars"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Add: Upload size limiter for Contributors &amp; Subscribers"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Add: French, German, and Spanish translations"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug Fix: Include screen.php for get_current_screen function"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug Fix: Allow multipart data in form"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug Fix: Use wp_die for errors"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Add: Uploader for Contributors &amp; Subscribers"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Add: Media states for avatar images"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Add: Plugin admin settings"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Update: Change support only to WP 3.4+"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Add: Target for link in shortcode"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Update: Clean up code and add more comments"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug Fix: Swap TinyMCE file locations"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Update: Change support only to WP 3.3+ because of jQuery 1.7.1 support"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Update: Shortcode checks for user ID, login, slug, or e-mail address"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Update: Move jquery to register_script for &lt; WP 3.5"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug Fix: Check for user before setting name in alt tag"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Update: readme.txt"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug Fix: Rename usermeta only if found"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Add: Multisite support"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug Fix: Warnings if no user found"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Update: Enable action_show_user_profile for any class using show_user_profile hook"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug Fix: options-discussion.php page doesn't show default avatars"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug Fix: Comment author showing wrong avatar"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug Fix: Avatar adds fixed dimensions when non-numeric size is used"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Update: Use local image for default avatar instead of calling image from Gravatar"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug Fix: Show default avatar when user removes custom avatar"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug Fix: Default Avatar save setting"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Add: Ability for bbPress users to edit avatar on front profile page"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Add: Link options for shortcode"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug Fix: Show WP User Avatar only to users with upload_files capability"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Add: TinyMCE button"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Update: Clean up redundant code"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Update: Compatibility only back to WordPress 3.3"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Add: Default Avatar setting"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug Fix: Change update_usermeta to update_user_meta"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug Fix: Image not showing in user profile edit"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug Fix: Remove stray curly bracket"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug Fix: Change get_usermeta to get_user_meta"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug Fix: Non-object warning when retrieving user ID"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug Fix: Comment author with no e-mail address"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Remove: Unused variables"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug Fix: Capabilities error in comment avatar"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Add: Add filter for get_avatar"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Add: CSS alignment classes"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Add: Replace comment author avatar"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Add: Shortcode"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Update: FAQ"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Remove: CSS that hides \"Insert into Post\""
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Add: CSS classes to image output"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Initial release"
+msgstr ""
+
+#. Found in faq header.
+msgid "How do I use WP User Avatar?"
+msgstr ""
+
+#. Found in faq header.
+msgid "get_wp_user_avatar"
+msgstr ""
+
+#. Found in faq header.
+msgid "get_avatar"
+msgstr ""
+
+#. Found in faq header.
+msgid "Can I create a custom Default Avatar?"
+msgstr ""
+
+#. Found in faq header.
+msgid "Can I disable all Gravatar avatars?"
+msgstr ""
+
+#. Found in faq header.
+msgid "Can Contributors or Subscribers choose their own WP User Avatar image?"
+msgstr ""
+
+#. Found in faq header.
+msgid "Will WP User Avatar work with comment author avatars?"
+msgstr ""
+
+#. Found in faq header.
+msgid "Will WP User Avatar work with bbPress?"
+msgstr ""
+
+#. Found in faq header.
+msgid "Will WP User Avatar work with BuddyPress?"
+msgstr ""
+
+#. Found in faq header.
+msgid "Will WP User Avatar work with WordPress Multisite?"
+msgstr ""
+
+#. Found in faq header.
+msgid "How can I see which users have an avatar?"
+msgstr ""
+
+#. Found in faq header.
+msgid "Can I use the WP User Avatar uploader in a front page or widget?"
+msgstr ""
+
+#. Found in faq header.
+msgid "Can I insert WP User Avatar directly into a post?"
+msgstr ""
+
+#. Found in faq header.
+msgid "What CSS can I use with WP User Avatar?"
+msgstr ""
+
+#. Found in faq header.
+msgid "What other functions are available for WP User Avatar?"
+msgstr ""
+
+#. Found in faq header.
+msgid "There's a call for donations in the WP User Avatar settings. How can I remove it?"
+msgstr ""
+
+#. Found in faq list item.
+msgid "Allows you to use the values \"original\", \"large\", \"medium\", or \"thumbnail\" for your avatar size."
+msgstr ""
+
+#. Found in faq list item.
+msgid "Doesn't add a fixed width and height to the image if you use the aforementioned values. This will give you more flexibility to resize the image with CSS."
+msgstr ""
+
+#. Found in faq list item.
+msgid "Allows you to use custom image sizes registered with <a href=\"http://codex.wordpress.org/Function_Reference/add_image_size\"><code>add_image_size</code></a> (fixed width and height are added to the image)."
+msgstr ""
+
+#. Found in faq list item.
+msgid "Optionally adds CSS classes \"alignleft\", \"alignright\", or \"aligncenter\" to position your avatar."
+msgstr ""
+
+#. Found in faq list item.
+msgid "Shows nothing if the user has no WP User Avatar image."
+msgstr ""
+
+#. Found in faq list item.
+msgid "Shows the user's <a href=\"http://gravatar.com/\">Gravatar</a> avatar or Default Avatar only if \"Show Avatars\" is enabled in your WP User Avatar settings."
+msgstr ""
+
+#. Found in faq list item.
+msgid "Requires you to enable \"Show Avatars\" in your WP User Avatar settings to show any avatars."
+msgstr ""
+
+#. Found in faq list item.
+msgid "Accepts only numeric values for your avatar size."
+msgstr ""
+
+#. Found in faq list item.
+msgid "Always adds a fixed width and height to your image. This may cause problems if you use responsive CSS in your theme."
+msgstr ""
+
+#. Found in faq list item.
+msgid "Shows the user's <a href=\"http://gravatar.com/\">Gravatar</a> avatar or Default Avatar if the user doesn't have a WP User Avatar image. (Choosing \"Blank\" as your Default Avatar still generates a transparent image file.)"
+msgstr ""
+
+#. Found in faq list item.
+msgid "Requires no changes to your theme files if you are currently using <code>get_avatar</code>."
+msgstr ""
+
+#. Found in faq list item.
+msgid "Image File: wp-user-avatar-file"
+msgstr ""
+
+#. Found in faq list item.
+msgid "Attachment: wp-user-avatar-attachment"
+msgstr ""
+
+#. Found in faq list item.
+msgid "Custom URL: wp-user-avatar-custom"
+msgstr ""
+
+#. Found in faq list item.
+msgid "<code>get_wp_user_avatar_src</code>: retrieves just the image URL"
+msgstr ""
+
+#. Found in faq list item.
+msgid "<code>has_wp_user_avatar</code>: checks if the user has a WP User Avatar image"
+msgstr ""
+
+#. Found in faq list item.
+msgid "<a href=\"http://wordpress.org/extend/plugins/wp-user-avatar/installation/\">See example usage here</a>"
+msgstr ""
+
+#. Found in faq paragraph.
+msgid "First, choose a theme that has avatar support. In your theme, you have a choice of manually replacing <code>get_avatar</code> with <code>get_wp_user_avatar</code>, or leaving <code>get_avatar</code> as-is. Here are the differences:"
+msgstr ""
+
+#. Found in faq paragraph.
+msgid "<a href=\"http://codex.wordpress.org/Function_Reference/get_avatar\">Read more about get_avatar in the WordPress Function Reference</a>."
+msgstr ""
+
+#. Found in faq paragraph.
+msgid "In your WP User Avatar settings, you can upload your own Default Avatar."
+msgstr ""
+
+#. Found in faq paragraph.
+msgid "In your WP User Avatar settings, you can select \"Disable Gravatar — Use only local avatars\" to disable all <a href=\"http://gravatar.com/\">Gravatar</a> avatars on your site and replace them with your Default Avatar. This will affect your registered users and non-registered comment authors."
+msgstr ""
+
+#. Found in faq paragraph.
+msgid "Yes, if you enable \"Allow Contributors &amp; Subscribers to upload avatars\" in the WP User Avatar settings. These users will see a slightly different interface because they are allowed only one image upload."
+msgstr ""
+
+#. Found in faq paragraph.
+msgid "Yes, for registered users. Non-registered comment authors will show their <a href=\"http://gravatar.com/\">Gravatar</a> avatars or Default Avatar."
+msgstr ""
+
+#. Found in faq paragraph.
+msgid "Yes!"
+msgstr ""
+
+#. Found in faq paragraph.
+msgid "No, BuddyPress has its own custom avatar functions and WP User Avatar will override only some of them. It's best to use BuddyPress without WP User Avatar."
+msgstr ""
+
+#. Found in faq paragraph.
+msgid "Yes, however, each site has its own avatar settings. If you set a WP User Avatar image on one site, you have to set it again for different sites in your network."
+msgstr ""
+
+#. Found in faq paragraph.
+msgid "For Administrators, WP User Avatar adds a column with avatar thumbnails to your Users list table. If \"Show Avatars\" is enabled in your WP User Avatar settings, you will see avatars to the left of each username instead of in a new column."
+msgstr ""
+
+#. Found in faq paragraph.
+msgid "Yes, you can use the <code>[avatar_upload]</code> shortcode to put a standalone uploader in a front page or widget. This uploader is only visible to logged-in users. If you want to integrate the uploader into a profile edit page, see <a href=\"http://wordpress.org/plugins/wp-user-avatar/other_notes/\">Other Notes</a>."
+msgstr ""
+
+#. Found in faq paragraph.
+msgid "You can specify a user with the shortcode, but you must have <code>'edit_user'</code> capability to change the user's avatar."
+msgstr ""
+
+#. Found in faq paragraph.
+msgid "Outputs:"
+msgstr ""
+
+#. Found in faq paragraph.
+msgid "If you have a caption, the output will be similar to how WordPress adds captions to other images."
+msgstr ""
+
+#. Found in faq paragraph.
+msgid "WP User Avatar will add the CSS classes \"wp-user-avatar\" and \"wp-user-avatar-{size}\" to your image. If you add an alignment, the corresponding alignment class will be added:"
+msgstr ""
+
+#. Found in faq paragraph.
+msgid "<strong>Note:</strong> \"alignleft\", \"alignright\", and aligncenter\" are common WordPress CSS classes, but not every theme supports them. Contact the theme author to add those CSS classes."
+msgstr ""
+
+#. Found in faq paragraph.
+msgid "If you use the values \"original\", \"large\", \"medium\", or \"thumbnail\", no width or height will be added to the image. This will give you more flexibility to resize the image with CSS:"
+msgstr ""
+
+#. Found in faq paragraph.
+msgid "<strong>Note:</strong> WordPress adds more CSS classes to the avatar not listed here."
+msgstr ""
+
+#. Found in faq paragraph.
+msgid "If you use the <code>[avatar]</code> shortcode, WP User Avatar will add the CSS class \"wp-user-avatar-link\" to the link. It will also add CSS classes based on link type."
+msgstr ""
+
+#. Found in faq paragraph.
+msgid "I've spent countless hours developing this plugin for free. If you're able to give a donation I'd appreciate it, but it's by no means a requirement. You can remove the message by adding this to the <code>functions.php</code> file of your theme:"
+msgstr ""
+
+#. Found in remaining content header.
+msgid "Advanced Settings"
+msgstr ""
+
+#. Found in remaining content header.
+msgid "Add WP User Avatar to your own profile edit page"
+msgstr ""
+
+#. Found in remaining content header.
+msgid "HTML Wrapper"
+msgstr ""
+
+#. Found in remaining content paragraph.
+msgid "You can use the [avatar_upload] shortcode to add a standalone uploader to any page. It's best to use this uploader by itself and without other profile fields."
+msgstr ""
+
+#. Found in remaining content paragraph.
+msgid "If you're building your own profile edit page with other fields, WP User Avatar is automatically added to the <a href=\"http://codex.wordpress.org/Plugin_API/Action_Reference/show_user_profile\">show_user_profile</a> and <a href=\"http://codex.wordpress.org/Plugin_API/Action_Reference/show_user_profile\">edit_user_profile</a> hooks. If you'd rather have WP User Avatar in its own section, you could add another hook:"
+msgstr ""
+
+#. Found in remaining content paragraph.
+msgid "Then, to add WP User Avatar to that hook and remove it from the other hooks outside of the administration panel, you would add this code to the <code>functions.php</code> file of your theme:"
+msgstr ""
+
+#. Found in remaining content paragraph.
+msgid "You can change the HTML wrapper of the WP User Avatar section by using the functions <code>wpua_before_avatar</code> and <code>wpua_after_avatar</code>. By default, the avatar code is structured like this:"
+msgstr ""
+
+#. Found in remaining content paragraph.
+msgid "To strip out the div container and h3 heading, you would add the following filters to the <code>functions.php</code> file in your theme:"
+msgstr ""
+
+#. Found in remaining content paragraph.
+msgid "To add your own wrapper, you could create something like this:"
+msgstr ""
+
+#. Found in remaining content paragraph.
+msgid "This would output:"
+msgstr ""

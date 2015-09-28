@@ -7,10 +7,12 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: GlotPress/1.0-alpha-1000\n"
+"X-Generator: GlotPress/1.0-alpha-1100\n"
 "Project-Id-Version: Twenty Thirteen\n"
 
+#. #-#-#-#-#  twentythirteen.pot (Twenty Thirteen 1.6)  #-#-#-#-#
 #. Author URI of the plugin/theme
+#: footer.php:19
 msgid "https://wordpress.org/"
 msgstr "https://wordpress.org/"
 
@@ -98,10 +100,6 @@ msgstr "Permalink a %s"
 #: content-video.php:39 content.php:56
 msgid "Leave a comment"
 msgstr "Lascia un commento"
-
-#: footer.php:19
-msgid "http://wordpress.org/"
-msgstr "http://wordpress.org/"
 
 #. Translators: If there are characters in your language that are not supported
 #. by Bitter, translate this to 'off'. Do not translate into your own language.

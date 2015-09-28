@@ -47,6 +47,9 @@ We have developed a [Pro Version](http://www.flippercode.com/product/wp-user-ava
 <li>Multi-lingual, Multi-Site, BBPRESS and Buddypress Supported.</li>
 </ul>
 
+Innovative Way to Setup User Avatar : 
+[youtube https://www.youtube.com/watch?v=Ee2K7YpsAnM]
+
 
 == Installation ==
 
@@ -401,6 +404,10 @@ This would output:
 4. After you've chosen a WP User Avatar image, you will see the option to remove it.
 
 == Changelog ==
+
+= 2.0.3 =
+* Improvement Fix: Added missing translation strings in English version of po file.
+
 
 = 2.0.0 =
 * Improvement Fix: Added missing translation strings in English version of po file.

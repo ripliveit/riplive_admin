@@ -405,6 +405,9 @@ This would output:
 
 == Changelog ==
 
+= 2.0.4 =
+* Improvement Fix: Activation warning in some cases is resolved.
+
 = 2.0.3 =
 * Improvement Fix: Added missing translation strings in English version of po file.
 

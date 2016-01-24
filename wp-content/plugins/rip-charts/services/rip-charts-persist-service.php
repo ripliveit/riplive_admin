@@ -178,6 +178,8 @@ class Rip_Charts_Persist_Service {
         $this->_transaction->start();
 
         foreach ($data['songs'] as $item) {
+            //var_dump($item);
+            
             $result = $this->_complete_charts_dao->update_chart_song(
                     (int) $item['id_chart_song'], $data['chart_archive_slug'], (int) $item['id_song'], (int) $item['user_vote']
             );

@@ -34,6 +34,11 @@ class Rip_Authors_Plugin extends \Rip_General\Classes\Rip_Abstract_Plugin {
                 'method_name' => 'get_author_by_slug',
             ),
         );
+        
+        add_action( 'admin_init', function() {
+            $role = get_role( 'author' );
+            $role->add_cap( 'unfiltered_html' );
+        });
 
         register_activation_hook(__FILE__, array($this, 'activate'));
         register_deactivation_hook(__FILE__, array($this, 'deactivate'));

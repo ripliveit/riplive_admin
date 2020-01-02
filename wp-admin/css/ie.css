@@ -221,8 +221,7 @@ table.fixed td {
 }
 
 #wpbody-content input.button,
-#wpbody-content input.button-primary,
-#wpbody-content input.button-secondary {
+#wpbody-content input.button-primary {
 	overflow: visible;
 }
 
@@ -244,7 +243,7 @@ table.fixed td {
 }
 
 #wpbody-content .postbox {
-	border: 1px solid #dfdfdf;
+	border: 1px solid #ddd;
 }
 
 #wpbody-content .postbox .hndle {
@@ -286,7 +285,7 @@ table.fixed td {
 	width: 29%;
 }
 
-.inline-edit-row p.submit {
+.inline-edit-row .submit {
 	zoom: 100%;
 }
 
@@ -442,13 +441,17 @@ div#dashboard-widgets {
 	padding-right: 1px;
 }
 
-.tagchecklist span, .tagchecklist span a {
+.tagchecklist > li, .tagchecklist .ntdelbutton {
 	display: inline-block;
 	display: block;
 }
 
-.tablenav .button-secondary,
-.nav .button-secondary {
+.tagchecklist .ntdelbutton:focus .remove-tag-icon:before {
+	outline: 1px solid #5b9dd9;
+}
+
+.tablenav .button,
+.nav .button {
 	padding-top: 2px;
 	padding-bottom: 2px;
 }
@@ -466,12 +469,6 @@ div#dashboard-widgets {
 
 .subsubsub li {
 	display: inline;
-}
-
-a.post-state-format {
-	text-indent: 0;
-	line-height: 0;
-	font-size: 0;
 }
 
 table.ie-fixed {
@@ -507,7 +504,7 @@ table.ie-fixed {
 	border-collapse: collapse;
 }
 
-.tablenav a.button-secondary {
+.tablenav a.button {
 	display: inline-block;
 	padding: 2px 5px;
 }
@@ -555,7 +552,7 @@ table.ie-fixed {
 }
 
 #update-nav-menu #post-body {
-	overflow:hidden;
+	overflow: hidden;
 }
 
 .menu li {
@@ -636,9 +633,9 @@ input[type="password"],
 .mce-btn i.mce-i-wp_page,
 .mce-btn i.mce-i-hr,
 .mce-close {
-	font-family: 'tinymce', Arial;
+	font-family: tinymce, Arial;
 	font-style: normal;
-	font-weight: normal;
+	font-weight: 400;
 	font-variant: normal;
 	font-size: 16px;
 	margin-left: 0;
@@ -647,12 +644,12 @@ input[type="password"],
 
 .mce-btn i.mce-i-wp_fullscreen,
 .qt-fullscreen {
-	-ie7-icon: '\e023';
+	-ie7-icon: "\e023";
 }
 
 .mce-btn i.mce-i-wp_more,
 .mce-btn i.mce-i-wp_page {
-	-ie7-icon: '\e027';
+	-ie7-icon: "\e027";
 }
 
 .mce-btn i.mce-i-wp_adv {
@@ -661,7 +658,7 @@ input[type="password"],
 
 .mce-btn i.mce-i-help,
 .mce-btn i.mce-i-wp_help {
-	-ie7-icon: '\e016';
+	-ie7-icon: "\e016";
 }
 
 
@@ -687,7 +684,7 @@ input[type="password"],
 * html .stuffbox,
 * html .stuffbox input,
 * html .stuffbox textarea {
-	border: 1px solid #DFDFDF;
+	border: 1px solid #ddd;
 }
 
 * html div.widget-liquid-left {
@@ -721,7 +718,7 @@ input[type="password"],
 }
 
 * html input {
-	border: 1px solid #dfdfdf;
+	border: 1px solid #ddd;
 }
 
 * html .edit-box {

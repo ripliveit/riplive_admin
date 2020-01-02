@@ -3,7 +3,7 @@
 Contributors: flippercode
 Tags: author image, author photo, author avatar, avatar, bbPress, profile avatar, profile image, user avatar, user image, user photo, widget
 Requires at least: 3.6
-Tested up to: 4.2
+Tested up to: 5.2.1
 Stable tag: 2.0.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -31,7 +31,7 @@ We're at [FlipperCode](http://www.flippercode.com/), committed to excellent supp
 
 **Introducing Pro Version of WP USER AVATAR**
 
-We have developed a [Pro Version](http://www.flippercode.com/product/wp-user-avatar/)  of WP USER AVATAR by getting valuable features request from thousands of users especially about Storage options and how user upload the avatar. Here is a quick highlight on the numerous customizable features offered by the [WP USER AVATAR PRO](http://www.flippercode.com/product/wp-user-avatar/) .
+We have developed a [Pro Version](http://www.wpuseravatar.com/)  of WP USER AVATAR by getting valuable features request from thousands of users especially about Storage options and how user upload the avatar. Here is a quick highlight on the numerous customizable features offered by the [WP USER AVATAR PRO](http://www.wpuseravatar.com/) .
 
 <ul>
 <li>Easy Upload and Capture functionality with crop  avatar options.</li>
@@ -47,13 +47,9 @@ We have developed a [Pro Version](http://www.flippercode.com/product/wp-user-ava
 <li>Multi-lingual, Multi-Site, BBPRESS and Buddypress Supported.</li>
 </ul>
 
-Innovative Way to Setup User Avatar : 
-[youtube https://www.youtube.com/watch?v=Ee2K7YpsAnM]
-
-
 == Installation ==
 
-Visit [WP User Avatar](http://wpuseravatar.com/) for more information and documentation.
+Visit [WP User Avatar](http://www.wpuseravatar.com/) for more information and documentation.
 
 1. Download, install, and activate the WP User Avatar plugin.
 2. On your profile edit page, click "Edit Image".
@@ -161,7 +157,7 @@ Returns true if the user has a WP User Avatar image. You must specify the user I
 
 == Frequently Asked Questions ==
 
-Visit [WP User Avatar](http://wpuseravatar.com/) for more information and documentation.
+Visit [WP User Avatar](http://www.wpuseravatar.com/) for more information and documentation.
 
 = How do I use WP User Avatar? =
 
@@ -404,6 +400,66 @@ This would output:
 4. After you've chosen a WP User Avatar image, you will see the option to remove it.
 
 == Changelog ==
+
+= 2.2.4 =
+* Fix: Warning Resolved on Avatar images.
+
+= 2.2.3 =
+* Fix: Broken Avatar in buddypress resolved.
+
+= 2.2.2 =
+* Fix: Broken avatars on comments section.
+
+= 2.2.1 =
+* Fix: get_avatar_url filter is defined.
+
+= 2.2.0 =
+* Fix: Fatel Error "Cannot use string offset as an array" resolved in PHP7.2.
+
+= 2.1.9 =
+* New: New filter 'wpua_default_alt_tag' added to modify default image alt tag And warning error resolved on stagging environment.
+
+= 2.1.8 =
+* Fix: Language Files are updated and warning error resolved on stagging environment.
+
+= 2.1.7 =
+* Fix: Default ALT tag added.
+
+= 2.1.6 =
+* Fix: Removed ads from the setting page.
+
+= 2.1.5 =
+* Fix: Translation bug resolved in class-wp-user-avatar-admin file in PHP 7.
+
+= 2.1.4 =
+* Fix: Remove Ads from dashboard and all other pages.
+
+= 2.1.3 =
+* Fix: Better Styling
+
+= 2.1.2 =
+* Fix: Tested up to 4.9.7
+
+= 2.1.1 =
+* Fix: Insecure content over https issue is fixed.
+
+= 2.0.9 =
+* New Shortcode: Use [avatar user=current] shortcode to show current logged in user avatar.
+
+= 2.0.8 =
+* Fix: Compatible with php 7.
+
+= 2.0.7 =
+* Improvement Fix: Removed languages files to be used from core wordpress language packs.
+
+= 2.0.7 =
+* Improvement Fix: Removed languages files to be used from core wordpress language packs.
+
+= 2.0.6 =
+* Improvement Fix: Broken Jquery files from UI is resolved.
+
+= 2.0.5 =
+* Improvement Fix: Broken JS files from UI is resolved.
 
 = 2.0.4 =
 * Improvement Fix: Activation warning in some cases is resolved.

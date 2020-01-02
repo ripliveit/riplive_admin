@@ -40,11 +40,11 @@ global $avatar_default,
        $wpua_upload_size_limit_with_units,
        $all_sizes,
        $wpua_hash_gravatar;
-//delete_option('wpua_hash_gravatar');
+
 // Store if hash has gravatar
 $wpua_hash_gravatar = get_option('wpua_hash_gravatar');
 if( $wpua_hash_gravatar != false)
-$wpua_hash_gravatar = unserialize(get_option('wpua_hash_gravatar'));
+$wpua_hash_gravatar = maybe_unserialize($wpua_hash_gravatar);
 
 // Default avatar name
 $avatar_default = get_option('avatar_default');

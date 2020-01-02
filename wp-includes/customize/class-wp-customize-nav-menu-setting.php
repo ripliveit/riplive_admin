@@ -30,7 +30,6 @@ class WP_Customize_Nav_Menu_Setting extends WP_Customize_Setting {
 	 * Setting type.
 	 *
 	 * @since 4.3.0
-	 * @access public
 	 * @var string
 	 */
 	public $type = self::TYPE;
@@ -39,7 +38,6 @@ class WP_Customize_Nav_Menu_Setting extends WP_Customize_Setting {
 	 * Default setting value.
 	 *
 	 * @since 4.3.0
-	 * @access public
 	 * @var array
 	 *
 	 * @see wp_get_nav_menu_object()
@@ -55,7 +53,6 @@ class WP_Customize_Nav_Menu_Setting extends WP_Customize_Setting {
 	 * Default transport.
 	 *
 	 * @since 4.3.0
-	 * @access public
 	 * @var string
 	 */
 	public $transport = 'postMessage';
@@ -66,7 +63,6 @@ class WP_Customize_Nav_Menu_Setting extends WP_Customize_Setting {
 	 * A negative value represents a placeholder ID for a new menu not yet saved.
 	 *
 	 * @since 4.3.0
-	 * @access public
 	 * @var int
 	 */
 	public $term_id;
@@ -74,13 +70,12 @@ class WP_Customize_Nav_Menu_Setting extends WP_Customize_Setting {
 	/**
 	 * Previous (placeholder) term ID used before creating a new menu.
 	 *
-	 * This value will be exported to JS via the customize_save_response filter
+	 * This value will be exported to JS via the {@see 'customize_save_response'} filter
 	 * so that JavaScript can update the settings to refer to the newly-assigned
 	 * term ID. This value is always negative to indicate it does not refer to
 	 * a real term.
 	 *
 	 * @since 4.3.0
-	 * @access public
 	 * @var int
 	 *
 	 * @see WP_Customize_Nav_Menu_Setting::update()
@@ -92,7 +87,6 @@ class WP_Customize_Nav_Menu_Setting extends WP_Customize_Setting {
 	 * Whether or not update() was called.
 	 *
 	 * @since 4.3.0
-	 * @access protected
 	 * @var bool
 	 */
 	protected $is_updated = false;
@@ -100,11 +94,12 @@ class WP_Customize_Nav_Menu_Setting extends WP_Customize_Setting {
 	/**
 	 * Status for calling the update method, used in customize_save_response filter.
 	 *
-	 * When status is inserted, the placeholder term ID is stored in $previous_term_id.
-	 * When status is error, the error is stored in $update_error.
+	 * See {@see 'customize_save_response'}.
+	 *
+	 * When status is inserted, the placeholder term ID is stored in `$previous_term_id`.
+	 * When status is error, the error is stored in `$update_error`.
 	 *
 	 * @since 4.3.0
-	 * @access public
 	 * @var string updated|inserted|deleted|error
 	 *
 	 * @see WP_Customize_Nav_Menu_Setting::update()
@@ -116,7 +111,6 @@ class WP_Customize_Nav_Menu_Setting extends WP_Customize_Setting {
 	 * Any error object returned by wp_update_nav_menu_object() when setting is updated.
 	 *
 	 * @since 4.3.0
-	 * @access public
 	 * @var WP_Error
 	 *
 	 * @see WP_Customize_Nav_Menu_Setting::update()
@@ -130,7 +124,6 @@ class WP_Customize_Nav_Menu_Setting extends WP_Customize_Setting {
 	 * Any supplied $args override class property defaults.
 	 *
 	 * @since 4.3.0
-	 * @access public
 	 *
 	 * @param WP_Customize_Manager $manager Bootstrap Customizer instance.
 	 * @param string               $id      An specific ID of the setting. Can be a
@@ -157,7 +150,6 @@ class WP_Customize_Nav_Menu_Setting extends WP_Customize_Setting {
 	 * Get the instance data for a given widget setting.
 	 *
 	 * @since 4.3.0
-	 * @access public
 	 *
 	 * @see wp_get_nav_menu_object()
 	 *
@@ -204,7 +196,6 @@ class WP_Customize_Nav_Menu_Setting extends WP_Customize_Setting {
 	 *
 	 * @since 4.3.0
 	 * @since 4.4.0 Added boolean return value
-	 * @access public
 	 *
 	 * @see WP_Customize_Manager::post_value()
 	 *
@@ -215,9 +206,9 @@ class WP_Customize_Nav_Menu_Setting extends WP_Customize_Setting {
 			return false;
 		}
 
-		$undefined = new stdClass();
+		$undefined      = new stdClass();
 		$is_placeholder = ( $this->term_id < 0 );
-		$is_dirty = ( $undefined !== $this->post_value( $undefined ) );
+		$is_dirty       = ( $undefined !== $this->post_value( $undefined ) );
 		if ( ! $is_placeholder && ! $is_dirty ) {
 			return false;
 		}
@@ -235,16 +226,15 @@ class WP_Customize_Nav_Menu_Setting extends WP_Customize_Setting {
 	}
 
 	/**
-	 * Filter the wp_get_nav_menus() result to ensure the inserted menu object is included, and the deleted one is removed.
+	 * Filters the wp_get_nav_menus() result to ensure the inserted menu object is included, and the deleted one is removed.
 	 *
 	 * @since 4.3.0
-	 * @access public
 	 *
 	 * @see wp_get_nav_menus()
 	 *
-	 * @param array $menus An array of menu objects.
-	 * @param array $args  An array of arguments used to retrieve menu objects.
-	 * @return array
+	 * @param WP_Term[] $menus An array of menu objects.
+	 * @param array     $args  An array of arguments used to retrieve menu objects.
+	 * @return WP_Term[] Array of menu objects.
 	 */
 	public function filter_wp_get_nav_menus( $menus, $args ) {
 		if ( get_current_blog_id() !== $this->_previewed_blog_id ) {
@@ -252,8 +242,8 @@ class WP_Customize_Nav_Menu_Setting extends WP_Customize_Setting {
 		}
 
 		$setting_value = $this->value();
-		$is_delete = ( false === $setting_value );
-		$index = -1;
+		$is_delete     = ( false === $setting_value );
+		$index         = -1;
 
 		// Find the existing menu item's position in the list.
 		foreach ( $menus as $i => $menu ) {
@@ -270,23 +260,30 @@ class WP_Customize_Nav_Menu_Setting extends WP_Customize_Setting {
 			}
 		} else {
 			// Handle menus being updated or inserted.
-			$menu_obj = (object) array_merge( array(
-				'term_id'          => $this->term_id,
-				'term_taxonomy_id' => $this->term_id,
-				'slug'             => sanitize_title( $setting_value['name'] ),
-				'count'            => 0,
-				'term_group'       => 0,
-				'taxonomy'         => self::TAXONOMY,
-				'filter'           => 'raw',
-			), $setting_value );
+			$menu_obj = (object) array_merge(
+				array(
+					'term_id'          => $this->term_id,
+					'term_taxonomy_id' => $this->term_id,
+					'slug'             => sanitize_title( $setting_value['name'] ),
+					'count'            => 0,
+					'term_group'       => 0,
+					'taxonomy'         => self::TAXONOMY,
+					'filter'           => 'raw',
+				),
+				$setting_value
+			);
 
 			array_splice( $menus, $index, ( -1 === $index ? 0 : 1 ), array( $menu_obj ) );
 		}
 
 		// Make sure the menu objects get re-sorted after an update/insert.
 		if ( ! $is_delete && ! empty( $args['orderby'] ) ) {
-			$this->_current_menus_sort_orderby = $args['orderby'];
-			usort( $menus, array( $this, '_sort_menus_by_orderby' ) );
+			$menus = wp_list_sort(
+				$menus,
+				array(
+					$args['orderby'] => 'ASC',
+				)
+			);
 		}
 		// @todo add support for $args['hide_empty'] === true
 
@@ -297,7 +294,6 @@ class WP_Customize_Nav_Menu_Setting extends WP_Customize_Setting {
 	 * Temporary non-closure passing of orderby value to function.
 	 *
 	 * @since 4.3.0
-	 * @access protected
 	 * @var string
 	 *
 	 * @see WP_Customize_Nav_Menu_Setting::filter_wp_get_nav_menus()
@@ -311,7 +307,8 @@ class WP_Customize_Nav_Menu_Setting extends WP_Customize_Setting {
 	 * This is a workaround for a lack of closures.
 	 *
 	 * @since 4.3.0
-	 * @access protected
+	 * @deprecated 4.7.0 Use wp_list_sort()
+	 *
 	 * @param object $menu1
 	 * @param object $menu2
 	 * @return int
@@ -319,17 +316,18 @@ class WP_Customize_Nav_Menu_Setting extends WP_Customize_Setting {
 	 * @see WP_Customize_Nav_Menu_Setting::filter_wp_get_nav_menus()
 	 */
 	protected function _sort_menus_by_orderby( $menu1, $menu2 ) {
+		_deprecated_function( __METHOD__, '4.7.0', 'wp_list_sort' );
+
 		$key = $this->_current_menus_sort_orderby;
 		return strcmp( $menu1->$key, $menu2->$key );
 	}
 
 	/**
-	 * Filter the wp_get_nav_menu_object() result to supply the previewed menu object.
+	 * Filters the wp_get_nav_menu_object() result to supply the previewed menu object.
 	 *
 	 * Requesting a nav_menu object by anything but ID is not supported.
 	 *
 	 * @since 4.3.0
-	 * @access public
 	 *
 	 * @see wp_get_nav_menu_object()
 	 *
@@ -361,7 +359,8 @@ class WP_Customize_Nav_Menu_Setting extends WP_Customize_Setting {
 			return $menu_obj;
 		}
 
-		$menu_obj = (object) array_merge( array(
+		$menu_obj = (object) array_merge(
+			array(
 				'term_id'          => $this->term_id,
 				'term_taxonomy_id' => $this->term_id,
 				'slug'             => sanitize_title( $setting_value['name'] ),
@@ -369,16 +368,17 @@ class WP_Customize_Nav_Menu_Setting extends WP_Customize_Setting {
 				'term_group'       => 0,
 				'taxonomy'         => self::TAXONOMY,
 				'filter'           => 'raw',
-			), $setting_value );
+			),
+			$setting_value
+		);
 
 		return $menu_obj;
 	}
 
 	/**
-	 * Filter the nav_menu_options option to include this menu's auto_add preference.
+	 * Filters the nav_menu_options option to include this menu's auto_add preference.
 	 *
 	 * @since 4.3.0
-	 * @access public
 	 *
 	 * @param array $nav_menu_options Nav menu options including auto_add.
 	 * @return array (Kaybe) modified nav menu options.
@@ -388,7 +388,7 @@ class WP_Customize_Nav_Menu_Setting extends WP_Customize_Setting {
 			return $nav_menu_options;
 		}
 
-		$menu = $this->value();
+		$menu             = $this->value();
 		$nav_menu_options = $this->filter_nav_menu_options_value(
 			$nav_menu_options,
 			$this->term_id,
@@ -405,7 +405,6 @@ class WP_Customize_Nav_Menu_Setting extends WP_Customize_Setting {
 	 * we remove that in this override.
 	 *
 	 * @since 4.3.0
-	 * @access public
 	 *
 	 * @param array $value The value to sanitize.
 	 * @return array|false|null Null if an input isn't valid. False if it is marked for deletion.
@@ -428,8 +427,8 @@ class WP_Customize_Nav_Menu_Setting extends WP_Customize_Setting {
 			'parent'      => 0,
 			'auto_add'    => false,
 		);
-		$value = array_merge( $default, $value );
-		$value = wp_array_slice_assoc( $value, array_keys( $default ) );
+		$value   = array_merge( $default, $value );
+		$value   = wp_array_slice_assoc( $value, array_keys( $default ) );
 
 		$value['name']        = trim( esc_html( $value['name'] ) ); // This sanitization code is used in wp-admin/nav-menus.php.
 		$value['description'] = sanitize_text_field( $value['description'] );
@@ -447,7 +446,8 @@ class WP_Customize_Nav_Menu_Setting extends WP_Customize_Setting {
 	/**
 	 * Storage for data to be sent back to client in customize_save_response filter.
 	 *
-	 * @access protected
+	 * See {@see 'customize_save_response'}.
+	 *
 	 * @since 4.3.0
 	 * @var array
 	 *
@@ -459,13 +459,12 @@ class WP_Customize_Nav_Menu_Setting extends WP_Customize_Setting {
 	 * Create/update the nav_menu term for this setting.
 	 *
 	 * Any created menus will have their assigned term IDs exported to the client
-	 * via the customize_save_response filter. Likewise, any errors will be exported
+	 * via the {@see 'customize_save_response'} filter. Likewise, any errors will be exported
 	 * to the client via the customize_save_response() filter.
 	 *
 	 * To delete a menu, the client can send false as the value.
 	 *
 	 * @since 4.3.0
-	 * @access protected
 	 *
 	 * @see wp_update_nav_menu_object()
 	 *
@@ -504,23 +503,23 @@ class WP_Customize_Nav_Menu_Setting extends WP_Customize_Setting {
 					$this->update_error  = $r;
 				} else {
 					$this->update_status = 'deleted';
-					$auto_add = false;
+					$auto_add            = false;
 				}
 			}
 		} else {
 			// Insert or update menu.
-			$menu_data = wp_array_slice_assoc( $value, array( 'description', 'parent' ) );
+			$menu_data              = wp_array_slice_assoc( $value, array( 'description', 'parent' ) );
 			$menu_data['menu-name'] = $value['name'];
 
-			$menu_id = $is_placeholder ? 0 : $this->term_id;
-			$r = wp_update_nav_menu_object( $menu_id, $menu_data );
-			$original_name = $menu_data['menu-name'];
+			$menu_id              = $is_placeholder ? 0 : $this->term_id;
+			$r                    = wp_update_nav_menu_object( $menu_id, wp_slash( $menu_data ) );
+			$original_name        = $menu_data['menu-name'];
 			$name_conflict_suffix = 1;
 			while ( is_wp_error( $r ) && 'menu_exists' === $r->get_error_code() ) {
 				$name_conflict_suffix += 1;
-				/* translators: 1: original menu name, 2: duplicate count */
+				/* translators: 1: Original menu name, 2: Duplicate count. */
 				$menu_data['menu-name'] = sprintf( __( '%1$s (%2$d)' ), $original_name, $name_conflict_suffix );
-				$r = wp_update_nav_menu_object( $menu_id, $menu_data );
+				$r                      = wp_update_nav_menu_object( $menu_id, wp_slash( $menu_data ) );
 			}
 
 			if ( is_wp_error( $r ) ) {
@@ -575,7 +574,7 @@ class WP_Customize_Nav_Menu_Setting extends WP_Customize_Setting {
 				}
 
 				$widget_instance['nav_menu'] = $this->term_id;
-				$updated_widget_instance = $this->manager->widgets->sanitize_widget_js_instance( $widget_instance );
+				$updated_widget_instance     = $this->manager->widgets->sanitize_widget_js_instance( $widget_instance );
 				$this->manager->set_post_value( $nav_menu_widget_setting->id, $updated_widget_instance );
 				$nav_menu_widget_setting->save();
 
@@ -588,7 +587,6 @@ class WP_Customize_Nav_Menu_Setting extends WP_Customize_Setting {
 	 * Updates a nav_menu_options array.
 	 *
 	 * @since 4.3.0
-	 * @access protected
 	 *
 	 * @see WP_Customize_Nav_Menu_Setting::filter_nav_menu_options()
 	 * @see WP_Customize_Nav_Menu_Setting::update()
@@ -618,7 +616,6 @@ class WP_Customize_Nav_Menu_Setting extends WP_Customize_Setting {
 	 * Export data for the JS client.
 	 *
 	 * @since 4.3.0
-	 * @access public
 	 *
 	 * @see WP_Customize_Nav_Menu_Setting::update()
 	 *
@@ -645,7 +642,7 @@ class WP_Customize_Nav_Menu_Setting extends WP_Customize_Setting {
 			$data['widget_nav_menu_updates'],
 			$this->_widget_nav_menu_updates
 		);
-		$this->_widget_nav_menu_updates = array();
+		$this->_widget_nav_menu_updates  = array();
 
 		return $data;
 	}

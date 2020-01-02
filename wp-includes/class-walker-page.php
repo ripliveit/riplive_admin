@@ -15,60 +15,101 @@
  * @see Walker
  */
 class Walker_Page extends Walker {
+
 	/**
-	 * @see Walker::$tree_type
+	 * What the class handles.
+	 *
 	 * @since 2.1.0
 	 * @var string
+	 *
+	 * @see Walker::$tree_type
 	 */
 	public $tree_type = 'page';
 
 	/**
-	 * @see Walker::$db_fields
+	 * Database fields to use.
+	 *
 	 * @since 2.1.0
-	 * @todo Decouple this.
 	 * @var array
+	 *
+	 * @see Walker::$db_fields
+	 * @todo Decouple this.
 	 */
-	public $db_fields = array ('parent' => 'post_parent', 'id' => 'ID');
+	public $db_fields = array(
+		'parent' => 'post_parent',
+		'id'     => 'ID',
+	);
 
 	/**
-	 * @see Walker::start_lvl()
+	 * Outputs the beginning of the current level in the tree before elements are output.
+	 *
 	 * @since 2.1.0
 	 *
-	 * @param string $output Passed by reference. Used to append additional content.
-	 * @param int    $depth  Depth of page. Used for padding.
-	 * @param array  $args
+	 * @see Walker::start_lvl()
+	 *
+	 * @param string $output Used to append additional content (passed by reference).
+	 * @param int    $depth  Optional. Depth of page. Used for padding. Default 0.
+	 * @param array  $args   Optional. Arguments for outputting the next level.
+	 *                       Default empty array.
 	 */
 	public function start_lvl( &$output, $depth = 0, $args = array() ) {
-		$indent = str_repeat("\t", $depth);
-		$output .= "\n$indent<ul class='children'>\n";
+		if ( isset( $args['item_spacing'] ) && 'preserve' === $args['item_spacing'] ) {
+			$t = "\t";
+			$n = "\n";
+		} else {
+			$t = '';
+			$n = '';
+		}
+		$indent  = str_repeat( $t, $depth );
+		$output .= "{$n}{$indent}<ul class='children'>{$n}";
 	}
 
 	/**
-	 * @see Walker::end_lvl()
+	 * Outputs the end of the current level in the tree after elements are output.
+	 *
 	 * @since 2.1.0
 	 *
-	 * @param string $output Passed by reference. Used to append additional content.
-	 * @param int    $depth  Depth of page. Used for padding.
-	 * @param array  $args
+	 * @see Walker::end_lvl()
+	 *
+	 * @param string $output Used to append additional content (passed by reference).
+	 * @param int    $depth  Optional. Depth of page. Used for padding. Default 0.
+	 * @param array  $args   Optional. Arguments for outputting the end of the current level.
+	 *                       Default empty array.
 	 */
 	public function end_lvl( &$output, $depth = 0, $args = array() ) {
-		$indent = str_repeat("\t", $depth);
-		$output .= "$indent</ul>\n";
+		if ( isset( $args['item_spacing'] ) && 'preserve' === $args['item_spacing'] ) {
+			$t = "\t";
+			$n = "\n";
+		} else {
+			$t = '';
+			$n = '';
+		}
+		$indent  = str_repeat( $t, $depth );
+		$output .= "{$indent}</ul>{$n}";
 	}
 
 	/**
+	 * Outputs the beginning of the current element in the tree.
+	 *
 	 * @see Walker::start_el()
 	 * @since 2.1.0
 	 *
-	 * @param string $output       Passed by reference. Used to append additional content.
-	 * @param object $page         Page data object.
-	 * @param int    $depth        Depth of page. Used for padding.
-	 * @param int    $current_page Page ID.
-	 * @param array  $args
+	 * @param string  $output       Used to append additional content. Passed by reference.
+	 * @param WP_Post $page         Page data object.
+	 * @param int     $depth        Optional. Depth of page. Used for padding. Default 0.
+	 * @param array   $args         Optional. Array of arguments. Default empty array.
+	 * @param int     $current_page Optional. Page ID. Default 0.
 	 */
 	public function start_el( &$output, $page, $depth = 0, $args = array(), $current_page = 0 ) {
+		if ( isset( $args['item_spacing'] ) && 'preserve' === $args['item_spacing'] ) {
+			$t = "\t";
+			$n = "\n";
+		} else {
+			$t = '';
+			$n = '';
+		}
 		if ( $depth ) {
-			$indent = str_repeat( "\t", $depth );
+			$indent = str_repeat( $t, $depth );
 		} else {
 			$indent = '';
 		}
@@ -89,40 +130,70 @@ class Walker_Page extends Walker {
 			} elseif ( $_current_page && $page->ID == $_current_page->post_parent ) {
 				$css_class[] = 'current_page_parent';
 			}
-		} elseif ( $page->ID == get_option('page_for_posts') ) {
+		} elseif ( $page->ID == get_option( 'page_for_posts' ) ) {
 			$css_class[] = 'current_page_parent';
 		}
 
 		/**
-		 * Filter the list of CSS classes to include with each page item in the list.
+		 * Filters the list of CSS classes to include with each page item in the list.
 		 *
 		 * @since 2.8.0
 		 *
 		 * @see wp_list_pages()
 		 *
-		 * @param array   $css_class    An array of CSS classes to be applied
-		 *                             to each list item.
+		 * @param string[] $css_class    An array of CSS classes to be applied to each list item.
+		 * @param WP_Post  $page         Page data object.
+		 * @param int      $depth        Depth of page, used for padding.
+		 * @param array    $args         An array of arguments.
+		 * @param int      $current_page ID of the current page.
+		 */
+		$css_classes = implode( ' ', apply_filters( 'page_css_class', $css_class, $page, $depth, $args, $current_page ) );
+		$css_classes = $css_classes ? ' class="' . esc_attr( $css_classes ) . '"' : '';
+
+		if ( '' === $page->post_title ) {
+			/* translators: %d: ID of a post. */
+			$page->post_title = sprintf( __( '#%d (no title)' ), $page->ID );
+		}
+
+		$args['link_before'] = empty( $args['link_before'] ) ? '' : $args['link_before'];
+		$args['link_after']  = empty( $args['link_after'] ) ? '' : $args['link_after'];
+
+		$atts                 = array();
+		$atts['href']         = get_permalink( $page->ID );
+		$atts['aria-current'] = ( $page->ID == $current_page ) ? 'page' : '';
+
+		/**
+		 * Filters the HTML attributes applied to a page menu item's anchor element.
+		 *
+		 * @since 4.8.0
+		 *
+		 * @param array $atts {
+		 *     The HTML attributes applied to the menu item's `<a>` element, empty strings are ignored.
+		 *
+		 *     @type string $href         The href attribute.
+		 *     @type string $aria_current The aria-current attribute.
+		 * }
 		 * @param WP_Post $page         Page data object.
 		 * @param int     $depth        Depth of page, used for padding.
 		 * @param array   $args         An array of arguments.
 		 * @param int     $current_page ID of the current page.
 		 */
-		$css_classes = implode( ' ', apply_filters( 'page_css_class', $css_class, $page, $depth, $args, $current_page ) );
+		$atts = apply_filters( 'page_menu_link_attributes', $atts, $page, $depth, $args, $current_page );
 
-		if ( '' === $page->post_title ) {
-			/* translators: %d: ID of a post */
-			$page->post_title = sprintf( __( '#%d (no title)' ), $page->ID );
+		$attributes = '';
+		foreach ( $atts as $attr => $value ) {
+			if ( is_scalar( $value ) && '' !== $value && false !== $value ) {
+				$value       = ( 'href' === $attr ) ? esc_url( $value ) : esc_attr( $value );
+				$attributes .= ' ' . $attr . '="' . $value . '"';
+			}
 		}
 
-		$args['link_before'] = empty( $args['link_before'] ) ? '' : $args['link_before'];
-		$args['link_after'] = empty( $args['link_after'] ) ? '' : $args['link_after'];
-
-		/** This filter is documented in wp-includes/post-template.php */
 		$output .= $indent . sprintf(
-			'<li class="%s"><a href="%s">%s%s%s</a>',
+			'<li%s><a%s>%s%s%s</a>',
 			$css_classes,
-			get_permalink( $page->ID ),
+			$attributes,
 			$args['link_before'],
+			/** This filter is documented in wp-includes/post-template.php */
 			apply_filters( 'the_title', $page->post_title, $page->ID ),
 			$args['link_after']
 		);
@@ -135,21 +206,31 @@ class Walker_Page extends Walker {
 			}
 
 			$date_format = empty( $args['date_format'] ) ? '' : $args['date_format'];
-			$output .= " " . mysql2date( $date_format, $time );
+			$output     .= ' ' . mysql2date( $date_format, $time );
 		}
 	}
 
 	/**
-	 * @see Walker::end_el()
+	 * Outputs the end of the current element in the tree.
+	 *
 	 * @since 2.1.0
 	 *
-	 * @param string $output Passed by reference. Used to append additional content.
-	 * @param object $page Page data object. Not used.
-	 * @param int    $depth Depth of page. Not Used.
-	 * @param array  $args
+	 * @see Walker::end_el()
+	 *
+	 * @param string  $output Used to append additional content. Passed by reference.
+	 * @param WP_Post $page   Page data object. Not used.
+	 * @param int     $depth  Optional. Depth of page. Default 0 (unused).
+	 * @param array   $args   Optional. Array of arguments. Default empty array.
 	 */
 	public function end_el( &$output, $page, $depth = 0, $args = array() ) {
-		$output .= "</li>\n";
+		if ( isset( $args['item_spacing'] ) && 'preserve' === $args['item_spacing'] ) {
+			$t = "\t";
+			$n = "\n";
+		} else {
+			$t = '';
+			$n = '';
+		}
+		$output .= "</li>{$n}";
 	}
 
 }

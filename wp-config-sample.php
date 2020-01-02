@@ -14,7 +14,7 @@
  * * Chiavi Segrete
  * * ABSPATH
  *
- * È possibile trovare ultetriori informazioni visitando la pagina del Codex:
+ * È possibile trovare ulteriori informazioni visitando la pagina del Codex:
  *
  * @link https://codex.wordpress.org/it:Modificare_wp-config.php
  *
@@ -69,7 +69,7 @@ define('NONCE_SALT',       'Mettere la vostra frase unica qui');
  * fornendo a ciascuna installazione un prefisso univoco.
  * Solo numeri, lettere e sottolineatura!
  */
-$table_prefix  = 'wp_';
+$table_prefix = 'wp_';
 
 /**
  * Per gli sviluppatori: modalità di debug di WordPress.
